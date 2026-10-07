@@ -1,0 +1,45 @@
+# Deploys the site to SuperHosting (cPanel) over FTPS on every push to main.
+#
+# One-time setup (GitHub repo → Settings → Secrets and variables → Actions):
+#   FTP_SERVER    e.g. ftp.idpabulgaria.bg
+#   FTP_USERNAME  an FTP account created in cPanel whose home directory is public_html
+#   FTP_PASSWORD  that account's password
+#
+# Until those secrets exist, the deploy step is skipped (no failed runs).
+name: Deploy to cPanel
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      HAS_FTP: ${{ secrets.FTP_SERVER != '' && secrets.FTP_USERNAME != '' && secrets.FTP_PASSWORD != '' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Skip notice
+        if: env.HAS_FTP != 'true'
+        run: echo "FTP secrets not set yet — skipping deploy."
+
+      - name: Upload site over FTPS
+        if: env.HAS_FTP == 'true'
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          server-dir: ./
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .github/**
+            README.md
