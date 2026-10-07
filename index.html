@@ -4,6 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IDPA Bulgaria — International Defensive Pistol Association</title>
+<meta name="description" content="IDPA in Bulgaria: member clubs, upcoming matches, divisions, a gun eligibility checker and the 2026 rulebook. Find a club and shoot your first IDPA match.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="IDPA Bulgaria">
+<meta property="og:title" content="IDPA Bulgaria — Defensive Pistol Shooting">
+<meta property="og:description" content="Clubs, matches and rules for IDPA defensive pistol shooting in Bulgaria.">
+<meta property="og:url" content="https://idpabulgaria.bg/">
+<meta property="og:image" content="https://idpabulgaria.bg/idpa-logo.png">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#1d3f8f">
+<link rel="icon" type="image/png" href="idpa-logo.png">
+<link rel="apple-touch-icon" href="idpa-logo.png">
 <style>
 /* ===================================================
    IDPA Bulgaria v2 — Deep Harbor Redesign
@@ -1830,6 +1841,48 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
   .stats-inner { grid-template-columns: 1fr 1fr; }
   #hero { min-height: 80vh; }
 }
+
+/* ─── UX FIXES (2026-10) ─── */
+/* The later `nav { display:flex }` rule was overriding the mobile rule,
+   so phones showed the clipped desktop menu next to the hamburger. */
+@media (max-width: 1180px) {
+  header nav { display: none !important; }
+}
+/* Comfortable tap targets (≥ 40px) */
+.lang-btn { min-height: 40px; padding: 8px 16px; }
+.nav-hamburger { min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
+.club-info a { display: inline-block; padding: 10px 0; }
+.hero-dot { width: 28px; height: 28px; background: transparent !important; position: relative; transform: none !important; }
+.hero-dot::after {
+  content: ''; position: absolute; left: 50%; top: 50%;
+  width: 7px; height: 7px; margin: -3.5px 0 0 -3.5px; border-radius: 50%;
+  background: oklch(1 0 0 / 0.4); transition: background .3s, transform .3s;
+}
+.hero-dot.active::after { background: var(--accent); transform: scale(1.5); }
+.hero-dots { gap: 0; bottom: 18px; }
+/* Headline readability on photos */
+.hero-title, .hero-sub { text-shadow: 0 2px 18px oklch(0 0 0 / 0.55); }
+/* Rulebook search toolbar must not overflow on phones */
+.rulebook-search-wrap { min-width: 0; flex-wrap: wrap; }
+#rulebook-search { min-width: 0; width: 100%; }
+@media (max-width: 600px) {
+  .rulebook-viewer-toolbar > span { flex-basis: 100%; }
+  .rulebook-search-wrap { flex-basis: 100%; }
+  .rulebook-search-nav button { min-width: 40px; min-height: 36px; }
+}
+/* Shorter hero on phones */
+@media (max-width: 480px) {
+  #hero { min-height: 72svh; padding: 72px 20px 64px; }
+  .hero-scroll { display: none; }
+}
+/* Unit picker in the gun checker */
+.ck-unit-row { display: flex; gap: 8px; }
+.ck-unit-row input { flex: 1; min-width: 0; }
+.ck-unit-row select { flex: 0 0 76px; }
+/* Footer now has three columns */
+.footer-inner { grid-template-columns: 2fr 1fr 1fr; }
+@media (max-width: 1024px) { .footer-inner { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 768px)  { .footer-inner { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body lang="en">
@@ -1846,7 +1899,6 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
       <a href="javascript:void(0)" class="nav-page-link" data-page="matches" onclick="goPage('matches')"><span class="en">Matches</span><span class="bg">Състезания</span></a>
       <a href="javascript:void(0)" class="nav-page-link" data-page="clubs"   onclick="goPage('clubs')">  <span class="en">Clubs</span><span class="bg">Клубове</span></a>
       <a href="javascript:void(0)" class="nav-page-link" data-page="rules"   onclick="goPage('rules')">  <span class="en">Rules</span><span class="bg">Правила</span></a>
-      <a href="javascript:void(0)" class="nav-page-link" data-page="shop"    onclick="goPage('shop')">   <span class="en">Kit</span><span class="bg">Екипировка</span></a>
       <a href="javascript:void(0)" class="nav-page-link" data-page="learn"   onclick="goPage('learn')">  <span class="en">Guide</span><span class="bg">Ръководство</span></a>
     </nav>
     <div class="nav-controls">
@@ -1867,7 +1919,6 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
   <a href="javascript:void(0)" onclick="goPage('matches');closeMobileNav()"><span class="en">Matches</span><span class="bg">Състезания</span></a>
   <a href="javascript:void(0)" onclick="goPage('clubs');  closeMobileNav()"><span class="en">Clubs</span><span class="bg">Клубове</span></a>
   <a href="javascript:void(0)" onclick="goPage('rules');  closeMobileNav()"><span class="en">Rules</span><span class="bg">Правила</span></a>
-  <a href="javascript:void(0)" onclick="goPage('shop'); closeMobileNav()"><span class="en">Kit</span><span class="bg">Екипировка</span></a>
   <a href="javascript:void(0)" onclick="goPage('learn');  closeMobileNav()"><span class="en">Guide</span><span class="bg">Ръководство</span></a>
   <a href="https://www.idpa.com/membership/" target="_blank" rel="noopener" onclick="closeMobileNav()" class="join-btn"><span class="en">Join IDPA</span><span class="bg">Присъединете се към IDPA</span></a>
 </div>
@@ -1894,11 +1945,11 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
     <span class="bg">Добре дошли в <span>IDPA България</span></span>
   </h1>
   <p class="hero-sub">
-    <span class="en">International Defensive Pistol Association — Bulgarian Chapter. Real scenarios. Real skills. Real sport.</span>
-    <span class="bg">International Defensive Pistol Association — Български клон. Истински сценарии. Истински умения. Истински спорт.</span>
+    <span class="en">The Bulgarian community of the International Defensive Pistol Association. Real scenarios. Real skills. Real sport.</span>
+    <span class="bg">Българската общност на International Defensive Pistol Association. Истински сценарии. Истински умения. Истински спорт.</span>
   </p>
   <div class="hero-ctas">
-    <a href="javascript:void(0)" class="btn-primary" onclick="goToSection('home','membership')"><span class="en">Become a Member</span><span class="bg">Станете член</span></a>
+    <a href="#clubs" class="btn-primary" onclick="event.preventDefault();goPage('clubs')"><span class="en">Find a Club</span><span class="bg">Намерете клуб</span></a>
     <a href="javascript:void(0)" class="btn-outline" onclick="goToSection('learn','idpa-info','idpa-info')"><span class="en">What is IDPA?</span><span class="bg">Какво е IDPA?</span></a>
   </div>
   <div class="hero-bg-flag"><div class="f1"></div><div class="f2"></div><div class="f3"></div></div>
@@ -1913,8 +1964,8 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
       <span class="stat-label"><span class="en">Safety Officers</span><span class="bg">Съдии по безопасност (SO)</span></span>
     </div>
     <div class="stat-item">
-      <span class="stat-num">0</span>
-      <span class="stat-label"><span class="en">Chief Safety Officers</span><span class="bg">Главни съдии по безопасност (CSO)</span></span>
+      <span class="stat-num">8</span>
+      <span class="stat-label"><span class="en">Divisions</span><span class="bg">Дивизии</span></span>
     </div>
     <div class="stat-item">
       <span class="stat-num">5</span>
@@ -1952,7 +2003,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
         <h3><span class="en">Why shoot IDPA?</span><span class="bg">Защо да стреляте в IDPA?</span></h3>
         <ul>
           <li><span class="en">Scenario-based stages that test accuracy, speed, and safe gun handling</span><span class="bg">Сцени, базирани на сценарии, които изпитват точност, скорост и безопасно боравене с оръжие</span></li>
-          <li><span class="en">Stock equipment — no race guns, no custom triggers</span><span class="bg">Стандартна екипировка — без състезателни оръжия, без модифицирани спусъци</span></li>
+          <li><span class="en">Practical, carry-style equipment — no race guns, compensators or race holsters</span><span class="bg">Практична екипировка за носене — без състезателни оръжия, компенсатори и състезателни кобури</span></li>
           <li><span class="en">Divisions based on gun type and holster position</span><span class="bg">Дивизии според типа оръжие и позицията на кобура</span></li>
           <li><span class="en">Welcoming to beginners and experienced shooters alike</span><span class="bg">Подходящо както за начинаещи, така и за опитни стрелци</span></li>
           <li><span class="en">Internationally recognized certification system for Safety Officers</span><span class="bg">Международно призната система за сертификация на съдии по безопасност</span></li>
@@ -1976,7 +2027,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
       <span><span class="en">What is IDPA</span><span class="bg">Какво е IDPA</span></span>
     </button>
     <button class="learn-tab" id="learn-tab-gun-checker" onclick="learnTab('gun-checker',this)">
-      <span class="tab-icon">🔫</span>
+      <span class="tab-icon">🔍</span>
       <span><span class="en">Gun Checker</span><span class="bg">Проверка на оръжие</span></span>
     </button>
     <button class="learn-tab" id="learn-tab-reference" onclick="learnTab('reference',this)">
@@ -1988,7 +2039,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
       <span><span class="en">Divisions</span><span class="bg">Дивизии</span></span>
     </button>
     <button class="learn-tab" id="learn-tab-officers" onclick="learnTab('officers',this)">
-      <span class="tab-icon">👮</span>
+      <span class="tab-icon">🦺</span>
       <span><span class="en">SO Org</span><span class="bg">Организация на съдиите</span></span>
     </button>
   </aside>
@@ -2087,14 +2138,19 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
         </div>
 
         <div class="checker-field">
-          <label><span class="en">Barrel Length (inches)</span><span class="bg">Дължина на цевта (инчове)</span></label>
-          <input id="ck-barrel" type="number" step="0.1" min="1" max="20" placeholder='e.g. 4.5' oninput="runChecker()">
+          <label for="ck-barrel"><span class="en">Barrel Length</span><span class="bg">Дължина на цевта</span></label>
+          <div class="ck-unit-row">
+            <input id="ck-barrel" type="number" inputmode="decimal" step="any" min="0" placeholder='e.g. 102' oninput="runChecker()">
+            <select id="ck-barrel-unit" onchange="runChecker()" aria-label="Barrel unit"><option value="mm">mm</option><option value="in">in</option></select>
+          </div>
         </div>
 
         <div class="checker-field">
-          <label><span class="en">Unloaded Weight (oz)</span><span class="bg">Тегло без патрони (унции)</span></label>
-          <input id="ck-weight" type="number" step="0.1" min="1" max="100" placeholder='e.g. 25.6' oninput="runChecker()">
-          <span class="checker-hint"><span class="en">1 oz = 28.35 g &nbsp;·&nbsp; 1 lb = 16 oz</span><span class="bg">1 унция = 28.35 г · 1 фунт = 16 унции</span></span>
+          <label for="ck-weight"><span class="en">Unloaded Weight (empty magazine inserted)</span><span class="bg">Тегло без патрони (с празен пълнител)</span></label>
+          <div class="ck-unit-row">
+            <input id="ck-weight" type="number" inputmode="decimal" step="any" min="0" placeholder='e.g. 725' oninput="runChecker()">
+            <select id="ck-weight-unit" onchange="runChecker()" aria-label="Weight unit"><option value="g">g</option><option value="oz">oz</option></select>
+          </div>
         </div>
 
         <div class="checker-field">
@@ -2328,7 +2384,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
             <div class="div-spec"><span class="div-spec-label"><span class="en">Max Barrel</span><span class="bg">Макс. дължина на цевта</span></span><span class="div-spec-value"><span class="en">4⅜" (111 mm)</span><span class="bg">4⅜" (111 мм)</span></span></div>
             <div class="div-spec"><span class="div-spec-label"><span class="en">Frame</span><span class="bg">Рамка</span></span><span class="div-spec-value"><span class="en">Compact size frame</span><span class="bg">Компактна рамка</span></span></div>
           </div>
-          <div class="div-note"><span style="display:block;margin-bottom:6px;font-size:.75rem;color:var(--ink3)">📦 <span class="en">Loading devices: loaded firearm + 2 extra magazines</span><span class="bg">Зареждащи устройства: заредено оръжие + 2 допълнителни пълнителя</span></span><span class="en">Designed for compact carry guns. Shorter barrel max (4"), lighter weight limit. Must be a compact or sub-compact frame. Perfect for Glock 19, SIG P365, Springfield Hellcat class guns.</span><span class="bg">Предназначена за компактни оръжия за ежедневно носене. По-къса максимална дължина на цевта (4"), по-нисък лимит на теглото. Трябва да е компактна или субкомпактна рамка. Идеална за оръжия от класа на Glock 19, SIG P365, Springfield Hellcat.</span></div>
+          <div class="div-note"><span style="display:block;margin-bottom:6px;font-size:.75rem;color:var(--ink3)">📦 <span class="en">Loading devices: loaded firearm + 2 extra magazines</span><span class="bg">Зареждащи устройства: заредено оръжие + 2 допълнителни пълнителя</span></span><span class="en">Designed for compact carry guns. Shorter barrel max (4⅜"), lighter weight limit. Must be a compact or sub-compact frame. Perfect for Glock 19, SIG P365, Springfield Hellcat class guns.</span><span class="bg">Предназначена за компактни оръжия за ежедневно носене. По-къса максимална дължина на цевта (4⅜"), по-нисък лимит на теглото. Трябва да е компактна или субкомпактна рамка. Идеална за оръжия от класа на Glock 19, SIG P365, Springfield Hellcat.</span></div>
         </div></div>
       </div>
 
@@ -2451,12 +2507,6 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
         </div>
       </div>
 
-      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:28px 24px;text-align:center">
-        <div style="font-family:var(--font-display);font-size:3rem;font-weight:900;color:var(--accent);line-height:1">0</div>
-        <div style="font-family:var(--font-display);font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink3);margin-top:8px">
-          <span class="en">Chief Safety Officers (CSO)</span><span class="bg">Главни съдии по безопасност (CSO)</span>
-        </div>
-      </div>
 
     </div>
 
@@ -2597,15 +2647,6 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
       </select>
     </div>
 
-    <!-- DATE CONFLICT CHECKER — compact, above match list -->
-    <div style="margin:12px 0 4px;padding:12px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-      <span style="font-family:var(--font-display);font-size:0.8rem;font-weight:800;color:var(--ink);white-space:nowrap">
-        📅 <span class="en">Check a date:</span><span class="bg">Проверете дата:</span>
-      </span>
-      <input type="date" id="conflict-date" style="padding:6px 10px;border:1.5px solid var(--border2);border-radius:var(--r);font-family:var(--font-body);font-size:0.88rem;color:var(--ink);background:var(--bg);cursor:pointer;flex:1;min-width:140px" oninput="checkConflict()">
-      <span style="font-size:0.78rem;color:var(--ink3)"><span class="en">Shows ±7 days of conflicts</span><span class="bg">Показва конфликти в диапазон от ±7 дни</span></span>
-    </div>
-    <div id="conflict-result" style="margin-bottom:12px"></div>
 
     <div class="match-list" id="matches-list"></div>
 
@@ -2650,6 +2691,15 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
          onmouseover="this.style.background='var(--primary-hi)'" onmouseout="this.style.background='var(--primary)'">
         📋 <span class="en">Submit Match Details</span><span class="bg">Изпратете данни за състезанието</span>
       </a>
+    <!-- DATE CONFLICT CHECKER — for organisers picking a date -->
+    <div style="margin:18px 0 4px;padding:12px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <span style="font-family:var(--font-display);font-size:0.8rem;font-weight:800;color:var(--ink)">
+        📅 <span class="en">Picking a date? Check for clashes:</span><span class="bg">Избирате дата? Проверете за застъпвания:</span>
+      </span>
+      <input type="date" id="conflict-date" style="padding:6px 10px;border:1.5px solid var(--border2);border-radius:var(--r);font-family:var(--font-body);font-size:0.88rem;color:var(--ink);background:var(--bg);cursor:pointer;flex:1;min-width:140px" oninput="checkConflict()">
+      <span style="font-size:0.78rem;color:var(--ink3)"><span class="en">Shows ±7 days of conflicts</span><span class="bg">Показва конфликти в диапазон от ±7 дни</span></span>
+    </div>
+    <div id="conflict-result" style="margin-bottom:12px"></div>
     </div>
 
   </div>
@@ -2661,7 +2711,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
 
 <div data-page="home-bottom" class="page-view" style="display:none">
 <!-- GALLERY -->
-<section id="gallery">
+<section id="gallery" hidden>
   <div class="section-inner">
     <div class="section-head">
       <span class="section-tag"><span class="en">Media</span><span class="bg">Медия</span></span>
@@ -2897,18 +2947,13 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
       <a href="javascript:void(0)" onclick="goToSection('learn','officers','officers')"><span class="en">SO Organisation</span><span class="bg">Организация на съдиите по безопасност</span></a>
       <a href="javascript:void(0)" onclick="goToSection('clubs','clubs')"><span class="en">Member Clubs</span><span class="bg">Членуващи клубове</span></a>
       <a href="javascript:void(0)" onclick="goToSection('matches','matches')"><span class="en">Matches</span><span class="bg">Състезания</span></a>
-      <a href="javascript:void(0)" onclick="goToSection('home','gallery')"><span class="en">Gallery</span><span class="bg">Галерия</span></a>
     </div>
     <div class="footer-col">
       <h4><span class="en">Contact</span><span class="bg">Контакт</span></h4>
-      <a href="https://www.facebook.com/groups/1859661061468450/" target="_blank">📘 Facebook Group</a>
+      <a href="https://www.facebook.com/groups/1859661061468450/" target="_blank" rel="noopener">📘 Facebook Group</a>
       <a href="mailto:info@idpabulgaria.bg">✉️ info@idpabulgaria.bg</a>
       <a href="https://www.idpa.com" target="_blank">🌐 IDPA International ↗</a>
       <p>Sofia, Bulgaria</p>
-    </div>
-    <div class="footer-col">
-      <h4><span class="en">Follow Us</span><span class="bg">Последвайте ни</span></h4>
-      <a href="https://www.facebook.com/groups/1859661061468450/" target="_blank">📘 Facebook</a>
     </div>
   </div>
   <div class="footer-bottom">
@@ -2922,8 +2967,11 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
 function runChecker() {
   const type    = document.getElementById('ck-type').value;
   const caliber = document.getElementById('ck-caliber').value;
-  const barrel  = parseFloat(document.getElementById('ck-barrel').value) || 0;
-  const weight  = parseFloat(document.getElementById('ck-weight').value) || 0;
+  // Inputs can be metric or imperial; the rules below are in inches / ounces.
+  const barrelRaw = parseFloat(document.getElementById('ck-barrel').value) || 0;
+  const weightRaw = parseFloat(document.getElementById('ck-weight').value) || 0;
+  const barrel  = document.getElementById('ck-barrel-unit').value === 'mm' ? barrelRaw / 25.4 : barrelRaw;
+  const weight  = document.getElementById('ck-weight-unit').value === 'g'  ? weightRaw / 28.3495 : weightRaw;
   const mag     = parseInt(document.getElementById('ck-mag').value) || 0;
   const trigger = document.getElementById('ck-trigger').value;
   const optic   = document.getElementById('ck-optic').value;
