@@ -2079,6 +2079,97 @@ a, button, label, select, summary, [onclick] { touch-action: manipulation; }
    (the generic "#hero > *" rule had turned it position:relative) */
 .hero-title > .en, .hero-title > .bg { color: inherit; }
 #hero > .hero-scroll { position: absolute !important; z-index: 2; bottom: 64px; }
+
+/* ─── Newcomer start section ─── */
+#first-match { scroll-margin-top: 68px; }
+.start-grid { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 56px; align-items: center; }
+.start-intro { max-width: 60ch; color: var(--ink2); }
+.start-steps { list-style: none; counter-reset: step; display: grid; gap: 18px; margin: 28px 0 30px; padding: 0; }
+.start-steps li { counter-increment: step; display: flex; gap: 16px; align-items: flex-start; }
+.start-steps li::before {
+  content: counter(step);
+  flex: none;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: oklch(1 0 0);
+  font: 800 1rem/34px var(--font-display);
+  text-align: center;
+}
+.step-link {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: color var(--t), border-color var(--t);
+}
+.step-link:hover { color: var(--primary); border-bottom-color: var(--primary); }
+.start-steps p { margin-top: 2px; font-size: 0.92rem; color: var(--ink2); line-height: 1.5; }
+.start-actions { display: flex; flex-wrap: wrap; gap: 20px; align-items: center; }
+.start-ask { font-weight: 600; color: var(--primary); text-decoration: none; border-bottom: 1.5px solid currentColor; }
+.start-ask:hover { color: var(--primary-hi); }
+.start-video-wrap { margin: 0; }
+.start-video {
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+  aspect-ratio: 9 / 16;
+  border-radius: 22px;
+  overflow: hidden;
+  background: oklch(0.12 0.02 242);
+  box-shadow: 0 18px 50px oklch(0 0 0 / 0.25);
+}
+.start-video video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.start-video-wrap figcaption { max-width: 300px; margin: 14px auto 0; font-size: 0.8rem; color: var(--ink3); line-height: 1.45; text-align: center; }
+@media (max-width: 860px) {
+  .start-grid { grid-template-columns: 1fr; gap: 40px; }
+  .start-video, .start-video-wrap figcaption { max-width: 260px; }
+}
+
+/* ─── Hero: next match card ─── */
+.next-match {
+  display: none;
+  align-items: center;
+  gap: 14px;
+  margin-top: 30px;
+  padding: 10px 18px 10px 10px;
+  border-radius: 16px;
+  background: oklch(0.12 0.02 242 / 0.45);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  backdrop-filter: blur(14px) saturate(160%);
+  border: 1px solid oklch(1 0 0 / 0.22);
+  color: oklch(1 0 0);
+  text-decoration: none;
+  text-align: left;
+  animation: riseIn 0.9s cubic-bezier(0.32, 0.72, 0, 1) 0.45s both;
+  transition: transform 0.2s cubic-bezier(0.32, 0.72, 0, 1), background-color 0.2s ease;
+}
+.next-match.show { display: inline-flex; }
+.next-match:hover { background: oklch(0.12 0.02 242 / 0.62); }
+.next-match:active { transform: scale(0.98); }
+.nm-date {
+  flex: none;
+  width: 54px;
+  padding: 7px 0;
+  border-radius: 10px;
+  background: var(--red);
+  text-align: center;
+  line-height: 1;
+}
+.nm-date .day { font: 900 1.45rem/1 var(--font-display); }
+.nm-date .mon { margin-top: 3px; font: 700 0.66rem/1 var(--font-display); letter-spacing: 0.1em; }
+.nm-label { font: 700 0.66rem/1 var(--font-display); letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.78; }
+.nm-name { margin-top: 5px; font: 800 1.05rem/1.15 var(--font-display); }
+.nm-meta { margin-top: 3px; font-size: 0.8rem; opacity: 0.85; }
+.nm-go { margin-left: 4px; opacity: 0.85; }
+@media (max-width: 640px) { #hero { padding-bottom: 104px; } }
+@media (prefers-reduced-motion: reduce) { .next-match { animation: none; } }
+@media (prefers-reduced-transparency: reduce) {
+  .next-match { background: oklch(0.12 0.02 242 / 0.9); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
 </style>
 <link rel="preload" as="image" href="photos/hero-behind.jpg">
 </head>
@@ -2144,9 +2235,10 @@ a, button, label, select, summary, [onclick] { touch-action: manipulation; }
     <span class="bg">Българската общност на International Defensive Pistol Association. Истински сценарии. Истински умения. Истински спорт.</span>
   </p>
   <div class="hero-ctas">
-    <a href="#clubs" class="btn-primary" onclick="event.preventDefault();goPage('clubs')"><span class="en">Find a Club</span><span class="bg">Намерете клуб</span></a>
-    <a href="javascript:void(0)" class="btn-outline" onclick="goToSection('learn','idpa-info','idpa-info')"><span class="en">What is IDPA?</span><span class="bg">Какво е IDPA?</span></a>
+    <a href="javascript:void(0)" class="btn-primary" onclick="goToSection('home','first-match')"><span class="en">New here? Start here</span><span class="bg">Нов си тук? Започни оттук</span></a>
+    <a href="#clubs" class="btn-outline" onclick="event.preventDefault();goPage('clubs')"><span class="en">Find a Club</span><span class="bg">Намерете клуб</span></a>
   </div>
+  <a id="nextMatch" class="next-match" href="#" target="_blank" rel="noopener"></a>
   <div class="hero-bg-flag"><div class="f1"></div><div class="f2"></div><div class="f3"></div></div>
   <div class="hero-scroll"><svg class="ic" aria-hidden="true"><use href="#i-chevron-down"/></svg> scroll</div>
 </section>
@@ -2173,6 +2265,72 @@ a, button, label, select, summary, [onclick] { touch-action: manipulation; }
   </div>
 </div>
 
+
+<!-- START HERE (newcomers) -->
+<section id="first-match">
+  <div class="section-inner">
+    <div class="start-grid">
+      <div class="start-text">
+        <div class="section-head">
+          <span class="section-tag"><span class="en">Getting started</span><span class="bg">Първи стъпки</span></span>
+          <h2 class="section-title"><span class="en">New here? Start here</span><span class="bg">Нов си тук? Започни оттук</span></h2>
+          <div class="divider"></div>
+        </div>
+        <p class="start-intro">
+          <span class="en">IDPA is a practical pistol sport built on realistic defensive scenarios, with safety at the centre of every stage. If this is your first look at the sport, here is the shortest path to your first match.</span>
+          <span class="bg">IDPA е практически пистолетен спорт, изграден върху реалистични сценарии за самозащита, при който безопасността е на първо място във всяка сцена. Ако това е първото ти докосване до спорта, ето най-краткия път до първото ти състезание.</span>
+        </p>
+        <ol class="start-steps">
+          <li>
+            <div>
+              <a class="step-link" href="javascript:void(0)" onclick="goToSection('learn', null, 'idpa-info')"><span class="en">Learn the basics</span><span class="bg">Научи основите</span></a>
+              <p><span class="en">Read what IDPA is and how a match works.</span><span class="bg">Прочети какво е IDPA и как протича едно състезание.</span></p>
+            </div>
+          </li>
+          <li>
+            <div>
+              <a class="step-link" href="javascript:void(0)" onclick="goToSection('learn', null, 'gun-checker')"><span class="en">Check your pistol</span><span class="bg">Провери пистолета си</span></a>
+              <p><span class="en">The gun checker shows which divisions your pistol can be used in.</span><span class="bg">Проверката на оръжие показва в кои дивизии може да се използва твоят пистолет.</span></p>
+            </div>
+          </li>
+          <li>
+            <div>
+              <a class="step-link" href="javascript:void(0)" onclick="goPage('clubs')"><span class="en">Find a club</span><span class="bg">Намери клуб</span></a>
+              <p><span class="en">Message a club near you and tell them you are new.</span><span class="bg">Свържи се с клуб близо до теб и им кажи, че си нов.</span></p>
+            </div>
+          </li>
+          <li>
+            <div>
+              <a class="step-link" href="javascript:void(0)" onclick="goPage('matches')"><span class="en">Pick a match</span><span class="bg">Избери състезание</span></a>
+              <p><span class="en">Browse upcoming matches. Registration is on PractiScore.</span><span class="bg">Разгледай предстоящите състезания. Регистрацията е през PractiScore.</span></p>
+            </div>
+          </li>
+          <li>
+            <div>
+              <a class="step-link" href="javascript:void(0)" onclick="goToSection('learn', null, 'officers')"><span class="en">Show up and ask</span><span class="bg">Ела и питай</span></a>
+              <p><span class="en">On match day, listen to the briefing, ask questions, and run each stage with a Safety Officer beside you.</span><span class="bg">В деня на състезанието изслушай инструктажа, задавай въпроси и изпълнявай всяка сцена със съдия по безопасност (SO) до теб.</span></p>
+            </div>
+          </li>
+        </ol>
+        <div class="start-actions">
+          <a href="javascript:void(0)" class="btn-primary" onclick="goPage('clubs')"><span class="en">Find a Club</span><span class="bg">Намерете клуб</span></a>
+          <a class="start-ask" href="mailto:info@idpabulgaria.bg"><span class="en">Have a question? Email us</span><span class="bg">Имаш въпрос? Пиши ни</span></a>
+        </div>
+      </div>
+      <figure class="start-video-wrap">
+        <div class="start-video">
+          <video id="startVideo" muted loop playsinline controls preload="metadata" poster="video/first-stage-poster.jpg" aria-label="First-person view of a competitor running a stage">
+            <source src="video/first-stage.mp4" type="video/mp4">
+          </video>
+        </div>
+        <figcaption>
+          <span class="en">First-person view: a competitor runs a stage at the 2026 Romanian national championship.</span>
+          <span class="bg">Поглед от първо лице: състезател изпълнява сцена на националния шампионат на Румъния през 2026 г.</span>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
 
 <!-- ABOUT / WHAT IS IDPA -->
 <section id="about">
@@ -3585,6 +3743,12 @@ function renderMatches(data) {
   }
 }
 
+function matchHref(m) {
+  return (m.verified && m.slug)
+    ? `https://practiscore.com/${m.slug}/register`
+    : `https://practiscore.com/search/matches?q=${encodeURIComponent(m.name)}`;
+}
+
 function matchRow(m, grouped) {
   const d    = new Date(m.date + 'T12:00:00');
   const day  = d.getDate().toString().padStart(2,'0');
@@ -3605,9 +3769,7 @@ function matchRow(m, grouped) {
   // current (verified: true — pulled directly from a live PractiScore search).
   // Older/unverified entries fall back to a PractiScore search for the match
   // name, since a stale or guessed slug can redirect somewhere unrelated.
-  const href = (m.verified && m.slug)
-    ? `https://practiscore.com/${m.slug}/register`
-    : `https://practiscore.com/search/matches?q=${encodeURIComponent(m.name)}`;
+  const href = matchHref(m);
 
   return `<a class="match-row" href="${href}" target="_blank" rel="noopener">
     <div class="match-date-box"><div class="day">${day}</div><div class="mon">${mon}</div></div>
@@ -3969,6 +4131,8 @@ setTimeout(function() {
   const hash = window.location.hash.replace('#','');
   const startPage = PAGES.includes(hash) ? hash : 'home';
   goPage(startPage, false);
+  initLang();
+  renderNextMatch();
   window.__pageReady = true;
 }, 0);
 
@@ -4087,6 +4251,47 @@ document.querySelectorAll('.div-card-header').forEach(h => {
   }
 })();
 
+// ── Hero: next Bulgarian match ──
+function renderNextMatch() {
+  const el = document.getElementById('nextMatch');
+  if (!el || typeof MATCHES_BULGARIA === 'undefined') return;
+  const today = new Date().toISOString().slice(0, 10);
+  const next = MATCHES_BULGARIA
+    .filter(m => m.date >= today)
+    .sort((a, b) => a.date.localeCompare(b.date))[0];
+  if (!next) return;                       // nothing upcoming: the card stays hidden
+  const esc = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const d = new Date(next.date + 'T12:00:00');
+  const monEn = d.toLocaleString('en', { month: 'short' }).toUpperCase();
+  const monBg = ['ЯНУ','ФЕВ','МАР','АПР','МАЙ','ЮНИ','ЮЛИ','АВГ','СЕП','ОКТ','НОЕ','ДЕК'][d.getMonth()];
+  el.href = matchHref(next);
+  el.innerHTML =
+    '<div class="nm-date"><div class="day">' + String(d.getDate()).padStart(2, '0') + '</div>' +
+    '<div class="mon"><span class="en">' + monEn + '</span><span class="bg">' + esc(monBg) + '</span></div></div>' +
+    '<div class="nm-text"><div class="nm-label"><span class="en">Next match</span><span class="bg">Следващо състезание</span></div>' +
+    '<div class="nm-name">' + esc(next.name) + '</div>' +
+    '<div class="nm-meta">' + esc(next.city) + '</div></div>' + icon('arrow-up-right', 'nm-go');
+  el.classList.add('show');
+}
+
+// ── Start-here video: plays muted while on screen, never fights the viewer ──
+(function () {
+  const v = document.getElementById('startVideo');
+  if (!v || !('IntersectionObserver' in window)) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;  // poster + controls only
+  let userPaused = false, sysUntil = 0;
+  const ours = () => performance.now() < sysUntil;
+  v.addEventListener('pause', () => { if (!ours()) userPaused = true; });
+  v.addEventListener('play',  () => { if (!ours()) userPaused = false; });
+  new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      sysUntil = performance.now() + 400;
+      if (e.isIntersecting && !userPaused) { const p = v.play(); if (p && p.catch) p.catch(() => {}); }
+      else v.pause();
+    });
+  }, { threshold: 0.5 }).observe(v);
+})();
+
 function applySelectOptionsLang(lang) {
   // <option> elements can't use nested .en/.bg spans (browsers render an
   // option's full text content regardless of child display:none), so
@@ -4096,13 +4301,27 @@ function applySelectOptionsLang(lang) {
   });
 }
 
-function toggleLang() {
+function toggleLang(auto) {
   const body = document.body;
   const btn = document.getElementById('langBtn');
   if (body.lang === 'en') { body.lang = 'bg'; btn.textContent = 'EN'; }
   else { body.lang = 'en'; btn.textContent = 'BG'; }
+  document.documentElement.lang = body.lang;
+  if (auto !== true) { try { localStorage.setItem('idpa-lang', body.lang); } catch (e) {} }
   populateCountrySelect();
   applySelectOptionsLang(body.lang);
+}
+
+// First visit: follow the browser language (Bulgarian browsers get Bulgarian).
+// A choice made with the EN/BG button is remembered and wins from then on.
+function initLang() {
+  let want = null;
+  try { want = localStorage.getItem('idpa-lang'); } catch (e) {}
+  if (want !== 'bg' && want !== 'en') {
+    const l = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+    want = /^bg/i.test(l) ? 'bg' : 'en';
+  }
+  if (want !== document.body.lang) toggleLang(true);
 }
 
 function toggleAccordion(btn) {
