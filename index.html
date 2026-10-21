@@ -2238,6 +2238,31 @@ nav a, .mobile-nav-panel a, .hero-dot, .accordion-trigger, .div-card-header, .ga
 @media (pointer: coarse) { .tgt-stage { cursor: auto; } }
 @media (max-width: 860px) { .tgt-grid { grid-template-columns: 1fr; gap: 28px; } .tgt-stage { max-width: 420px; margin: 0 auto; width: 100%; } }
 @media (prefers-reduced-motion: reduce) { .tgt-hole { animation: none; } }
+
+/* ── Gallery: one swipe row ── */
+.gallery-row-wrap { position: relative; }
+.gallery-row {
+  display: flex; gap: 8px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+  overscroll-behavior-x: contain; padding: 2px; -webkit-overflow-scrolling: touch; border-radius: var(--r);
+}
+.gallery-row::-webkit-scrollbar { display: none; }
+.gallery-row .gallery-item { flex: 0 0 min(300px, 72vw); scroll-snap-align: start; aspect-ratio: 4/3; }
+.gallery-row .gallery-item.wide { flex-basis: min(600px, 90vw); aspect-ratio: 8/3; grid-column: auto; }
+@media (max-width: 520px) { .gallery-row .gallery-item.wide { aspect-ratio: 8/3; } }
+@media (hover: hover) and (pointer: fine) { .gallery-row .gallery-item:hover { transform: none; } }
+.gallery-arrow {
+  position: absolute; top: 50%; translate: 0 -50%; z-index: 2; width: 44px; height: 44px; border-radius: 50%;
+  border: 1px solid var(--border); background: var(--bg); color: var(--ink); cursor: pointer; display: grid; place-items: center;
+  box-shadow: 0 4px 14px oklch(0 0 0 / 0.16); transition: transform 0.16s ease-out, opacity 0.2s ease;
+}
+.gallery-arrow .ic { width: 20px; height: 20px; }
+.gallery-arrow:active { transform: scale(0.94); }
+.gallery-arrow[disabled] { opacity: 0; pointer-events: none; }
+.gprev { left: -12px; }
+.gnext { right: -12px; }
+.gnext .ic { transform: scaleX(-1); }
+@media (max-width: 640px) { .gallery-arrow { display: none; } }
+@media (hover: hover) and (pointer: fine) { .gallery-arrow:hover { border-color: var(--primary); color: var(--primary); } }
 </style>
 <link rel="preload" as="image" href="photos/hero-behind.jpg">
 </head>
@@ -3192,20 +3217,24 @@ nav a, .mobile-nav-panel a, .hero-dot, .accordion-trigger, .div-card-header, .ga
       <h2 class="section-title"><span class="en">Photo Gallery</span><span class="bg">Фото галерия</span></h2>
       <div class="divider"></div>
     </div>
-    <div class="gallery-grid">
+    <div class="gallery-row-wrap">
+      <button class="gallery-arrow gprev" id="galleryPrev" type="button" aria-label="Previous photos / Предишни снимки" disabled><svg class="ic" aria-hidden="true"><use href="#i-arrow-left"/></svg></button>
+      <div class="gallery-row" id="galleryRow" tabindex="0" role="region" aria-label="Photo gallery / Фото галерия">
       <div class="gallery-item" onclick="openLightbox(this)"><img src="photos/g-group-range.jpg" alt="Competitors and match staff posing together after the match" loading="lazy"></div>
       <div class="gallery-item" onclick="openLightbox(this)"><img src="photos/g-podium.jpg" alt="Two women on the podium with their medals" loading="lazy"></div>
+      <div class="gallery-item" onclick="openLightbox(this)"><img src="photos/g-so-laugh.jpg" alt="Safety officers laughing with cardboard IDPA targets" loading="lazy"></div>
       <div class="gallery-item" onclick="openLightbox(this)"><img src="photos/g-handshake.jpg" alt="A safety officer presenting a medal to the winner" loading="lazy"></div>
       <div class="gallery-item" onclick="openLightbox(this)"><img src="photos/g-trophies.jpg" alt="Safety officers handing out IDPA Bulgaria trophies" loading="lazy"></div>
       <div class="gallery-item" onclick="openLightbox(this)"><img src="photos/g-yellow.jpg" alt="A competitor firing while a safety officer runs the timer" loading="lazy"></div>
       <div class="gallery-item" onclick="openLightbox(this)"><img src="photos/g-rifle.jpg" alt="A pistol-caliber carbine shooter seated at the line" loading="lazy"></div>
       <div class="gallery-item" onclick="openLightbox(this)"><img src="photos/g-portrait-so.jpg" alt="A competitor shooting with a safety officer alongside" loading="lazy" style="object-position:50% 30%"></div>
-      <div class="gallery-item" onclick="openLightbox(this)"><img src="photos/g-so-laugh.jpg" alt="Safety officers laughing with cardboard IDPA targets" loading="lazy"></div>
       <div class="gallery-item" onclick="openLightbox(this)"><img src="photos/g-shooter-car.jpg" alt="A competitor shooting from behind a car prop" loading="lazy"></div>
       <div class="gallery-item" onclick="openLightbox(this)"><img src="photos/g-woman.jpg" alt="A competitor shooting beside a wire barricade" loading="lazy" style="object-position:50% 25%"></div>
       <div class="gallery-item" onclick="openLightbox(this)"><img src="photos/g-so-kneel.jpg" alt="A safety officer standing over a kneeling shooter" loading="lazy"></div>
       <div class="gallery-item" onclick="openLightbox(this)"><img src="photos/g-indoor.jpg" alt="Group photo after an indoor match" loading="lazy"></div>
       <div class="gallery-item wide" onclick="openLightbox(this)"><img src="photos/g-group-large.jpg" alt="Large group photo of competitors and safety officers" loading="lazy"></div>
+      </div>
+      <button class="gallery-arrow gnext" id="galleryNext" type="button" aria-label="Next photos / Следващи снимки"><svg class="ic" aria-hidden="true"><use href="#i-arrow-left"/></svg></button>
     </div>
   </div>
 </section>
@@ -4542,6 +4571,18 @@ function switchTab(section, tab) {
   new IntersectionObserver(es => { visible = es[0].isIntersecting; if (visible && !reduced) dot.classList.add('on'); }, { threshold: 0.15 }).observe(stage);
   if (reduced) { tx = rect().width / 2; ty = rect().height * 0.4; }
   requestAnimationFrame(loop);
+})();
+
+/* ── Gallery row arrows ── */
+(function () {
+  const row = document.getElementById('galleryRow'); if (!row) return;
+  const pv = document.getElementById('galleryPrev'), nx = document.getElementById('galleryNext');
+  const step = () => row.clientWidth * 0.8;
+  pv.addEventListener('click', () => row.scrollBy({ left: -step(), behavior: 'smooth' }));
+  nx.addEventListener('click', () => row.scrollBy({ left: step(), behavior: 'smooth' }));
+  const upd = () => { pv.disabled = row.scrollLeft < 4; nx.disabled = row.scrollLeft + row.clientWidth >= row.scrollWidth - 4; };
+  row.addEventListener('scroll', upd, { passive: true }); addEventListener('resize', upd);
+  new ResizeObserver(upd).observe(row); upd();
 })();
 </script>
 
