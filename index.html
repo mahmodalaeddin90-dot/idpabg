@@ -336,7 +336,7 @@ body.nav-lock { position: fixed; left: 0; right: 0; width: 100%; overflow-y: scr
 /* ─── NAV ─── */
 header {
   background: transparent;
-  border-bottom: 2px solid var(--primary);
+  border-bottom: 3px solid transparent;
   position: sticky;
   top: 0;
   z-index: var(--z-sticky);
@@ -2238,6 +2238,13 @@ nav a, .mobile-nav-panel a, .hero-dot, .accordion-trigger, .div-card-header, .ga
 @media (pointer: coarse) { .tgt-stage { cursor: auto; } }
 @media (max-width: 860px) { .tgt-grid { grid-template-columns: 1fr; gap: 28px; } .tgt-stage { max-width: 420px; margin: 0 auto; width: 100%; } }
 @media (prefers-reduced-motion: reduce) { .tgt-hole { animation: none; } }
+
+/* ── Bulgarian flag accents: white / green / red ── */
+:root { --flag: linear-gradient(90deg, oklch(0.9 0.006 242) 0 33.34%, var(--green) 33.34% 66.67%, var(--red) 66.67% 100%); }
+header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -3px; height: 3px; background: var(--flag); }
+.divider { width: 56px; background: var(--flag); }
+footer { border-top: 0; position: relative; }
+footer::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 4px; background: var(--flag); }
 </style>
 <link rel="preload" as="image" href="photos/hero-behind.jpg">
 </head>
