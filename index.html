@@ -2193,6 +2193,51 @@ button, [role="button"], .btn-primary, .btn-outline, .join-btn, .lang-btn, .lear
 nav a, .mobile-nav-panel a, .hero-dot, .accordion-trigger, .div-card-header, .gallery-item, .step-link {
   -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
 }
+
+/* ── Interactive IDPA target ── */
+.tgt-grid { display: grid; grid-template-columns: minmax(0, 420px) 1fr; gap: 40px; align-items: start; }
+.tgt-stage {
+  position: relative; background: var(--bg); border: 1px solid var(--border); border-radius: var(--r2);
+  padding: 16px 12px 8px; cursor: none; touch-action: manipulation; user-select: none; -webkit-user-select: none;
+  box-shadow: 0 1px 2px oklch(0.2 0.03 242 / 0.06), 0 8px 24px oklch(0.2 0.03 242 / 0.06); overflow: hidden;
+}
+.tgt-svg { display: block; width: 100%; height: auto; }
+.tgt-card  { fill: oklch(0.83 0.065 82); stroke: oklch(0.28 0.03 242); stroke-width: 0.16; stroke-linejoin: round; }
+.tgt-z     { fill: oklch(0.2 0.03 242 / 0.07); stroke: oklch(0.28 0.03 242 / 0.8); stroke-width: 0.12; stroke-dasharray: 0.5 0.35; }
+.tgt-z0    { fill: oklch(0.2 0.03 242 / 0.14); stroke: oklch(0.28 0.03 242); stroke-width: 0.14; }
+.tgt-dim   { stroke: var(--ink3); stroke-width: 0.1; fill: none; }
+.tgt-dimtx { fill: var(--ink2); font: 700 0.95px var(--font-display); letter-spacing: 0.04em; }
+.tgt-hole  { fill: oklch(0.12 0.02 242); stroke: oklch(1 0 0 / 0.9); stroke-width: 0.12; transform-box: fill-box; transform-origin: center; animation: tgtPop 0.32s cubic-bezier(0.23, 1, 0.32, 1); }
+@keyframes tgtPop { from { transform: scale(2.2); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.tgt-dot {
+  position: absolute; left: 0; top: 0; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 50%;
+  background: radial-gradient(circle, var(--red) 0 28%, oklch(0.52 0.2 25 / 0.35) 30% 55%, transparent 58%);
+  box-shadow: 0 0 14px 2px oklch(0.52 0.2 25 / 0.45); pointer-events: none; opacity: 0; will-change: transform;
+  transition: opacity 0.2s ease;
+}
+.tgt-dot.on { opacity: 1; }
+.tgt-hint { text-align: center; font-size: 0.78rem; color: var(--ink3); padding: 6px 0 4px; }
+.tgt-side { display: flex; flex-direction: column; gap: 22px; }
+.tgt-intro { color: var(--ink2); font-size: 0.97rem; line-height: 1.7; max-width: 52ch; }
+.tgt-score { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.tgt-stat { background: var(--bg); border: 1px solid var(--border); border-radius: var(--r2); padding: 14px 16px; }
+.tgt-stat b { display: block; font: 900 2rem/1 var(--font-display); color: var(--primary); font-variant-numeric: tabular-nums; }
+.tgt-stat span { font: 700 0.7rem var(--font-display); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink3); }
+.tgt-last { min-height: 1.5em; font-weight: 700; color: var(--ink); }
+.tgt-legend { list-style: none; display: grid; gap: 8px; font-size: 0.9rem; color: var(--ink2); }
+.tgt-legend li { display: flex; gap: 10px; align-items: baseline; }
+.tgt-legend b { flex: none; min-width: 3.2em; font-family: var(--font-display); color: var(--ink); }
+.tgt-note { font-size: 0.78rem; color: var(--ink3); line-height: 1.6; max-width: 56ch; }
+.tgt-reset {
+  align-self: flex-start; background: var(--primary); color: #fff; border: 0; border-radius: var(--r); padding: 11px 24px;
+  font: 800 0.9rem var(--font-display); letter-spacing: 0.05em; text-transform: uppercase; cursor: pointer;
+  transition: background var(--t), transform 0.16s ease-out;
+}
+.tgt-reset:active { transform: scale(0.97); }
+@media (hover: hover) and (pointer: fine) { .tgt-reset:hover { background: var(--primary-hi); } }
+@media (pointer: coarse) { .tgt-stage { cursor: auto; } }
+@media (max-width: 860px) { .tgt-grid { grid-template-columns: 1fr; gap: 28px; } .tgt-stage { max-width: 420px; margin: 0 auto; width: 100%; } }
+@media (prefers-reduced-motion: reduce) { .tgt-hole { animation: none; } }
 </style>
 <link rel="preload" as="image" href="photos/hero-behind.jpg">
 </head>
@@ -2467,6 +2512,59 @@ nav a, .mobile-nav-panel a, .hero-dot, .accordion-trigger, .div-card-header, .ga
 </section>
 
 
+
+<!-- INTERACTIVE TARGET -->
+<section id="target-lab">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="section-tag"><span class="en">Try it</span><span class="bg">Опитайте</span></span>
+      <h2 class="section-title"><span class="en">The IDPA target, to scale</span><span class="bg">Мишената на IDPA в мащаб</span></h2>
+      <div class="divider"></div>
+    </div>
+    <div class="tgt-grid">
+      <div>
+        <div class="tgt-stage" id="tgtStage">
+          <svg class="tgt-svg" id="tgtSvg" viewBox="-4.5 -1 27 35" role="img" aria-label="IDPA target, 18 by 30 inches">
+            <path id="tgtOuter" class="tgt-card" d="M6 0H12V6.5H15L18 9.5V22L14.5 30H3.5L0 22V9.5L3 6.5H6Z"/>
+            <path id="tgtInner" class="tgt-z" d="M3.2 10.4L5 8.2H13L14.8 10.4V21.2L12.6 27.2H5.4L3.2 21.2Z"/>
+            <rect id="tgtHeadBox" class="tgt-z" x="6.6" y="0.6" width="4.8" height="4.8" rx="0"/>
+            <circle id="tgtHead0" class="tgt-z0" cx="9" cy="3" r="2"/>
+            <circle id="tgtBody0" class="tgt-z0" cx="9" cy="13.2" r="4"/>
+            <g class="tgt-dim"><path d="M0 32H18M0 31.4V32.6M18 31.4V32.6M-2.2 0V30M-2.8 0H-1.6M-2.8 30H-1.6"/></g>
+            <text class="tgt-dimtx" x="9" y="33.6" text-anchor="middle">18 in · 46 cm</text>
+            <text class="tgt-dimtx" x="-3.1" y="15" text-anchor="middle" transform="rotate(-90 -3.1 15)">30 in · 76 cm</text>
+            <g id="tgtHoles"></g>
+          </svg>
+          <div class="tgt-dot" id="tgtDot" aria-hidden="true"></div>
+          <div class="tgt-hint"><span class="en">Move the red dot, click to shoot</span><span class="bg">Движете червената точка, кликнете за изстрел</span></div>
+        </div>
+      </div>
+      <div class="tgt-side">
+        <p class="tgt-intro">
+          <span class="en">This is the official IDPA silhouette drawn in true proportion. The red dot is your sight. Shoot the target and see what each hit costs: every point down adds one second to your stage time.</span>
+          <span class="bg">Това е официалният силует на IDPA в точни пропорции. Червената точка е вашият мерник. Стреляйте по мишената и вижте колко струва всяко попадение: всяка точка надолу добавя една секунда към времето за сцената.</span>
+        </p>
+        <div class="tgt-score" aria-live="polite">
+          <div class="tgt-stat"><b id="tgtShots">0</b><span><span class="en">Shots</span><span class="bg">Изстрели</span></span></div>
+          <div class="tgt-stat"><b id="tgtPD">0</b><span><span class="en">Points down</span><span class="bg">Точки надолу</span></span></div>
+          <div class="tgt-stat"><b id="tgtTime">0.0 s</b><span><span class="en">Time added</span><span class="bg">Добавено време</span></span></div>
+        </div>
+        <div class="tgt-last" id="tgtLast">&nbsp;</div>
+        <ul class="tgt-legend">
+          <li><b>−0</b><span class="en">Body: 8 in (20 cm) circle high in the chest. Head: 4 in (10 cm) circle.</span><span class="bg">Тяло: кръг 8 инча (20 см) високо в гърдите. Глава: кръг 4 инча (10 см).</span></li>
+          <li><b>−1</b><span class="en">Inner torso and the head box around the head circle.</span><span class="bg">Вътрешната част на торса и квадратът около кръга на главата.</span></li>
+          <li><b>−3</b><span class="en">Outer edge of the target.</span><span class="bg">Външният ръб на мишената.</span></li>
+          <li><b>−5</b><span class="en">Miss.</span><span class="bg">Пропуск.</span></li>
+        </ul>
+        <button class="tgt-reset" id="tgtReset" type="button"><span class="en">Reset target</span><span class="bg">Нулирай мишената</span></button>
+        <p class="tgt-note">
+          <span class="en">Overall size and zone sizes are taken from retailer and training sources and are drawn to those proportions, not at life size on your screen. Check them against the current IDPA rulebook before relying on them for a match.</span>
+          <span class="bg">Общият размер и размерите на зоните са взети от търговски и обучителни източници и са нарисувани в тези пропорции, не в реален размер на екрана. Сверете ги с актуалния правилник на IDPA, преди да разчитате на тях за състезание.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
 </div>
 <div class="learn-panel" id="learn-panel-gun-checker">
 <!-- GUN CHECKER -->
@@ -4391,6 +4489,60 @@ function switchTab(section, tab) {
     tabs[0].classList.remove('active'); tabs[1].classList.add('active');
   }
 }
+
+/* ── Interactive IDPA target ── */
+(function () {
+  const stage = document.getElementById('tgtStage'); if (!stage) return;
+  const svg = document.getElementById('tgtSvg'), dot = document.getElementById('tgtDot'), holes = document.getElementById('tgtHoles');
+  const $ = id => document.getElementById(id);
+  const zones = [
+    [$('tgtHead0'), 0, 'Head, centre', 'Глава, център'], [$('tgtBody0'), 0, 'Body, centre', 'Тяло, център'],
+    [$('tgtHeadBox'), 1, 'Head box', 'Квадрат на главата'], [$('tgtInner'), 1, 'Inner torso', 'Вътрешен торс'], [$('tgtOuter'), 3, 'Outer edge', 'Външен ръб']
+  ];
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let tx = 0, ty = 0, cx = 0, cy = 0, hovering = false, holdUntil = 0, visible = false, shots = 0, pd = 0, t0 = performance.now();
+  const rect = () => stage.getBoundingClientRect();
+  function place(x, y) { dot.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px)'; }
+  function loop(now) {
+    requestAnimationFrame(loop);
+    if (!visible || !stage.offsetParent) return;
+    const r = rect();
+    if (!hovering && now > holdUntil && !reduced) {
+      const t = (now - t0) / 1000;
+      tx = r.width * (0.5 + 0.17 * Math.sin(t * 0.8) + 0.04 * Math.sin(t * 2.3));
+      ty = r.height * (0.4 + 0.2 * Math.sin(t * 1.1 + 1) + 0.035 * Math.sin(t * 3.1));
+    }
+    const k = reduced ? 1 : (hovering ? 0.28 : 0.12);
+    cx += (tx - cx) * k; cy += (ty - cy) * k; place(cx, cy);
+  }
+  function local(e) { const r = rect(); return [e.clientX - r.left, e.clientY - r.top]; }
+  stage.addEventListener('pointermove', e => {
+    if (e.pointerType === 'touch') return;
+    hovering = true; [tx, ty] = local(e); dot.classList.add('on');
+  });
+  stage.addEventListener('pointerleave', e => { if (e.pointerType !== 'touch') { hovering = false; if (reduced) dot.classList.remove('on'); } });
+  stage.addEventListener('click', e => {
+    const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY;
+    const p = pt.matrixTransform(svg.getScreenCTM().inverse());
+    if (e.pointerType === 'touch' || !hovering) { [tx, ty] = local(e); holdUntil = performance.now() + 1500; dot.classList.add('on'); }
+    let val = 5, en = 'Miss', bg = 'Пропуск';
+    for (const [el, v, a, b] of zones) { if (el.isPointInFill(p)) { val = v; en = a; bg = b; break; } }
+    const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    c.setAttribute('class', 'tgt-hole'); c.setAttribute('cx', p.x.toFixed(2)); c.setAttribute('cy', p.y.toFixed(2)); c.setAttribute('r', '0.3');
+    holes.appendChild(c); if (holes.childNodes.length > 12) holes.removeChild(holes.firstChild);
+    shots++; pd += val;
+    $('tgtShots').textContent = shots; $('tgtPD').textContent = pd; $('tgtTime').textContent = pd.toFixed(1) + ' s';
+    const bgOn = document.body.getAttribute('lang') === 'bg';
+    $('tgtLast').textContent = '−' + val + ' · ' + (bgOn ? bg : en);
+  });
+  $('tgtReset').addEventListener('click', () => {
+    holes.textContent = ''; shots = 0; pd = 0;
+    $('tgtShots').textContent = '0'; $('tgtPD').textContent = '0'; $('tgtTime').textContent = '0.0 s'; $('tgtLast').innerHTML = '&nbsp;';
+  });
+  new IntersectionObserver(es => { visible = es[0].isIntersecting; if (visible && !reduced) dot.classList.add('on'); }, { threshold: 0.15 }).observe(stage);
+  if (reduced) { tx = rect().width / 2; ty = rect().height * 0.4; }
+  requestAnimationFrame(loop);
+})();
 </script>
 
 </div><!-- /page-home -->
