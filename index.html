@@ -22,7 +22,7 @@
    =================================================== */
 
 /* ─── Google Fonts ─── */
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,900&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,900&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400&family=Fira+Sans+Condensed:wght@400;600;700;800;900&family=Fira+Sans:wght@400;500;600;700;900&display=swap');
 
 /* ─── Tokens ─── */
 :root {
@@ -45,8 +45,8 @@
   --border2:    oklch(0.75 0.012 242);   /* medium border */
 
   /* Typography */
-  --font-display: 'Barlow Condensed', system-ui, sans-serif;
-  --font-body:    'Barlow', system-ui, sans-serif;
+  --font-display: 'Barlow Condensed', 'Fira Sans Condensed', system-ui, sans-serif;
+  --font-body:    'Barlow', 'Fira Sans', system-ui, sans-serif;
 
   /* Layout */
   --max-w: 1280px;
@@ -255,7 +255,7 @@ body[lang="bg"] .en { display: none !important; }
   height: 2px;
   background: var(--ink);
   border-radius: 2px;
-  transition: all 0.2s;
+  transition: transform 0.2s ease-out, opacity 0.2s ease-out, background-color 0.2s ease-out;
 }
 .mobile-nav-overlay {
   display: block;
@@ -750,14 +750,14 @@ section:nth-child(even) { background: var(--bg2); }
 .div-chevron {
   color: var(--ink3);
   font-size: 0.82rem;
-  transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1), color var(--t);
+  transition: transform 0.25s cubic-bezier(0.32, 0.72, 0, 1), color var(--t);
   flex-shrink: 0;
 }
 .div-card.open .div-chevron { transform: rotate(180deg); color: var(--accent); }
 .div-panel {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 0.45s cubic-bezier(0.32, 0.72, 0, 1);
+  transition: grid-template-rows 0.3s cubic-bezier(0.32, 0.72, 0, 1);
 }
 .div-card.open .div-panel { grid-template-rows: 1fr; }
 .div-panel-inner {
@@ -766,13 +766,13 @@ section:nth-child(even) { background: var(--bg2); }
   padding: 0 20px 20px;
   border-top: 1px solid var(--border);
   opacity: 1;
-  transition: padding-bottom 0.45s cubic-bezier(0.32, 0.72, 0, 1), border-top-width 0.45s step-end, opacity 0.3s ease 0.08s;
+  transition: padding-bottom 0.3s cubic-bezier(0.32, 0.72, 0, 1), border-top-width 0.3s step-end, opacity 0.2s ease 0.06s;
 }
 .div-card:not(.open) .div-panel-inner {
   padding-bottom: 0;
   border-top-width: 0;
   opacity: 0;
-  transition: padding-bottom 0.45s cubic-bezier(0.32, 0.72, 0, 1), border-top-width 0.45s step-start, opacity 0.2s ease;
+  transition: padding-bottom 0.3s cubic-bezier(0.32, 0.72, 0, 1), border-top-width 0.3s step-start, opacity 0.15s ease;
 }
 .div-card { transition: border-color var(--t), box-shadow var(--t), transform 0.2s cubic-bezier(0.32, 0.72, 0, 1); }
 .div-card:active { transform: scale(0.985); }
@@ -1581,6 +1581,7 @@ section:nth-child(even) .rulebook-card { background: var(--bg4); }
 .btn-ps {
   display: inline-flex;
   align-items: center;
+  gap: 8px;
   padding: 9px 18px;
   border-radius: var(--r);
   background: var(--primary);
@@ -2062,7 +2063,7 @@ a, button, label, select, summary, [onclick] { touch-action: manipulation; }
 .reveal {
   opacity: 0;
   translate: 0 16px;
-  transition: opacity 0.7s ease, translate 0.8s cubic-bezier(0.32, 0.72, 0, 1);
+  transition: opacity 0.5s ease-out, translate 0.55s cubic-bezier(0.32, 0.72, 0, 1);
   transition-delay: var(--d, 0ms);
 }
 .reveal.in { opacity: 1; translate: 0 0; }
@@ -2170,6 +2171,14 @@ a, button, label, select, summary, [onclick] { touch-action: manipulation; }
 @media (prefers-reduced-transparency: reduce) {
   .next-match { background: oklch(0.12 0.02 242 / 0.9); -webkit-backdrop-filter: none; backdrop-filter: none; }
 }
+/* ─── Bulgarian typography ─── */
+body[lang="bg"] .hero-title { letter-spacing: 0; line-height: 1.1; }
+body[lang="bg"] .section-title,
+body[lang="bg"] .ref-card-header,
+body[lang="bg"] .stat-num { letter-spacing: 0; line-height: 1.15; }
+body[lang="bg"] .btn-primary,
+body[lang="bg"] .btn-outline,
+body[lang="bg"] .join-btn { letter-spacing: 0.02em; }
 </style>
 <link rel="preload" as="image" href="photos/hero-behind.jpg">
 </head>
@@ -2235,7 +2244,7 @@ a, button, label, select, summary, [onclick] { touch-action: manipulation; }
     <span class="bg">Българската общност на International Defensive Pistol Association. Истински сценарии. Истински умения. Истински спорт.</span>
   </p>
   <div class="hero-ctas">
-    <a href="javascript:void(0)" class="btn-primary" onclick="goToSection('home','first-match')"><span class="en">New here? Start here</span><span class="bg">Нов си тук? Започни оттук</span></a>
+    <a href="javascript:void(0)" class="btn-primary" onclick="goToSection('home','first-match')"><span class="en">New here? Start here</span><span class="bg">Нови ли сте? Започнете оттук</span></a>
     <a href="#clubs" class="btn-outline" onclick="event.preventDefault();goPage('clubs')"><span class="en">Find a Club</span><span class="bg">Намерете клуб</span></a>
   </div>
   <a id="nextMatch" class="next-match" href="#" target="_blank" rel="noopener"></a>
@@ -2273,48 +2282,48 @@ a, button, label, select, summary, [onclick] { touch-action: manipulation; }
       <div class="start-text">
         <div class="section-head">
           <span class="section-tag"><span class="en">Getting started</span><span class="bg">Първи стъпки</span></span>
-          <h2 class="section-title"><span class="en">New here? Start here</span><span class="bg">Нов си тук? Започни оттук</span></h2>
+          <h2 class="section-title"><span class="en">New here? Start here</span><span class="bg">Нови ли сте? Започнете оттук</span></h2>
           <div class="divider"></div>
         </div>
         <p class="start-intro">
           <span class="en">IDPA is a practical pistol sport built on realistic defensive scenarios, with safety at the centre of every stage. If this is your first look at the sport, here is the shortest path to your first match.</span>
-          <span class="bg">IDPA е практически пистолетен спорт, изграден върху реалистични сценарии за самозащита, при който безопасността е на първо място във всяка сцена. Ако това е първото ти докосване до спорта, ето най-краткия път до първото ти състезание.</span>
+          <span class="bg">IDPA е практически пистолетен спорт, изграден върху реалистични сценарии за самозащита, при който безопасността е на първо място във всяка сцена. Ако това е първото ви докосване до спорта, ето <span style="white-space:nowrap">най-краткия</span> път до първото ви състезание.</span>
         </p>
         <ol class="start-steps">
           <li>
             <div>
-              <a class="step-link" href="javascript:void(0)" onclick="goToSection('learn', null, 'idpa-info')"><span class="en">Learn the basics</span><span class="bg">Научи основите</span></a>
-              <p><span class="en">Read what IDPA is and how a match works.</span><span class="bg">Прочети какво е IDPA и как протича едно състезание.</span></p>
+              <a class="step-link" href="javascript:void(0)" onclick="goToSection('learn', null, 'idpa-info')"><span class="en">Learn the basics</span><span class="bg">Научете основите</span></a>
+              <p><span class="en">Read what IDPA is and how a match works.</span><span class="bg">Прочетете какво е IDPA и как протича едно състезание.</span></p>
             </div>
           </li>
           <li>
             <div>
-              <a class="step-link" href="javascript:void(0)" onclick="goToSection('learn', null, 'gun-checker')"><span class="en">Check your pistol</span><span class="bg">Провери пистолета си</span></a>
-              <p><span class="en">The gun checker shows which divisions your pistol can be used in.</span><span class="bg">Проверката на оръжие показва в кои дивизии може да се използва твоят пистолет.</span></p>
+              <a class="step-link" href="javascript:void(0)" onclick="goToSection('learn', null, 'gun-checker')"><span class="en">Check your pistol</span><span class="bg">Проверете пистолета си</span></a>
+              <p><span class="en">The gun checker shows which divisions your pistol can be used in.</span><span class="bg">Проверката на оръжие показва в кои дивизии може да се използва вашият пистолет.</span></p>
             </div>
           </li>
           <li>
             <div>
-              <a class="step-link" href="javascript:void(0)" onclick="goPage('clubs')"><span class="en">Find a club</span><span class="bg">Намери клуб</span></a>
-              <p><span class="en">Message a club near you and tell them you are new.</span><span class="bg">Свържи се с клуб близо до теб и им кажи, че си нов.</span></p>
+              <a class="step-link" href="javascript:void(0)" onclick="goPage('clubs')"><span class="en">Find a club</span><span class="bg">Намерете клуб</span></a>
+              <p><span class="en">Message a club near you and tell them you are new.</span><span class="bg">Свържете се с клуб близо до вас и кажете, че сте нови.</span></p>
             </div>
           </li>
           <li>
             <div>
-              <a class="step-link" href="javascript:void(0)" onclick="goPage('matches')"><span class="en">Pick a match</span><span class="bg">Избери състезание</span></a>
-              <p><span class="en">Browse upcoming matches. Registration is on PractiScore.</span><span class="bg">Разгледай предстоящите състезания. Регистрацията е през PractiScore.</span></p>
+              <a class="step-link" href="javascript:void(0)" onclick="goPage('matches')"><span class="en">Pick a match</span><span class="bg">Изберете състезание</span></a>
+              <p><span class="en">Browse upcoming matches. Registration is on PractiScore.</span><span class="bg">Разгледайте предстоящите състезания. Регистрацията е през PractiScore.</span></p>
             </div>
           </li>
           <li>
             <div>
-              <a class="step-link" href="javascript:void(0)" onclick="goToSection('learn', null, 'officers')"><span class="en">Show up and ask</span><span class="bg">Ела и питай</span></a>
-              <p><span class="en">On match day, listen to the briefing, ask questions, and run each stage with a Safety Officer beside you.</span><span class="bg">В деня на състезанието изслушай инструктажа, задавай въпроси и изпълнявай всяка сцена със съдия по безопасност (SO) до теб.</span></p>
+              <a class="step-link" href="javascript:void(0)" onclick="goToSection('learn', null, 'officers')"><span class="en">Show up and ask</span><span class="bg">Елате и питайте</span></a>
+              <p><span class="en">On match day, listen to the briefing, ask questions, and run each stage with a Safety Officer beside you.</span><span class="bg">В деня на състезанието изслушайте инструктажа, задавайте въпроси и изпълнявайте всяка сцена със съдия по безопасност (SO) до вас.</span></p>
             </div>
           </li>
         </ol>
         <div class="start-actions">
           <a href="javascript:void(0)" class="btn-primary" onclick="goPage('clubs')"><span class="en">Find a Club</span><span class="bg">Намерете клуб</span></a>
-          <a class="start-ask" href="mailto:info@idpabulgaria.bg"><span class="en">Have a question? Email us</span><span class="bg">Имаш въпрос? Пиши ни</span></a>
+          <a class="start-ask" href="mailto:info@idpabulgaria.bg"><span class="en">Have a question? Email us</span><span class="bg">Имате въпрос? Пишете ни</span></a>
         </div>
       </div>
       <figure class="start-video-wrap">
