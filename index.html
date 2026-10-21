@@ -199,7 +199,13 @@ body[lang="bg"] .en { display: none !important; }
 }
 .nav-more-btn:hover { background: var(--bg3); color: var(--accent); }
 .nav-more-dropdown {
-  display: none;
+  display: flex;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.96) translateY(-4px);
+  transform-origin: top left;
+  transition: opacity 0.18s ease, transform 0.24s cubic-bezier(0.32, 0.72, 0, 1), visibility 0s linear 0.24s;
   position: fixed;
   top: 68px;
   background: var(--bg);
@@ -211,7 +217,13 @@ body[lang="bg"] .en { display: none !important; }
   overflow: hidden;
   flex-direction: column;
 }
-.nav-more-dropdown.open { display: flex; }
+.nav-more-dropdown.open {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+  transition: opacity 0.18s ease, transform 0.24s cubic-bezier(0.32, 0.72, 0, 1), visibility 0s;
+}
 .nav-more-dropdown a {
   padding: 11px 18px;
   color: var(--ink2);
@@ -246,26 +258,48 @@ body[lang="bg"] .en { display: none !important; }
   transition: all 0.2s;
 }
 .mobile-nav-overlay {
-  display: none;
+  display: block;
   position: fixed;
   inset: 0;
   background: oklch(0 0 0 / 0.5);
   z-index: calc(var(--z-sticky) - 1);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0s linear 0.3s;
 }
 .mobile-nav-panel {
-  display: none;
+  display: flex;
   position: fixed;
   top: 0; right: 0;
   width: min(280px, 85vw);
   height: 100vh;
-  background: var(--bg);
+  height: 100dvh;
+  background: oklch(1 0 0 / 0.94);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(24px) saturate(180%);
+  transform: translateX(100%);
+  visibility: hidden;
+  touch-action: pan-y;
+  overscroll-behavior: contain;
+  transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1), visibility 0s linear 0.4s;
   z-index: var(--z-sticky);
   flex-direction: column;
   padding: 24px 0;
   box-shadow: -4px 0 24px oklch(0 0 0 / 0.12);
   overflow-y: auto;
 }
-.mobile-nav-panel.open, .mobile-nav-overlay.open { display: flex; }
+.mobile-nav-panel.open {
+  transform: none;
+  visibility: visible;
+  transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1), visibility 0s;
+}
+.mobile-nav-overlay.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 0.3s ease, visibility 0s;
+}
 .mobile-nav-close {
   align-self: flex-end;
   background: none;
@@ -299,12 +333,21 @@ body.nav-lock { position: fixed; left: 0; right: 0; width: 100%; overflow-y: scr
 
 /* ─── NAV ─── */
 header {
-  background: var(--bg);
+  background: transparent;
   border-bottom: 2px solid var(--primary);
   position: sticky;
   top: 0;
   z-index: var(--z-sticky);
   box-shadow: 0 2px 24px oklch(0 0 0 / 0.08);
+}
+header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: oklch(1 0 0 / 0.86);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
 }
 .nav-inner {
   max-width: var(--max-w);
@@ -707,13 +750,33 @@ section:nth-child(even) { background: var(--bg2); }
 .div-chevron {
   color: var(--ink3);
   font-size: 0.82rem;
-  transition: transform 0.22s ease;
+  transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1), color var(--t);
   flex-shrink: 0;
 }
 .div-card.open .div-chevron { transform: rotate(180deg); color: var(--accent); }
-.div-panel { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
-.div-card.open .div-panel { max-height: 1200px; }
-.div-panel-inner { padding: 0 20px 20px; border-top: 1px solid var(--border); }
+.div-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.45s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.div-card.open .div-panel { grid-template-rows: 1fr; }
+.div-panel-inner {
+  min-height: 0;
+  overflow: hidden;
+  padding: 0 20px 20px;
+  border-top: 1px solid var(--border);
+  opacity: 1;
+  transition: padding-bottom 0.45s cubic-bezier(0.32, 0.72, 0, 1), border-top-width 0.45s step-end, opacity 0.3s ease 0.08s;
+}
+.div-card:not(.open) .div-panel-inner {
+  padding-bottom: 0;
+  border-top-width: 0;
+  opacity: 0;
+  transition: padding-bottom 0.45s cubic-bezier(0.32, 0.72, 0, 1), border-top-width 0.45s step-start, opacity 0.2s ease;
+}
+.div-card { transition: border-color var(--t), box-shadow var(--t), transform 0.2s cubic-bezier(0.32, 0.72, 0, 1); }
+.div-card:active { transform: scale(0.985); }
+.div-card-header:focus-visible { outline-offset: -3px; }
 .div-specs {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1885,10 +1948,142 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
 .footer-inner { grid-template-columns: 2fr 1fr 1fr; }
 @media (max-width: 1024px) { .footer-inner { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 768px)  { .footer-inner { grid-template-columns: 1fr; } }
+
+/* ===================================================
+   Fluid-interface layer (Apple HIG-style feel)
+   =================================================== */
+html { -webkit-tap-highlight-color: transparent; }
+a, button, label, select, summary, [onclick] { touch-action: manipulation; }
+
+/* Feedback on press, instantly; release springs back */
+.btn-primary, .btn-outline, .btn-ps, .btn-ps-outline, .join-btn, .lang-btn {
+  transition-property: background-color, border-color, color, transform, box-shadow;
+  transition-duration: 0.22s;
+  transition-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+}
+.btn-primary:active, .btn-outline:active, .btn-ps:active, .btn-ps-outline:active,
+.join-btn:active, .lang-btn:active {
+  transform: scale(0.97);
+  transition-duration: 0.08s;
+  transition-timing-function: ease-out;
+}
+.nav-more-btn:active, .nav-hamburger:active { transform: scale(0.94); }
+.nav-more-btn, .nav-hamburger { transition: background var(--t), color var(--t), transform 0.2s cubic-bezier(0.32, 0.72, 0, 1); }
+.nav-more-dropdown a:active, .mobile-nav-panel a:active { background: var(--bg4); }
+.mobile-nav-panel a.join-btn { color: oklch(1 0 0); border-bottom: none; }
+.mobile-nav-panel a.join-btn:active { background: var(--red-hi); }
+
+/* Hover lifts are for pointers; on touch they stick after a tap */
+@media (hover: none) {
+  .btn-primary:hover, .join-btn:hover, .club-card:hover { transform: none; }
+}
+
+/* Keyboard focus that is visible but quiet */
+:where(a, button, [tabindex]):focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: var(--r);
+}
+
+/* Page entrance (only on real navigation, see goPage) */
+.page-view.entering { animation: pageIn 0.32s cubic-bezier(0.32, 0.72, 0, 1) both; }
+@keyframes pageIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Fallbacks and accessibility signals */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  header::before { background: var(--bg); }
+  .mobile-nav-panel { background: var(--bg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .btn-primary:active, .btn-outline:active, .btn-ps:active, .btn-ps-outline:active,
+  .join-btn:active, .lang-btn:active, .nav-more-btn:active, .nav-hamburger:active { transform: none; }
+  .nav-more-dropdown { transform: none; }
+}
+@media (prefers-reduced-transparency: reduce) {
+  header::before { background: var(--bg); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .mobile-nav-panel { background: var(--bg); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+@media (prefers-contrast: more) {
+  header::before { background: var(--bg); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .mobile-nav-panel { background: var(--bg); -webkit-backdrop-filter: none; backdrop-filter: none; border-left: 2px solid var(--ink); }
+}
+
+/* ─── Icons (replace emoji) ─── */
+.ic {
+  display: inline-block;
+  width: 1.1em;
+  height: 1.1em;
+  vertical-align: -0.2em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex: none;
+}
+.ic-ok { color: var(--green); }
+.ic-no { color: var(--red); }
+.ic-warn { color: var(--accent); }
+.ic-flag { display: inline-block; width: 1.4em; height: 0.93em; vertical-align: -0.12em; border-radius: 2px; box-shadow: 0 0 0 1px oklch(0 0 0 / 0.2); }
+.cc {
+  display: inline-block;
+  min-width: 2.1em;
+  padding: 1px 5px;
+  margin-right: 6px;
+  border-radius: 4px;
+  background: var(--bg4);
+  color: var(--ink2);
+  font-family: var(--font-display);
+  font-size: 0.72em;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-align: center;
+  vertical-align: 0.08em;
+}
+.mobile-nav-close .ic, .gallery-close .ic { width: 1em; height: 1em; vertical-align: -0.12em; }
+.empty-icon .ic, .ck-placeholder > span .ic { stroke-width: 1.4; }
+
+/* ─── Motion ─── */
+@keyframes riseIn { from { opacity: 0; translate: 0 18px; } to { opacity: 1; translate: 0 0; } }
+@keyframes panelIn { from { opacity: 0; translate: 0 10px; } to { opacity: 1; translate: 0 0; } }
+
+/* Hero: staggered entrance + slow drift on the active slide */
+.hero-title { animation: riseIn 0.9s cubic-bezier(0.32, 0.72, 0, 1) 0.05s both; }
+.hero-sub   { animation: riseIn 0.9s cubic-bezier(0.32, 0.72, 0, 1) 0.18s both; }
+.hero-ctas  { animation: riseIn 0.9s cubic-bezier(0.32, 0.72, 0, 1) 0.31s both; }
+.hero-slide { transform: scale(1.06); transition: opacity 2s ease-in-out, transform 9s linear; }
+.hero-slide.active { transform: scale(1); }
+
+/* Tab panels fade up instead of snapping */
+.learn-panel.active { animation: panelIn 0.4s cubic-bezier(0.32, 0.72, 0, 1) both; }
+
+/* Scroll reveal (class added by JS, never when reduced motion is on) */
+.reveal {
+  opacity: 0;
+  translate: 0 16px;
+  transition: opacity 0.7s ease, translate 0.8s cubic-bezier(0.32, 0.72, 0, 1);
+  transition-delay: var(--d, 0ms);
+}
+.reveal.in { opacity: 1; translate: 0 0; }
+.stat-num { font-variant-numeric: tabular-nums; }
+.club-card:active, .shirt-card:active, .ref-card:active { transform: scale(0.985); }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-title, .hero-sub, .hero-ctas, .learn-panel.active { animation: none; }
+  .hero-slide, .hero-slide.active { transform: none; }
+  .reveal { opacity: 1; translate: none; transition: none; }
+}
+
+/* Hero fixes: only the brand name is brass, and the scroll cue sits at the bottom centre
+   (the generic "#hero > *" rule had turned it position:relative) */
+.hero-title > .en, .hero-title > .bg { color: inherit; }
+#hero > .hero-scroll { position: absolute !important; z-index: 2; bottom: 64px; }
 </style>
 <link rel="preload" as="image" href="photos/hero-behind.jpg">
 </head>
 <body lang="en">
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol><symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol><symbol id="i-message" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol><symbol id="i-clipboard" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></symbol><symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol><symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol><symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol><symbol id="i-book-open" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol><symbol id="i-library" viewBox="0 0 24 24"><path d="m16 6 4 14M12 6v14M8 8v12M4 4v16"/></symbol><symbol id="i-trophy" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22M18 2H6v7a6 6 0 0 0 12 0V2Z"/></symbol><symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol><symbol id="i-shield-check" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol><symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4M12 17h.01"/></symbol><symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></symbol><symbol id="i-medal" viewBox="0 0 24 24"><circle cx="12" cy="15" r="6"/><path d="M8.5 9.5 6 2h4l2 4 2-4h4l-2.5 7.5"/></symbol><symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9M13 17V5M8 17v-3"/></symbol><symbol id="i-package" viewBox="0 0 24 24"><path d="m7.5 4.27 9 5.15M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></symbol><symbol id="i-hourglass" viewBox="0 0 24 24"><path d="M5 22h14M5 2h14M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/></symbol><symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol><symbol id="i-file" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/><path d="M14 2v4a2 2 0 0 0 2 2h4M10 9H8M16 13H8M16 17H8"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></symbol><symbol id="i-check-circle" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></symbol><symbol id="i-x-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol><symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3"/></symbol><symbol id="i-shirt" viewBox="0 0 24 24"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></symbol><symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></symbol><symbol id="i-facebook" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></symbol><symbol id="i-arrow-up-right" viewBox="0 0 24 24"><path d="M7 17 17 7M7 7h10v10"/></symbol><symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol><symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol></svg>
 
 <!-- TOP BAR -->
 <!-- HEADER / NAV -->
@@ -1917,7 +2112,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
 <!-- Mobile nav -->
 <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="closeMobileNav()"></div>
 <div class="mobile-nav-panel" id="mobileNavPanel">
-  <button class="mobile-nav-close" onclick="closeMobileNav()">✕</button>
+  <button class="mobile-nav-close" onclick="closeMobileNav()" aria-label="Close menu"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button>
   <a href="javascript:void(0)" onclick="goPage('home');   closeMobileNav()"><span class="en">Home</span><span class="bg">Начало</span></a>
   <a href="javascript:void(0)" onclick="goPage('matches');closeMobileNav()"><span class="en">Matches</span><span class="bg">Състезания</span></a>
   <a href="javascript:void(0)" onclick="goPage('clubs');  closeMobileNav()"><span class="en">Clubs</span><span class="bg">Клубове</span></a>
@@ -1953,7 +2148,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
     <a href="javascript:void(0)" class="btn-outline" onclick="goToSection('learn','idpa-info','idpa-info')"><span class="en">What is IDPA?</span><span class="bg">Какво е IDPA?</span></a>
   </div>
   <div class="hero-bg-flag"><div class="f1"></div><div class="f2"></div><div class="f3"></div></div>
-  <div class="hero-scroll">▼ scroll</div>
+  <div class="hero-scroll"><svg class="ic" aria-hidden="true"><use href="#i-chevron-down"/></svg> scroll</div>
 </section>
 
 <!-- STATS BAR -->
@@ -2023,23 +2218,23 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
   <aside class="learn-sidebar">
     <div class="learn-sidebar-title"><span class="en">Explore</span><span class="bg">Разгледайте</span></div>
     <button class="learn-tab active" id="learn-tab-idpa-info" onclick="learnTab('idpa-info',this)">
-      <span class="tab-icon">🎯</span>
+      <span class="tab-icon"><svg class="ic" aria-hidden="true"><use href="#i-target"/></svg></span>
       <span><span class="en">What is IDPA</span><span class="bg">Какво е IDPA</span></span>
     </button>
     <button class="learn-tab" id="learn-tab-gun-checker" onclick="learnTab('gun-checker',this)">
-      <span class="tab-icon">🔍</span>
+      <span class="tab-icon"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg></span>
       <span><span class="en">Gun Checker</span><span class="bg">Проверка на оръжие</span></span>
     </button>
     <button class="learn-tab" id="learn-tab-reference" onclick="learnTab('reference',this)">
-      <span class="tab-icon">📚</span>
+      <span class="tab-icon"><svg class="ic" aria-hidden="true"><use href="#i-library"/></svg></span>
       <span><span class="en">Reference</span><span class="bg">Справочник</span></span>
     </button>
     <button class="learn-tab" id="learn-tab-divisions" onclick="learnTab('divisions',this)">
-      <span class="tab-icon">🏆</span>
+      <span class="tab-icon"><svg class="ic" aria-hidden="true"><use href="#i-trophy"/></svg></span>
       <span><span class="en">Divisions</span><span class="bg">Дивизии</span></span>
     </button>
     <button class="learn-tab" id="learn-tab-officers" onclick="learnTab('officers',this)">
-      <span class="tab-icon">🦺</span>
+      <span class="tab-icon"><svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg></span>
       <span><span class="en">SO Org</span><span class="bg">Организация на съдиите</span></span>
     </button>
   </aside>
@@ -2104,7 +2299,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
 
     <!-- Disclaimer -->
     <div class="checker-disclaimer">
-      <span class="checker-disclaimer-icon">⚠️</span>
+      <span class="checker-disclaimer-icon"><svg class="ic ic-warn" aria-hidden="true"><use href="#i-alert"/></svg></span>
       <div>
         <strong><span class="en">Important disclaimer</span><span class="bg">Важно уведомление</span></strong>
         <p><span class="en">This tool is for <strong>guidance only</strong> and is <strong>not official</strong>. Results are based on general IDPA rulebook parameters and may not reflect your exact firearm model. Always verify with the <strong>official IDPA rulebook</strong> and your <strong>firearm manufacturer's specifications</strong> before competing. When in doubt, ask your SO or Match Director.</span><span class="bg">Този инструмент е само за ориентир и не е официален. Резултатите се базират на общите параметри от правилника на IDPA и може да не отразяват точния модел на вашето оръжие. Винаги проверявайте с официалния правилник на IDPA и спецификациите на производителя на оръжието преди състезание. При съмнение попитайте вашия SO или Match Director.</span></p>
@@ -2181,7 +2376,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
 
       <div class="checker-result" id="ck-result">
         <div class="ck-placeholder">
-          <span>🔍</span>
+          <span><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg></span>
           <p><span class="en">Fill in your gun's specs to see which IDPA divisions it qualifies for.</span><span class="bg">Попълнете спецификациите на оръжието си, за да видите за кои дивизии на IDPA се квалифицира.</span></p>
         </div>
       </div>
@@ -2210,7 +2405,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
       <!-- Classifications -->
       <div class="ref-card">
         <div class="ref-card-header ref-gold">
-          <span class="ref-icon">🏅</span>
+          <span class="ref-icon"><svg class="ic" aria-hidden="true"><use href="#i-award"/></svg></span>
           <h3><span class="en">Classifications</span><span class="bg">Класификации</span></h3>
         </div>
         <ul class="ref-list">
@@ -2227,7 +2422,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
       <!-- Titles -->
       <div class="ref-card">
         <div class="ref-card-header ref-navy">
-          <span class="ref-icon">🎖️</span>
+          <span class="ref-icon"><svg class="ic" aria-hidden="true"><use href="#i-medal"/></svg></span>
           <h3><span class="en">Titles & Roles</span><span class="bg">Титли и роли</span></h3>
         </div>
         <ul class="ref-list">
@@ -2243,7 +2438,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
       <!-- Scoring -->
       <div class="ref-card">
         <div class="ref-card-header ref-red">
-          <span class="ref-icon">📊</span>
+          <span class="ref-icon"><svg class="ic" aria-hidden="true"><use href="#i-chart"/></svg></span>
           <h3><span class="en">Scoring Terms</span><span class="bg">Термини за точкуване</span></h3>
         </div>
         <ul class="ref-list">
@@ -2260,7 +2455,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
       <!-- General -->
       <div class="ref-card">
         <div class="ref-card-header ref-green">
-          <span class="ref-icon">📖</span>
+          <span class="ref-icon"><svg class="ic" aria-hidden="true"><use href="#i-book-open"/></svg></span>
           <h3><span class="en">General Terms</span><span class="bg">Общи термини</span></h3>
         </div>
         <ul class="ref-list">
@@ -2299,7 +2494,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
             <span class="div-name">Stock Service Pistol</span>
             <span class="div-tagline"><span class="en">Semi-auto, 9mm+, stock configuration</span><span class="bg">Полуавтоматичен, 9мм+, стандартна конфигурация</span></span>
           </div>
-          <span class="div-chevron">▼</span>
+          <span class="div-chevron"><svg class="ic" aria-hidden="true"><use href="#i-chevron-down"/></svg></span>
         </div>
         <div class="div-panel"><div class="div-panel-inner">
           <div class="div-specs">
@@ -2312,7 +2507,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
             <div class="div-spec"><span class="div-spec-label"><span class="en">Barrel</span><span class="bg">Цев</span></span><span class="div-spec-value"><span class="en">No length limit</span><span class="bg">Без ограничение</span></span></div>
             <div class="div-spec"><span class="div-spec-label"><span class="en">Mag type</span><span class="bg">Тип пълнител</span></span><span class="div-spec-value"><span class="en">Box magazine</span><span class="bg">Кутиен пълнител</span></span></div>
           </div>
-          <div class="div-note"><span style="display:block;margin-bottom:6px;font-size:.75rem;color:var(--ink3)">📦 <span class="en">Loading devices: loaded firearm + 2 extra magazines</span><span class="bg">Зареждащи устройства: заредено оръжие + 2 допълнителни пълнителя</span></span><span class="en">Most popular division. Gun must be stock — no custom triggers, no grip modifications, no porting. Factory grips and sights only. Concealment garment required.</span><span class="bg">Най-популярната дивизия. Оръжието трябва да е стандартно — без модифицирани спусъци, без промени по ръкохватката, без порт вентилации. Позволени са само фабрични ръкохватки и мерници. Задължително е носенето на прикриващо облекло.</span></div>
+          <div class="div-note"><span style="display:block;margin-bottom:6px;font-size:.75rem;color:var(--ink3)"><svg class="ic" aria-hidden="true"><use href="#i-package"/></svg> <span class="en">Loading devices: loaded firearm + 2 extra magazines</span><span class="bg">Зареждащи устройства: заредено оръжие + 2 допълнителни пълнителя</span></span><span class="en">Most popular division. Gun must be stock — no custom triggers, no grip modifications, no porting. Factory grips and sights only. Concealment garment required.</span><span class="bg">Най-популярната дивизия. Оръжието трябва да е стандартно — без модифицирани спусъци, без промени по ръкохватката, без порт вентилации. Позволени са само фабрични ръкохватки и мерници. Задължително е носенето на прикриващо облекло.</span></div>
         </div></div>
       </div>
 
@@ -2323,7 +2518,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
             <span class="div-name">Enhanced Service Pistol</span>
             <span class="div-tagline"><span class="en">Semi-auto, 9mm+, enhanced allowed</span><span class="bg">Полуавтоматичен, 9мм+, позволени подобрения</span></span>
           </div>
-          <span class="div-chevron">▼</span>
+          <span class="div-chevron"><svg class="ic" aria-hidden="true"><use href="#i-chevron-down"/></svg></span>
         </div>
         <div class="div-panel"><div class="div-panel-inner">
           <div class="div-specs">
@@ -2336,7 +2531,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
             <div class="div-spec"><span class="div-spec-label"><span class="en">Barrel</span><span class="bg">Цев</span></span><span class="div-spec-value"><span class="en">No length limit</span><span class="bg">Без ограничение</span></span></div>
             <div class="div-spec"><span class="div-spec-label"><span class="en">Grips</span><span class="bg">Ръкохватки</span></span><span class="div-spec-value"><span class="en">Aftermarket grips allowed</span><span class="bg">Позволени са неоригинални ръкохватки</span></span></div>
           </div>
-          <div class="div-note"><span style="display:block;margin-bottom:6px;font-size:.75rem;color:var(--ink3)">📦 <span class="en">Loading devices: loaded firearm + 2 extra magazines</span><span class="bg">Зареждащи устройства: заредено оръжие + 2 допълнителни пълнителя</span></span><span class="en">Similar to SSP but allows trigger jobs, aftermarket grips, and grip tape. Single-action and DA/SA pistols allowed. No compensators or porting.</span><span class="bg">Подобна на SSP, но позволява обработка на спусъка, неоригинални ръкохватки и лепенки за захват. Позволени са пистолети single-action и DA/SA. Без компенсатори или порт вентилации.</span></div>
+          <div class="div-note"><span style="display:block;margin-bottom:6px;font-size:.75rem;color:var(--ink3)"><svg class="ic" aria-hidden="true"><use href="#i-package"/></svg> <span class="en">Loading devices: loaded firearm + 2 extra magazines</span><span class="bg">Зареждащи устройства: заредено оръжие + 2 допълнителни пълнителя</span></span><span class="en">Similar to SSP but allows trigger jobs, aftermarket grips, and grip tape. Single-action and DA/SA pistols allowed. No compensators or porting.</span><span class="bg">Подобна на SSP, но позволява обработка на спусъка, неоригинални ръкохватки и лепенки за захват. Позволени са пистолети single-action и DA/SA. Без компенсатори или порт вентилации.</span></div>
         </div></div>
       </div>
 
@@ -2347,7 +2542,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
             <span class="div-name">Custom Defensive Pistol</span>
             <span class="div-tagline"><span class="en">.45 ACP, 1911-style, single-stack</span><span class="bg">.45 ACP, тип 1911, еднореден пълнител</span></span>
           </div>
-          <span class="div-chevron">▼</span>
+          <span class="div-chevron"><svg class="ic" aria-hidden="true"><use href="#i-chevron-down"/></svg></span>
         </div>
         <div class="div-panel"><div class="div-panel-inner">
           <div class="div-specs">
@@ -2360,7 +2555,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
             <div class="div-spec"><span class="div-spec-label"><span class="en">Barrel</span><span class="bg">Цев</span></span><span class="div-spec-value"><span class="en">No length limit</span><span class="bg">Без ограничение</span></span></div>
             <div class="div-spec"><span class="div-spec-label"><span class="en">Mag type</span><span class="bg">Тип пълнител</span></span><span class="div-spec-value"><span class="en">Single-stack only</span><span class="bg">Само еднореден пълнител</span></span></div>
           </div>
-          <div class="div-note"><span style="display:block;margin-bottom:6px;font-size:.75rem;color:var(--ink3)">📦 <span class="en">Loading devices: loaded firearm + 2 extra magazines</span><span class="bg">Зареждащи устройства: заредено оръжие + 2 допълнителни пълнителя</span></span><span class="en">Classic 1911-style pistols in .45 ACP. Single-action trigger, single-stack magazine. Custom work extensively allowed — match barrels, trigger jobs, ambidextrous safeties, custom grips.</span><span class="bg">Класически пистолети тип 1911 в калибър .45 ACP. Спусък single-action, еднореден пълнител. Широко позволена е персонализация — match цеви, обработка на спусъка, двустранни предпазители, персонализирани ръкохватки.</span></div>
+          <div class="div-note"><span style="display:block;margin-bottom:6px;font-size:.75rem;color:var(--ink3)"><svg class="ic" aria-hidden="true"><use href="#i-package"/></svg> <span class="en">Loading devices: loaded firearm + 2 extra magazines</span><span class="bg">Зареждащи устройства: заредено оръжие + 2 допълнителни пълнителя</span></span><span class="en">Classic 1911-style pistols in .45 ACP. Single-action trigger, single-stack magazine. Custom work extensively allowed — match barrels, trigger jobs, ambidextrous safeties, custom grips.</span><span class="bg">Класически пистолети тип 1911 в калибър .45 ACP. Спусък single-action, еднореден пълнител. Широко позволена е персонализация — match цеви, обработка на спусъка, двустранни предпазители, персонализирани ръкохватки.</span></div>
         </div></div>
       </div>
 
@@ -2371,7 +2566,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
             <span class="div-name">Compact Carry Pistol</span>
             <span class="div-tagline"><span class="en">Compact semi-auto, 9mm+, max 10 rounds</span><span class="bg">Компактен полуавтоматичен, 9мм+, макс. 10 патрона</span></span>
           </div>
-          <span class="div-chevron">▼</span>
+          <span class="div-chevron"><svg class="ic" aria-hidden="true"><use href="#i-chevron-down"/></svg></span>
         </div>
         <div class="div-panel"><div class="div-panel-inner">
           <div class="div-specs">
@@ -2384,7 +2579,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
             <div class="div-spec"><span class="div-spec-label"><span class="en">Max Barrel</span><span class="bg">Макс. дължина на цевта</span></span><span class="div-spec-value"><span class="en">4⅜" (111 mm)</span><span class="bg">4⅜" (111 мм)</span></span></div>
             <div class="div-spec"><span class="div-spec-label"><span class="en">Frame</span><span class="bg">Рамка</span></span><span class="div-spec-value"><span class="en">Compact size frame</span><span class="bg">Компактна рамка</span></span></div>
           </div>
-          <div class="div-note"><span style="display:block;margin-bottom:6px;font-size:.75rem;color:var(--ink3)">📦 <span class="en">Loading devices: loaded firearm + 2 extra magazines</span><span class="bg">Зареждащи устройства: заредено оръжие + 2 допълнителни пълнителя</span></span><span class="en">Designed for compact carry guns. Shorter barrel max (4⅜"), lighter weight limit. Must be a compact or sub-compact frame. Perfect for Glock 19, SIG P365, Springfield Hellcat class guns.</span><span class="bg">Предназначена за компактни оръжия за ежедневно носене. По-къса максимална дължина на цевта (4⅜"), по-нисък лимит на теглото. Трябва да е компактна или субкомпактна рамка. Идеална за оръжия от класа на Glock 19, SIG P365, Springfield Hellcat.</span></div>
+          <div class="div-note"><span style="display:block;margin-bottom:6px;font-size:.75rem;color:var(--ink3)"><svg class="ic" aria-hidden="true"><use href="#i-package"/></svg> <span class="en">Loading devices: loaded firearm + 2 extra magazines</span><span class="bg">Зареждащи устройства: заредено оръжие + 2 допълнителни пълнителя</span></span><span class="en">Designed for compact carry guns. Shorter barrel max (4⅜"), lighter weight limit. Must be a compact or sub-compact frame. Perfect for Glock 19, SIG P365, Springfield Hellcat class guns.</span><span class="bg">Предназначена за компактни оръжия за ежедневно носене. По-къса максимална дължина на цевта (4⅜"), по-нисък лимит на теглото. Трябва да е компактна или субкомпактна рамка. Идеална за оръжия от класа на Glock 19, SIG P365, Springfield Hellcat.</span></div>
         </div></div>
       </div>
 
@@ -2395,7 +2590,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
             <span class="div-name">Back-Up Gun</span>
             <span class="div-tagline"><span class="en">BUG-S (semi): 8 rounds · BUG-R (revolver): 5 rounds</span><span class="bg">BUG-S (полуавтоматичен): 8 патрона · BUG-R (револвер): 5 патрона</span></span>
           </div>
-          <span class="div-chevron">▼</span>
+          <span class="div-chevron"><svg class="ic" aria-hidden="true"><use href="#i-chevron-down"/></svg></span>
         </div>
         <div class="div-panel"><div class="div-panel-inner">
           <div class="div-specs">
@@ -2408,7 +2603,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
             <div class="div-spec"><span class="div-spec-label"><span class="en">Max Barrel</span><span class="bg">Макс. дължина на цевта</span></span><span class="div-spec-value"><span class="en">3½" (89 mm)</span><span class="bg">3½" (89 мм)</span></span></div>
             <div class="div-spec"><span class="div-spec-label"><span class="en">Gun type</span><span class="bg">Тип оръжие</span></span><span class="div-spec-value"><span class="en">Pistol or revolver</span><span class="bg">Пистолет или револвер</span></span></div>
           </div>
-          <div class="div-note"><span style="display:block;margin-bottom:6px;font-size:.75rem;color:var(--ink3)">📦 <span class="en">Loading devices: BUG-S: loaded + 2 extra · BUG-R: loaded + 4 extra</span><span class="bg">Зареждащи устройства: BUG-S: зареден + 2 допълнителни · BUG-R: зареден + 4 допълнителни</span></span><span class="en">Simulates a true backup/concealed carry gun. Very strict weight and capacity limits. Popular with Ruger LCP, Glock 43, S&W J-Frame. Both semi-auto and revolvers compete together.</span><span class="bg">Симулира истинско резервно/скрито оръжие за носене. Много строги ограничения за тегло и капацитет. Популярна с Ruger LCP, Glock 43, S&W J-Frame. Полуавтоматични оръжия и револвери се състезават заедно.</span></div>
+          <div class="div-note"><span style="display:block;margin-bottom:6px;font-size:.75rem;color:var(--ink3)"><svg class="ic" aria-hidden="true"><use href="#i-package"/></svg> <span class="en">Loading devices: BUG-S: loaded + 2 extra · BUG-R: loaded + 4 extra</span><span class="bg">Зареждащи устройства: BUG-S: зареден + 2 допълнителни · BUG-R: зареден + 4 допълнителни</span></span><span class="en">Simulates a true backup/concealed carry gun. Very strict weight and capacity limits. Popular with Ruger LCP, Glock 43, S&W J-Frame. Both semi-auto and revolvers compete together.</span><span class="bg">Симулира истинско резервно/скрито оръжие за носене. Много строги ограничения за тегло и капацитет. Популярна с Ruger LCP, Glock 43, S&W J-Frame. Полуавтоматични оръжия и револвери се състезават заедно.</span></div>
         </div></div>
       </div>
 
@@ -2419,7 +2614,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
             <span class="div-name">Revolver</span>
             <span class="div-tagline"><span class="en">.38 Special+, speed loader reload</span><span class="bg">.38 Special+, презареждане с бързозарядно устройство</span></span>
           </div>
-          <span class="div-chevron">▼</span>
+          <span class="div-chevron"><svg class="ic" aria-hidden="true"><use href="#i-chevron-down"/></svg></span>
         </div>
         <div class="div-panel"><div class="div-panel-inner">
           <div class="div-specs">
@@ -2432,7 +2627,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
             <div class="div-spec"><span class="div-spec-label"><span class="en">Max Barrel</span><span class="bg">Макс. дължина на цевта</span></span><span class="div-spec-value"><span class="en">4¼" (108 mm)</span><span class="bg">4¼" (108 мм)</span></span></div>
             <div class="div-spec"><span class="div-spec-label"><span class="en">Reload</span><span class="bg">Презареждане</span></span><span class="div-spec-value"><span class="en">Speed loader / moon clip</span><span class="bg">Бързозарядно устройство / moon clip</span></span></div>
           </div>
-          <div class="div-note"><span style="display:block;margin-bottom:6px;font-size:.75rem;color:var(--ink3)">📦 <span class="en">Loading devices: loaded firearm + 3 speed loaders/moon clips</span><span class="bg">Зареждащи устройства: заредено оръжие + 3 бързозарядни устройства/moon clips</span></span><span class="en">Traditional revolver division. Speed loaders or moon clips only — no strips. Full-size or medium frame revolvers. Classic wheel-gun competition experience. S&W, Ruger, Colt revolvers all eligible.</span><span class="bg">Традиционна дивизия за револвери. Само бързозарядни устройства или moon clips — без ленти. Револвери с пълен или среден размер на рамката. Класическо изживяване на състезание с револвер. Отговарят на условията револвери на S&W, Ruger, Colt.</span></div>
+          <div class="div-note"><span style="display:block;margin-bottom:6px;font-size:.75rem;color:var(--ink3)"><svg class="ic" aria-hidden="true"><use href="#i-package"/></svg> <span class="en">Loading devices: loaded firearm + 3 speed loaders/moon clips</span><span class="bg">Зареждащи устройства: заредено оръжие + 3 бързозарядни устройства/moon clips</span></span><span class="en">Traditional revolver division. Speed loaders or moon clips only — no strips. Full-size or medium frame revolvers. Classic wheel-gun competition experience. S&W, Ruger, Colt revolvers all eligible.</span><span class="bg">Традиционна дивизия за револвери. Само бързозарядни устройства или moon clips — без ленти. Револвери с пълен или среден размер на рамката. Класическо изживяване на състезание с револвер. Отговарят на условията револвери на S&W, Ruger, Colt.</span></div>
         </div></div>
       </div>
 
@@ -2443,7 +2638,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
             <span class="div-name">Carry Optics</span>
             <span class="div-tagline"><span class="en">Semi-auto with slide-mounted red dot</span><span class="bg">Полуавтоматичен с колиматор, монтиран на затвора</span></span>
           </div>
-          <span class="div-chevron">▼</span>
+          <span class="div-chevron"><svg class="ic" aria-hidden="true"><use href="#i-chevron-down"/></svg></span>
         </div>
         <div class="div-panel"><div class="div-panel-inner">
           <div class="div-specs">
@@ -2456,7 +2651,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
             <div class="div-spec"><span class="div-spec-label"><span class="en">Barrel</span><span class="bg">Цев</span></span><span class="div-spec-value"><span class="en">No length limit</span><span class="bg">Без ограничение</span></span></div>
             <div class="div-spec"><span class="div-spec-label"><span class="en">Mag type</span><span class="bg">Тип пълнител</span></span><span class="div-spec-value"><span class="en">Box magazine</span><span class="bg">Кутиен пълнител</span></span></div>
           </div>
-          <div class="div-note"><span style="display:block;margin-bottom:6px;font-size:.75rem;color:var(--ink3)">📦 <span class="en">Loading devices: loaded firearm + 2 extra magazines</span><span class="bg">Зареждащи устройства: заредено оръжие + 2 допълнителни пълнителя</span></span><span class="en">Growing division for red-dot-equipped carry pistols. Optic must be slide-mounted (not frame). No magnification. Popular with Glock MOS, SIG P320 RXP, S&W M&P CORE. Concealment garment required.</span><span class="bg">Разрастваща се дивизия за пистолети за носене, оборудвани с колиматорен мерник. Оптиката трябва да е монтирана на затвора (не на рамката). Без увеличение. Популярна с Glock MOS, SIG P320 RXP, S&W M&P CORE. Задължително е носенето на прикриващо облекло.</span></div>
+          <div class="div-note"><span style="display:block;margin-bottom:6px;font-size:.75rem;color:var(--ink3)"><svg class="ic" aria-hidden="true"><use href="#i-package"/></svg> <span class="en">Loading devices: loaded firearm + 2 extra magazines</span><span class="bg">Зареждащи устройства: заредено оръжие + 2 допълнителни пълнителя</span></span><span class="en">Growing division for red-dot-equipped carry pistols. Optic must be slide-mounted (not frame). No magnification. Popular with Glock MOS, SIG P320 RXP, S&W M&P CORE. Concealment garment required.</span><span class="bg">Разрастваща се дивизия за пистолети за носене, оборудвани с колиматорен мерник. Оптиката трябва да е монтирана на затвора (не на рамката). Без увеличение. Популярна с Glock MOS, SIG P320 RXP, S&W M&P CORE. Задължително е носенето на прикриващо облекло.</span></div>
         </div></div>
       </div>
 
@@ -2467,7 +2662,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
             <span class="div-name">Pistol Caliber Carbine</span>
             <span class="div-tagline"><span class="en">Semi-auto carbine in pistol caliber</span><span class="bg">Полуавтоматичен карабин с пистолетен калибър</span></span>
           </div>
-          <span class="div-chevron">▼</span>
+          <span class="div-chevron"><svg class="ic" aria-hidden="true"><use href="#i-chevron-down"/></svg></span>
         </div>
         <div class="div-panel"><div class="div-panel-inner">
           <div class="div-specs">
@@ -2479,7 +2674,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
             <div class="div-spec"><span class="div-spec-label"><span class="en">Stock</span><span class="bg">Стандартен</span></span><span class="div-spec-value"><span class="en">Fixed or folding</span><span class="bg">Фиксиран или сгъваем</span></span></div>
             <div class="div-spec"><span class="div-spec-label"><span class="en">Holster</span><span class="bg">Кобур</span></span><span class="div-spec-value"><span class="en">Not required</span><span class="bg">Не се изисква</span></span></div>
           </div>
-          <div class="div-note"><span style="display:block;margin-bottom:6px;font-size:.75rem;color:var(--ink3)">📦 <span class="en">Loading devices: loaded firearm + 2 extra magazines (30 rds each)</span><span class="bg">Зареждащи устройства: заредено оръжие + 2 допълнителни пълнителя (по 30 патрона всеки)</span></span><span class="en">Newest IDPA division. Long gun started and slung during stage. No suppressor or bipod. Must use pistol-caliber ammunition. Popular with AR-9, CZ Scorpion, B&T APC9, Beretta CX4.</span><span class="bg">Най-новата дивизия на IDPA. Дългоцевното оръжие започва и се носи на ремък по време на сцената. Без заглушител или сошка. Задължително е използването на боеприпаси с пистолетен калибър. Популярна с AR-9, CZ Scorpion, B&T APC9, Beretta CX4.</span></div>
+          <div class="div-note"><span style="display:block;margin-bottom:6px;font-size:.75rem;color:var(--ink3)"><svg class="ic" aria-hidden="true"><use href="#i-package"/></svg> <span class="en">Loading devices: loaded firearm + 2 extra magazines (30 rds each)</span><span class="bg">Зареждащи устройства: заредено оръжие + 2 допълнителни пълнителя (по 30 патрона всеки)</span></span><span class="en">Newest IDPA division. Long gun started and slung during stage. No suppressor or bipod. Must use pistol-caliber ammunition. Popular with AR-9, CZ Scorpion, B&T APC9, Beretta CX4.</span><span class="bg">Най-новата дивизия на IDPA. Дългоцевното оръжие започва и се носи на ремък по време на сцената. Без заглушител или сошка. Задължително е използването на боеприпаси с пистолетен калибър. Популярна с AR-9, CZ Scorpion, B&T APC9, Beretta CX4.</span></div>
         </div></div>
       </div>
 
@@ -2543,8 +2738,8 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
         <div class="club-icon"><img src="data:image/jpeg;base64,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" alt="Beast Tactical logo"></div>
         <div class="club-info">
           <h3>Beast Tactical</h3>
-          <p>📍 Blagoevgrad</p>
-          <a href="https://www.facebook.com/p/%D0%A1%D1%82%D1%80%D0%B5%D0%BB%D0%B1%D0%B8%D1%89%D0%B5%D0%BD-%D0%9A%D0%BE%D0%BC%D0%BF%D0%BB%D0%B5%D0%BA%D1%81-%D0%91%D0%BB%D0%B0%D0%B3%D0%BE%D0%B5%D0%B2%D0%B3%D1%80%D0%B0%D0%B4-100090249502977/?locale=bg_BG" target="_blank">Facebook ↗</a>
+          <p><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg> Blagoevgrad</p>
+          <a href="https://www.facebook.com/p/%D0%A1%D1%82%D1%80%D0%B5%D0%BB%D0%B1%D0%B8%D1%89%D0%B5%D0%BD-%D0%9A%D0%BE%D0%BC%D0%BF%D0%BB%D0%B5%D0%BA%D1%81-%D0%91%D0%BB%D0%B0%D0%B3%D0%BE%D0%B5%D0%B2%D0%B3%D1%80%D0%B0%D0%B4-100090249502977/?locale=bg_BG" target="_blank">Facebook <svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a>
         </div>
       </div>
 
@@ -2552,8 +2747,8 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
         <div class="club-icon"><img src="data:image/jpeg;base64,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" alt="Code Red Bulgaria logo"></div>
         <div class="club-info">
           <h3>Code Red Bulgaria</h3>
-          <p>📍 Sofia</p>
-          <a href="https://www.facebook.com/people/CODE-RED/61581969885523/" target="_blank">Facebook ↗</a>
+          <p><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg> Sofia</p>
+          <a href="https://www.facebook.com/people/CODE-RED/61581969885523/" target="_blank">Facebook <svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a>
         </div>
       </div>
 
@@ -2561,8 +2756,8 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
         <div class="club-icon"><img src="data:image/jpeg;base64,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" alt="Knights IDPA Club logo"></div>
         <div class="club-info">
           <h3>Knights Shooting Club Elhovo</h3>
-          <p>📍 Elhovo, Yambol</p>
-          <a href="https://www.facebook.com/p/Knights-IDPA-61592499037014/" target="_blank">Facebook ↗</a>
+          <p><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg> Elhovo, Yambol</p>
+          <a href="https://www.facebook.com/p/Knights-IDPA-61592499037014/" target="_blank">Facebook <svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a>
         </div>
       </div>
 
@@ -2570,8 +2765,8 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
         <div class="club-icon" style="background:#fff"><img src="data:image/jpeg;base64,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" alt="Profi Shooting Club logo"></div>
         <div class="club-info">
           <h3>Profi Shooting Club</h3>
-          <p>📍 Sofia</p>
-          <a href="https://www.facebook.com/profile.php?id=61560007014669" target="_blank">Facebook ↗</a>
+          <p><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg> Sofia</p>
+          <a href="https://www.facebook.com/profile.php?id=61560007014669" target="_blank">Facebook <svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a>
         </div>
       </div>
 
@@ -2579,8 +2774,8 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
         <div class="club-icon"><img src="data:image/jpeg;base64,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" alt="Triskel Academy logo"></div>
         <div class="club-info">
           <h3>Triskel Academy</h3>
-          <p>📍 Dupnica</p>
-          <a href="https://www.facebook.com/triskel.academy/" target="_blank">Facebook ↗</a>
+          <p><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg> Dupnica</p>
+          <a href="https://www.facebook.com/triskel.academy/" target="_blank">Facebook <svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a>
         </div>
       </div>
 
@@ -2589,7 +2784,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
     <!-- BECOME A CLUB -->
     <div style="margin-top:28px;padding:22px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2)">
       <h3 style="font-family:var(--font-display);font-size:1rem;font-weight:800;color:var(--ink);margin-bottom:6px">
-        ➕ <span class="en">Become an IDPA Club in Bulgaria</span><span class="bg">Регистрирайте своя клуб в IDPA</span>
+        <svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg> <span class="en">Become an IDPA Club in Bulgaria</span><span class="bg">Регистрирайте своя клуб в IDPA</span>
       </h3>
       <p style="font-size:0.82rem;color:var(--ink3);margin-bottom:14px">
         <span class="en">Running a range or shooting group that wants to affiliate with IDPA? Contact us and we'll help you get set up.</span>
@@ -2598,7 +2793,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
       <a href="mailto:info@idpabulgaria.bg"
          style="display:inline-flex;align-items:center;gap:8px;background:var(--primary);color:#fff;padding:10px 20px;border-radius:var(--r);font-family:var(--font-display);font-size:0.86rem;font-weight:800;text-decoration:none;letter-spacing:0.04em;text-transform:uppercase;transition:background var(--t)"
          onmouseover="this.style.background='var(--primary-hi)'" onmouseout="this.style.background='var(--primary)'">
-        ✉️ <span class="en">Contact Us</span><span class="bg">Свържете се с нас</span>
+        <svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg> <span class="en">Contact Us</span><span class="bg">Свържете се с нас</span>
       </a>
     </div>
   </div>
@@ -2618,12 +2813,12 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
     </div>
 
     <div class="match-tabs" id="matchRegionTabs" style="margin-bottom:16px">
-      <button class="match-tab active" onclick="switchRegion('bulgaria', this)">🇧🇬 <span class="en">Bulgaria</span><span class="bg">България</span></button>
-      <button class="match-tab" onclick="switchRegion('europe', this)">🌍 <span class="en">Europe</span><span class="bg">Европа</span></button>
+      <button class="match-tab active" onclick="switchRegion('bulgaria', this)"><svg class="ic-flag" viewBox="0 0 24 16" aria-hidden="true"><rect width="24" height="16" fill="#fff"/><rect y="5.33" width="24" height="5.34" fill="#00966E"/><rect y="10.67" width="24" height="5.33" fill="#D62612"/></svg> <span class="en">Bulgaria</span><span class="bg">България</span></button>
+      <button class="match-tab" onclick="switchRegion('europe', this)"><svg class="ic" aria-hidden="true"><use href="#i-globe"/></svg> <span class="en">Europe</span><span class="bg">Европа</span></button>
     </div>
 
     <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:oklch(0.98 0.01 72);border:1px solid oklch(0.88 0.04 72);border-radius:var(--r);margin-bottom:16px;flex-wrap:wrap">
-      <span style="font-size:1rem">⚠️</span>
+      <span style="font-size:1rem"><svg class="ic ic-warn" aria-hidden="true"><use href="#i-alert"/></svg></span>
       <p style="flex:1;font-size:0.82rem;color:var(--ink2);margin:0;min-width:200px">
         <span class="en">This list may not be complete or up to date. For live data, log in to PractiScore or check idpa.com.</span>
         <span class="bg">Този списък може да не е пълен или актуален. За актуални данни влезте в PractiScore или проверете idpa.com.</span>
@@ -2651,20 +2846,20 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
     <div class="match-list" id="matches-list"></div>
 
     <div id="matches-empty" class="empty-state" style="display:none">
-      <span class="empty-icon">📅</span>
+      <span class="empty-icon"><svg class="ic" aria-hidden="true"><use href="#i-calendar"/></svg></span>
       <p><span class="en">No matches found.</span><span class="bg">Не бяха намерени състезания.</span></p>
     </div>
 
     <div style="margin-top:18px">
       <a href="https://practiscore.com/search/matches?q=idpa" target="_blank" rel="noopener" class="btn-ps">
-        🎯 <span class="en">View all on PractiScore</span><span class="bg">Вижте всички в PractiScore</span>
+        <svg class="ic" aria-hidden="true"><use href="#i-target"/></svg> <span class="en">View all on PractiScore</span><span class="bg">Вижте всички в PractiScore</span>
       </a>
     </div>
 
     <!-- VIBER — INTERNATIONAL MATCH PARTICIPATION -->
     <div style="margin-top:18px;padding:22px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2)">
       <h3 style="font-family:var(--font-display);font-size:1rem;font-weight:800;color:var(--ink);margin-bottom:6px">
-        💬 <span class="en">Shooting Matches Abroad?</span><span class="bg">Състезавайте се в чужбина?</span>
+        <svg class="ic" aria-hidden="true"><use href="#i-message"/></svg> <span class="en">Shooting Matches Abroad?</span><span class="bg">Състезавайте се в чужбина?</span>
       </h3>
       <p style="font-size:0.82rem;color:var(--ink3);margin-bottom:14px">
         <span class="en">Join our Viber group to coordinate travel and squad up with other Bulgarian shooters for international IDPA matches.</span>
@@ -2673,14 +2868,14 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
       <a href="https://invite.viber.com/?g2=AQBPt%2B12ZNNvi1b0sw2dt2xB9xf7sI7ymfpb%2BIWAo59ABokYVXfF8nQ2z7%2FUPdeb" target="_blank" rel="noopener"
          style="display:inline-flex;align-items:center;gap:8px;background:var(--primary);color:#fff;padding:10px 20px;border-radius:var(--r);font-family:var(--font-display);font-size:0.86rem;font-weight:800;text-decoration:none;letter-spacing:0.04em;text-transform:uppercase;transition:background var(--t)"
          onmouseover="this.style.background='var(--primary-hi)'" onmouseout="this.style.background='var(--primary)'">
-        💬 <span class="en">Join Viber Group</span><span class="bg">Влез във Viber групата</span>
+        <svg class="ic" aria-hidden="true"><use href="#i-message"/></svg> <span class="en">Join Viber Group</span><span class="bg">Влез във Viber групата</span>
       </a>
     </div>
 
     <!-- SUBMIT A MATCH — Bulgaria only -->
     <div id="submit-match-box" style="margin-top:28px;padding:22px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2)">
       <h3 style="font-family:var(--font-display);font-size:1rem;font-weight:800;color:var(--ink);margin-bottom:6px">
-        ➕ <span class="en">Submit a Bulgaria Match</span><span class="bg">Добавете състезание в България</span>
+        <svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg> <span class="en">Submit a Bulgaria Match</span><span class="bg">Добавете състезание в България</span>
       </h3>
       <p style="font-size:0.82rem;color:var(--ink3);margin-bottom:14px">
         <span class="en">Organising a match in Bulgaria? Fill in the form and we'll add it to the list.</span>
@@ -2689,12 +2884,12 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
       <a href="https://form.typeform.com/to/yNWnQU37" target="_blank" rel="noopener"
          style="display:inline-flex;align-items:center;gap:8px;background:var(--primary);color:#fff;padding:10px 20px;border-radius:var(--r);font-family:var(--font-display);font-size:0.86rem;font-weight:800;text-decoration:none;letter-spacing:0.04em;text-transform:uppercase;transition:background var(--t)"
          onmouseover="this.style.background='var(--primary-hi)'" onmouseout="this.style.background='var(--primary)'">
-        📋 <span class="en">Submit Match Details</span><span class="bg">Изпратете данни за състезанието</span>
+        <svg class="ic" aria-hidden="true"><use href="#i-clipboard"/></svg> <span class="en">Submit Match Details</span><span class="bg">Изпратете данни за състезанието</span>
       </a>
     <!-- DATE CONFLICT CHECKER — for organisers picking a date -->
     <div style="margin:18px 0 4px;padding:12px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);display:flex;align-items:center;gap:12px;flex-wrap:wrap">
       <span style="font-family:var(--font-display);font-size:0.8rem;font-weight:800;color:var(--ink)">
-        📅 <span class="en">Picking a date? Check for clashes:</span><span class="bg">Избирате дата? Проверете за застъпвания:</span>
+        <svg class="ic" aria-hidden="true"><use href="#i-calendar"/></svg> <span class="en">Picking a date? Check for clashes:</span><span class="bg">Избирате дата? Проверете за застъпвания:</span>
       </span>
       <input type="date" id="conflict-date" style="padding:6px 10px;border:1.5px solid var(--border2);border-radius:var(--r);font-family:var(--font-body);font-size:0.88rem;color:var(--ink);background:var(--bg);cursor:pointer;flex:1;min-width:140px" oninput="checkConflict()">
       <span style="font-size:0.78rem;color:var(--ink3)"><span class="en">Shows ±7 days of conflicts</span><span class="bg">Показва конфликти в диапазон от ±7 дни</span></span>
@@ -2736,7 +2931,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
   </div>
 </section>
 <div class="gallery-overlay" id="lightbox" onclick="closeLightbox()">
-  <button class="gallery-close" onclick="closeLightbox()">✕</button>
+  <button class="gallery-close" onclick="closeLightbox()" aria-label="Close"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button>
   <div style="font-size:9rem;user-select:none" id="lightboxContent"></div>
 </div>
 
@@ -2751,7 +2946,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
     </p>
     <div class="hero-ctas">
       <a href="javascript:void(0)" onclick="goToSection('clubs','clubs')" class="btn-primary"><span class="en">Find a Club</span><span class="bg">Намерете клуб</span></a>
-      <a href="mailto:info@idpabulgaria.bg" class="btn-outline">✉️ info@idpabulgaria.bg</a>
+      <a href="mailto:info@idpabulgaria.bg" class="btn-outline"><svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg> info@idpabulgaria.bg</a>
     </div>
   </div>
 </section>
@@ -2777,28 +2972,28 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
     <div class="rulebook-cards">
 
       <div class="rulebook-card rulebook-primary">
-        <div class="rulebook-card-icon">📋</div>
+        <div class="rulebook-card-icon"><svg class="ic" aria-hidden="true"><use href="#i-clipboard"/></svg></div>
         <div class="rulebook-card-body">
           <div class="rulebook-badge"><span class="en">Latest</span><span class="bg">Най-нови</span></div>
           <h3>IDPA Rulebook 2026</h3>
           <p><span class="en">Current official rulebook — English. Released January 2026.</span><span class="bg">Текущ официален правилник — на английски. Издаден през януари 2026 г.</span></p>
-          <div class="rulebook-meta">📄 PDF &nbsp;·&nbsp; 1.8 MB &nbsp;·&nbsp; <span class="en">English</span><span class="bg">Английски</span></div>
+          <div class="rulebook-meta"><svg class="ic" aria-hidden="true"><use href="#i-file"/></svg> PDF &nbsp;·&nbsp; 1.8 MB &nbsp;·&nbsp; <span class="en">English</span><span class="bg">Английски</span></div>
         </div>
         <a href="https://www.idpa.com/wp-content/uploads/2026/01/2026-IDPA-Rulebook-2.pdf" target="_blank" rel="noopener" class="rulebook-dl-btn">
-          ⬇ <span class="en">Download</span><span class="bg">Изтегляне</span>
+          <svg class="ic" aria-hidden="true"><use href="#i-download"/></svg> <span class="en">Download</span><span class="bg">Изтегляне</span>
         </a>
       </div>
 
       <div class="rulebook-card">
-        <div class="rulebook-card-icon">📋</div>
+        <div class="rulebook-card-icon"><svg class="ic" aria-hidden="true"><use href="#i-clipboard"/></svg></div>
         <div class="rulebook-card-body">
-          <div class="rulebook-badge rulebook-badge-bg">🇧🇬 <span class="en">Bulgarian — Unofficial Translation</span><span class="bg">Български — неофициален превод</span></div>
+          <div class="rulebook-badge rulebook-badge-bg"><svg class="ic-flag" viewBox="0 0 24 16" aria-hidden="true"><rect width="24" height="16" fill="#fff"/><rect y="5.33" width="24" height="5.34" fill="#00966E"/><rect y="10.67" width="24" height="5.33" fill="#D62612"/></svg> <span class="en">Bulgarian — Unofficial Translation</span><span class="bg">Български — неофициален превод</span></div>
           <h3><span class="en">IDPA Rulebook 2026 — Bulgarian Translation</span><span class="bg">Правилник на IDPA 2026 — Български превод</span></h3>
           <p><span class="en">Bulgarian translation of the 2026 rulebook, provided for convenience only. The English edition above is the only official version — always refer to it in case of any discrepancy.</span><span class="bg">Български превод на правилника за 2026 г., предоставен единствено за удобство. Английското издание по-горе е единствената официална версия — винаги се позовавайте на него при несъответствие.</span></p>
-          <div class="rulebook-meta">📄 PDF &nbsp;·&nbsp; 296 KB &nbsp;·&nbsp; <span class="en">Bulgarian</span><span class="bg">Български</span></div>
+          <div class="rulebook-meta"><svg class="ic" aria-hidden="true"><use href="#i-file"/></svg> PDF &nbsp;·&nbsp; 296 KB &nbsp;·&nbsp; <span class="en">Bulgarian</span><span class="bg">Български</span></div>
         </div>
         <a href="rulebook-bg-2026.pdf" target="_blank" rel="noopener" class="rulebook-dl-btn rulebook-dl-btn-secondary">
-          ⬇ <span class="en">Download</span><span class="bg">Изтегляне</span>
+          <svg class="ic" aria-hidden="true"><use href="#i-download"/></svg> <span class="en">Download</span><span class="bg">Изтегляне</span>
         </a>
       </div>
 
@@ -2807,10 +3002,10 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
     <!-- INLINE VIEWER + SEARCH -->
     <div class="rulebook-viewer-wrap">
       <div class="rulebook-viewer-toolbar">
-        <span>📖 <span class="en">Read Online — 2026 English</span><span class="bg">Четете онлайн — английско издание 2026</span></span>
+        <span><svg class="ic" aria-hidden="true"><use href="#i-book-open"/></svg> <span class="en">Read Online — 2026 English</span><span class="bg">Четете онлайн — английско издание 2026</span></span>
         <div class="rulebook-search-wrap">
           <input type="search" id="rulebook-search"
-            placeholder="🔍  Ask a question or search… e.g. 'cover penalty' / 'reload rules'"
+            placeholder="Ask a question or search… e.g. 'cover penalty' / 'reload rules'"
             oninput="rulebookSearch(this.value)"
             onkeydown="if(event.key==='Enter')rulebookSearchNext()">
           <span id="search-count"></span>
@@ -2846,7 +3041,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
       <div class="shirt-card">
         <div class="shirt-img">
           <div class="shirt-placeholder">
-            <span style="font-size:2.2rem">👕</span>
+            <span style="font-size:2.2rem"><svg class="ic" aria-hidden="true"><use href="#i-shirt"/></svg></span>
             <span><span class="en">Photo coming soon</span><span class="bg">Снимка предстои</span></span>
           </div>
         </div>
@@ -2854,8 +3049,8 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
           <h3><span class="en">IDPA Bulgaria — Competition Polo</span><span class="bg">IDPA България — състезателна тениска Polo</span></h3>
           <div class="shirt-sizes">S &nbsp; M &nbsp; L &nbsp; XL &nbsp; XXL</div>
           <span class="shirt-soon-badge">
-            <span class="en">⏳ Coming Soon</span>
-            <span class="bg">⏳ Очаквайте скоро</span>
+            <span class="en"><svg class="ic" aria-hidden="true"><use href="#i-hourglass"/></svg> Coming Soon</span>
+            <span class="bg"><svg class="ic" aria-hidden="true"><use href="#i-hourglass"/></svg> Очаквайте скоро</span>
           </span>
         </div>
       </div>
@@ -2864,7 +3059,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
       <div class="shirt-card">
         <div class="shirt-img">
           <div class="shirt-placeholder">
-            <span style="font-size:2.2rem">🦺</span>
+            <span style="font-size:2.2rem"><svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg></span>
             <span><span class="en">Photo coming soon</span><span class="bg">Снимка предстои</span></span>
           </div>
         </div>
@@ -2872,8 +3067,8 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
           <h3><span class="en">IDPA Bulgaria — Competition Vest</span><span class="bg">IDPA България — състезателна жилетка</span></h3>
           <div class="shirt-sizes">S &nbsp; M &nbsp; L &nbsp; XL &nbsp; XXL</div>
           <span class="shirt-soon-badge">
-            <span class="en">⏳ Coming Soon</span>
-            <span class="bg">⏳ Очаквайте скоро</span>
+            <span class="en"><svg class="ic" aria-hidden="true"><use href="#i-hourglass"/></svg> Coming Soon</span>
+            <span class="bg"><svg class="ic" aria-hidden="true"><use href="#i-hourglass"/></svg> Очаквайте скоро</span>
           </span>
         </div>
       </div>
@@ -2882,20 +3077,20 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
       <div class="shirt-card">
         <div class="shirt-img">
           <div class="shirt-placeholder">
-            <span style="font-size:2.2rem">👮</span>
+            <span style="font-size:2.2rem"><svg class="ic" aria-hidden="true"><use href="#i-shield-check"/></svg></span>
             <span><span class="en">Photo coming soon</span><span class="bg">Снимка предстои</span></span>
           </div>
         </div>
         <div class="shirt-body">
           <h3><span class="en">IDPA Bulgaria — SO Polo</span><span class="bg">IDPA България — Поло на съдия по безопасност</span></h3>
           <span class="shirt-restricted-note">
-            <span class="en">🔒 Certified Safety Officers only</span>
-            <span class="bg">🔒 Само за сертифицирани съдии по безопасност</span>
+            <span class="en"><svg class="ic" aria-hidden="true"><use href="#i-lock"/></svg> Certified Safety Officers only</span>
+            <span class="bg"><svg class="ic" aria-hidden="true"><use href="#i-lock"/></svg> Само за сертифицирани съдии по безопасност</span>
           </span>
           <div class="shirt-sizes">S &nbsp; M &nbsp; L &nbsp; XL &nbsp; XXL</div>
           <span class="shirt-soon-badge">
-            <span class="en">⏳ Coming Soon</span>
-            <span class="bg">⏳ Очаквайте скоро</span>
+            <span class="en"><svg class="ic" aria-hidden="true"><use href="#i-hourglass"/></svg> Coming Soon</span>
+            <span class="bg"><svg class="ic" aria-hidden="true"><use href="#i-hourglass"/></svg> Очаквайте скоро</span>
           </span>
         </div>
       </div>
@@ -2903,8 +3098,8 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
     </div>
 
     <p style="margin-top:20px;font-size:.82rem;color:#999;font-style:italic">
-      <span class="en">⚠️ Kit designs are still in progress and not yet available to order. Follow our Facebook page or email info@idpabulgaria.bg for updates.</span>
-      <span class="bg">⚠️ Екипировката все още е в процес на разработка и все още не се предлага за поръчка. Следете нашата Facebook страница или ни пишете на info@idpabulgaria.bg за новини.</span>
+      <span class="en"><svg class="ic ic-warn" aria-hidden="true"><use href="#i-alert"/></svg> Kit designs are still in progress and not yet available to order. Follow our Facebook page or email info@idpabulgaria.bg for updates.</span>
+      <span class="bg"><svg class="ic ic-warn" aria-hidden="true"><use href="#i-alert"/></svg> Екипировката все още е в процес на разработка и все още не се предлага за поръчка. Следете нашата Facebook страница или ни пишете на info@idpabulgaria.bg за новини.</span>
     </p>
   </div>
 </section>
@@ -2940,13 +3135,13 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
       <img src="data:image/png;base64,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" alt="IDPA Bulgaria">
       <p><span class="en">Bulgarian community of the International Defensive Pistol Association. Promoting safe, responsible, and competitive shooting sports across Bulgaria since 2024.</span><span class="bg">Българската общност на International Defensive Pistol Association. Насърчаваме безопасната, отговорна и състезателна стрелба в цяла България от 2024 г. насам.</span></p>
       <div class="footer-contact-row">
-        <span class="footer-contact-item">📍 <span class="en">Sofia, Bulgaria</span><span class="bg">София, България</span></span>
+        <span class="footer-contact-item"><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg> <span class="en">Sofia, Bulgaria</span><span class="bg">София, България</span></span>
         <span class="footer-contact-sep">·</span>
-        <a href="mailto:info@idpabulgaria.bg" class="footer-contact-item">✉️ info@idpabulgaria.bg</a>
+        <a href="mailto:info@idpabulgaria.bg" class="footer-contact-item"><svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg> info@idpabulgaria.bg</a>
         <span class="footer-contact-sep">·</span>
-        <a href="https://www.facebook.com/groups/1859661061468450/" target="_blank" class="footer-contact-item">📘 Facebook</a>
+        <a href="https://www.facebook.com/groups/1859661061468450/" target="_blank" class="footer-contact-item"><svg class="ic" aria-hidden="true"><use href="#i-facebook"/></svg> Facebook</a>
         <span class="footer-contact-sep">·</span>
-        <a href="https://invite.viber.com/?g2=AQBPt%2B12ZNNvi1b0sw2dt2xB9xf7sI7ymfpb%2BIWAo59ABokYVXfF8nQ2z7%2FUPdeb" target="_blank" rel="noopener" class="footer-contact-item">💬 <span class="en">Viber (International Matches)</span><span class="bg">Viber (Международни участия)</span></a>
+        <a href="https://invite.viber.com/?g2=AQBPt%2B12ZNNvi1b0sw2dt2xB9xf7sI7ymfpb%2BIWAo59ABokYVXfF8nQ2z7%2FUPdeb" target="_blank" rel="noopener" class="footer-contact-item"><svg class="ic" aria-hidden="true"><use href="#i-message"/></svg> <span class="en">Viber (International Matches)</span><span class="bg">Viber (Международни участия)</span></a>
       </div>
       <div style="display:flex;height:5px;width:80px;border-radius:2px;overflow:hidden;margin-top:16px"><div style="flex:1;background:oklch(0.75 0 0);border:1px solid var(--border)"></div><div style="flex:1;background:var(--green)"></div><div style="flex:1;background:var(--red)"></div></div>
     </div>
@@ -2961,9 +3156,9 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
     </div>
     <div class="footer-col">
       <h4><span class="en">Contact</span><span class="bg">Контакт</span></h4>
-      <a href="https://www.facebook.com/groups/1859661061468450/" target="_blank" rel="noopener">📘 Facebook Group</a>
-      <a href="mailto:info@idpabulgaria.bg">✉️ info@idpabulgaria.bg</a>
-      <a href="https://www.idpa.com" target="_blank">🌐 IDPA International ↗</a>
+      <a href="https://www.facebook.com/groups/1859661061468450/" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-facebook"/></svg> Facebook Group</a>
+      <a href="mailto:info@idpabulgaria.bg"><svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg> info@idpabulgaria.bg</a>
+      <a href="https://www.idpa.com" target="_blank"><svg class="ic" aria-hidden="true"><use href="#i-globe"/></svg> IDPA International <svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a>
       <p>Sofia, Bulgaria</p>
     </div>
   </div>
@@ -2990,7 +3185,7 @@ function runChecker() {
   const lang    = document.body.lang || 'en';
 
   if (!type) {
-    el.innerHTML = '<div class="ck-placeholder"><span>🔍</span><p><span class="en">Fill in your gun\'s specs to see which IDPA divisions it qualifies for.</span><span class="bg">Попълнете спецификациите на оръжието си, за да видите за кои дивизии на IDPA се квалифицира.</span></p></div>';
+    el.innerHTML = '<div class="ck-placeholder"><span><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg></span><p><span class="en">Fill in your gun\'s specs to see which IDPA divisions it qualifies for.</span><span class="bg">Попълнете спецификациите на оръжието си, за да видите за кои дивизии на IDPA се квалифицира.</span></p></div>';
     return;
   }
 
@@ -3114,20 +3309,20 @@ function runChecker() {
 
   if (eligible.length) {
     html += `<div style="font-size:.8rem;font-weight:700;color:#2e7d32;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">
-      ✅ <span class="en">Eligible divisions (${eligible.length})</span><span class="bg">Допустими дивизии (${eligible.length})</span>
+      <svg class="ic ic-ok" aria-hidden="true"><use href="#i-check-circle"/></svg> <span class="en">Eligible divisions (${eligible.length})</span><span class="bg">Допустими дивизии (${eligible.length})</span>
     </div>`;
     eligible.forEach(d => {
       html += `<div class="ck-div-row eligible">
         <span class="ck-div-badge">${d.abbr}</span>
         <div class="ck-div-info"><div class="ck-div-name">${d.name}</div></div>
-        <span class="ck-status">✅</span>
+        <span class="ck-status"><svg class="ic ic-ok" aria-hidden="true"><use href="#i-check-circle"/></svg></span>
       </div>`;
     });
   }
 
   if (ineligible.length) {
     html += `<div style="font-size:.8rem;font-weight:700;color:var(--grey2);text-transform:uppercase;letter-spacing:.08em;margin:12px 0 6px">
-      ❌ <span class="en">Not eligible</span><span class="bg">Не отговаря на условията</span>
+      <svg class="ic ic-no" aria-hidden="true"><use href="#i-x-circle"/></svg> <span class="en">Not eligible</span><span class="bg">Не отговаря на условията</span>
     </div>`;
     ineligible.forEach(d => {
       const reasons = d.issues.map(i => t(i)).join(' · ');
@@ -3137,13 +3332,13 @@ function runChecker() {
           <div class="ck-div-name">${d.name}</div>
           <div class="ck-div-reason">${reasons}</div>
         </div>
-        <span class="ck-status">❌</span>
+        <span class="ck-status"><svg class="ic ic-no" aria-hidden="true"><use href="#i-x-circle"/></svg></span>
       </div>`;
     });
   }
 
   html += `<div class="ck-summary">
-    ⚠️ <span class="en">This result is approximate. Verify all specifications with the official <a href="#rulebook" style="color:var(--red)">IDPA Rulebook</a> and your firearm manufacturer before competing.</span>
+    <svg class="ic ic-warn" aria-hidden="true"><use href="#i-alert"/></svg> <span class="en">This result is approximate. Verify all specifications with the official <a href="#rulebook" style="color:var(--red)">IDPA Rulebook</a> and your firearm manufacturer before competing.</span>
     <span class="bg">Този резултат е ориентировъчен. Проверете всички спецификации с официалния правилник на IDPA и производителя на оръжието си преди състезание.</span>
   </div>`;
 
@@ -3315,15 +3510,12 @@ const MATCHES_EUROPE = [
   { name: "IDPA Swiss Cup 2026 - December - Match by NLM", slug: "idpa-swiss-cup-2026-december-match-by-nlm", date: "2026-12-20", city: "Bülach", country: "Switzerland", level: "I", status: "upcoming" },
 ];
 
-const FLAGS = {
-  'Bulgaria':'🇧🇬','Serbia':'🇷🇸','Croatia':'🇭🇷','Romania':'🇷🇴','Hungary':'🇭🇺',
-  'Poland':'🇵🇱','Czech Republic':'🇨🇿','Slovakia':'🇸🇰','Slovenia':'🇸🇮',
-  'Austria':'🇦🇹','Germany':'🇩🇪','France':'🇫🇷','Italy':'🇮🇹','Spain':'🇪🇸',
-  'Portugal':'🇵🇹','Netherlands':'🇳🇱','Belgium':'🇧🇪','Switzerland':'🇨🇭',
-  'Greece':'🇬🇷','Finland':'🇫🇮','Sweden':'🇸🇪','Norway':'🇳🇴','Denmark':'🇩🇰',
-  'Estonia':'🇪🇪','Latvia':'🇱🇻','Lithuania':'🇱🇹','Bosnia':'🇧🇦',
-  'Montenegro':'🇲🇪','North Macedonia':'🇲🇰','Albania':'🇦🇱','Moldova':'🇲🇩','Kosovo':'🇽🇰'
-};
+const COUNTRY_CODES = {'Bulgaria':'BG','Serbia':'RS','Croatia':'HR','Romania':'RO','Hungary':'HU','Poland':'PL','Czech Republic':'CZ','Slovakia':'SK','Slovenia':'SI','Austria':'AT','Germany':'DE','France':'FR','Italy':'IT','Spain':'ES','Portugal':'PT','Netherlands':'NL','Belgium':'BE','Switzerland':'CH','Greece':'GR','Finland':'FI','Sweden':'SE','Norway':'NO','Denmark':'DK','Estonia':'EE','Latvia':'LV','Lithuania':'LT','Bosnia':'BA','Montenegro':'ME','North Macedonia':'MK','Albania':'AL','Moldova':'MD','Kosovo':'XK'};
+function icon(n, cls) { return '<svg class="ic' + (cls ? ' ' + cls : '') + '" aria-hidden="true"><use href="#i-' + n + '"/></svg>'; }
+function flagBadge(country) {
+  const code = COUNTRY_CODES[country];
+  return code ? '<span class="cc">' + code + '</span>' : icon('globe');
+}
 
 let currentRegion  = 'bulgaria';
 let currentCountry = 'all';
@@ -3342,7 +3534,7 @@ function populateCountrySelect() {
   countries.forEach(country => {
     const opt = document.createElement('option');
     opt.value = country;
-    opt.textContent = (FLAGS[country] || '🌍') + ' ' + country;
+    opt.textContent = country;
     select.appendChild(opt);
   });
   select.value = countries.includes(prevValue) || prevValue === 'all' ? prevValue : 'all';
@@ -3381,7 +3573,7 @@ function renderMatches(data) {
     const sorted = Object.keys(byCountry).sort();
 
     listEl.innerHTML = sorted.map(country => {
-      const flag = FLAGS[country] || '🌍';
+      const flag = flagBadge(country);
       const rows = byCountry[country].map(m => matchRow(m, grouped)).join('');
       return `<div class="match-country-group">
         <div class="match-country-header">${flag} ${country}</div>
@@ -3397,7 +3589,7 @@ function matchRow(m, grouped) {
   const d    = new Date(m.date + 'T12:00:00');
   const day  = d.getDate().toString().padStart(2,'0');
   const mon  = d.toLocaleString('en',{month:'short'}).toUpperCase();
-  const flag = FLAGS[m.country] || '🌍';
+  const flag = flagBadge(m.country);
   const lvl  = m.level ? ' · Level ' + m.level : '';
 
   let badge, cls;
@@ -3477,16 +3669,16 @@ function checkConflict() {
           const count    = r.matches.length;
           const bg       = isTarget ? 'background:oklch(0.96 0.015 242)' : '';
           const countCol = count === 0
-            ? `<span style="color:var(--green);font-weight:700">✓ 0</span>`
+            ? `<span style="color:var(--green);font-weight:700"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg> 0</span>`
             : count <= 2
-            ? `<span style="color:var(--accent);font-weight:700">⚠ ${count}</span>`
-            : `<span style="color:var(--red);font-weight:700">✗ ${count}</span>`;
+            ? `<span style="color:var(--accent);font-weight:700"><svg class="ic ic-warn" aria-hidden="true"><use href="#i-alert"/></svg> ${count}</span>`
+            : `<span style="color:var(--red);font-weight:700"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg> ${count}</span>`;
           const label = r.matches.length
-            ? r.matches.map(m => `${FLAGS[m.country]||'🌍'} ${m.name} (${m.city})`).join('<br>')
+            ? r.matches.map(m => `${flagBadge(m.country)} ${m.name} (${m.city})`).join('<br>')
             : `<span style="color:var(--ink3)">${ccLang==='bg'?'Свободна дата':'Clear'}</span>`;
           const dateStr = new Date(r.iso+'T12:00:00').toLocaleDateString(ccLang==='bg'?'bg-BG':'en-GB',{weekday:'short',day:'numeric',month:'short'});
           const offsetLabel = isTarget
-            ? `<strong style="color:var(--primary)">${ccLang==='bg'?'◀ Вашата дата':'◀ Your date'}</strong>`
+            ? `<strong style="color:var(--primary)">${ccLang==='bg'?'<svg class="ic" aria-hidden="true"><use href="#i-arrow-left"/></svg> Вашата дата':'<svg class="ic" aria-hidden="true"><use href="#i-arrow-left"/></svg> Your date'}</strong>`
             : r.offset < 0
             ? `<span style="color:var(--ink3);font-size:.75rem">${Math.abs(r.offset)}d ${ccLang==='bg'?'преди':'before'}</span>`
             : `<span style="color:var(--ink3);font-size:.75rem">${r.offset}d ${ccLang==='bg'?'след':'after'}</span>`;
@@ -3585,7 +3777,7 @@ function buildAnswer(keywords, matches) {
     return el ? el.innerText.replace(/^\S+\s*/, '').trim() : '';
   }).filter(Boolean);
   if (!top.length) return null;
-  return `<strong>📋 Found ${matches.length} rule${matches.length>1?'s':''} matching "${keywords.join(', ')}":</strong><br>${top.slice(0,2).map(t => '• ' + t.substring(0,120) + (t.length>120?'…':'')).join('<br>')}${matches.length > 2 ? `<br><em>…and ${matches.length - 2} more — scroll down or use ▼</em>` : ''}`;
+  return `<strong><svg class="ic" aria-hidden="true"><use href="#i-clipboard"/></svg> Found ${matches.length} rule${matches.length>1?'s':''} matching "${keywords.join(', ')}":</strong><br>${top.slice(0,2).map(t => '• ' + t.substring(0,120) + (t.length>120?'…':'')).join('<br>')}${matches.length > 2 ? `<br><em>…and ${matches.length - 2} more — scroll down or use ▼</em>` : ''}`;
 }
 
 function rulebookSearch(val) {
@@ -3660,7 +3852,9 @@ document.addEventListener('DOMContentLoaded', function() {
 })();
 
 function toggleDiv(card) {
-  card.classList.toggle('open');
+  const open = card.classList.toggle('open');
+  const head = card.querySelector('.div-card-header');
+  if (head) head.setAttribute('aria-expanded', open ? 'true' : 'false');
 }
 
 function toggleNavMore(btn) {
@@ -3669,7 +3863,9 @@ function toggleNavMore(btn) {
   btn.setAttribute('aria-expanded', open);
   if (open) {
     const rect = btn.getBoundingClientRect();
-    dd.style.left = Math.min(rect.left, window.innerWidth - 200) + 'px';
+    const left = Math.min(rect.left, window.innerWidth - 200);
+    dd.style.left = left + 'px';
+    dd.style.transformOrigin = Math.max(0, rect.left + rect.width / 2 - left) + 'px top';
   }
 }
 function closeNavMore() {
@@ -3705,7 +3901,14 @@ function goPage(page, pushState) {
   document.querySelectorAll('.page-view').forEach(el => {
     const p = el.dataset.page;
     const isHomeGroup = page === 'home' && (p === 'home-bottom' || p === 'home-footer');
-    el.classList.toggle('active', p === page || isHomeGroup);
+    const now = p === page || isHomeGroup;
+    const was = el.classList.contains('active');
+    el.classList.toggle('active', now);
+    if (window.__pageReady && now && !was) {
+      el.classList.remove('entering');
+      void el.offsetWidth;
+      el.classList.add('entering');
+    }
   });
 
   // Update nav active state
@@ -3713,8 +3916,9 @@ function goPage(page, pushState) {
     a.classList.toggle('nav-active', a.dataset.page === page);
   });
 
-  // Scroll to top
-  window.scrollTo(0, 0);
+  // Scroll to top (instant: html has scroll-behavior:smooth, which would
+  // otherwise animate the old page's scroll position up through the new page)
+  window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
 
   // Update URL hash
   if (pushState !== false) history.pushState({page}, '', '#' + page);
@@ -3765,7 +3969,123 @@ setTimeout(function() {
   const hash = window.location.hash.replace('#','');
   const startPage = PAGES.includes(hash) ? hash : 'home';
   goPage(startPage, false);
+  window.__pageReady = true;
 }, 0);
+
+// ── Mobile menu: drag right to dismiss (1:1 tracking, momentum-projected) ──
+(function () {
+  const panel = document.getElementById('mobileNavPanel');
+  const overlay = document.getElementById('mobileNavOverlay');
+  if (!panel || !overlay) return;
+  let pid = null, startX = 0, startY = 0, dx = 0, decided = false, dragging = false, hist = [];
+
+  function reset() {
+    panel.style.transition = '';
+    panel.style.transform = '';
+    overlay.style.transition = '';
+    overlay.style.opacity = '';
+  }
+
+  panel.addEventListener('pointerdown', e => {
+    if (e.pointerType === 'mouse' || !panel.classList.contains('open')) return;
+    pid = e.pointerId; startX = e.clientX; startY = e.clientY; dx = 0;
+    decided = false; dragging = false; hist = [{ x: e.clientX, t: e.timeStamp }];
+  });
+
+  panel.addEventListener('pointermove', e => {
+    if (e.pointerId !== pid) return;
+    const mx = e.clientX - startX, my = e.clientY - startY;
+    if (!decided) {
+      if (Math.abs(mx) < 10 && Math.abs(my) < 10) return;   // hysteresis before committing
+      decided = true;
+      dragging = mx > 0 && Math.abs(mx) > Math.abs(my);
+      if (!dragging) { pid = null; return; }                 // vertical scroll wins
+      panel.setPointerCapture(e.pointerId);
+      panel.style.transition = 'none';
+      overlay.style.transition = 'none';
+    }
+    dx = Math.max(0, mx);
+    panel.style.transform = 'translateX(' + dx + 'px)';
+    overlay.style.opacity = String(1 - Math.min(1, dx / panel.offsetWidth));
+    hist.push({ x: e.clientX, t: e.timeStamp });
+    if (hist.length > 5) hist.shift();
+  });
+
+  function release(e, cancelled) {
+    if (e.pointerId !== pid) return;
+    pid = null;
+    if (!dragging) return;
+    dragging = false;
+    const a = hist[0], b = hist[hist.length - 1];
+    const v = b.t > a.t ? (b.x - a.x) / (b.t - a.t) * 1000 : 0;   // px/s
+    const rate = 0.998;
+    const projected = dx + (v / 1000) * rate / (1 - rate);        // where a flick would land
+    const shouldClose = !cancelled && projected > panel.offsetWidth / 2;
+    reset();                                   // CSS transition continues from the live position
+    if (shouldClose) closeMobileNav();
+  }
+  panel.addEventListener('pointerup', e => release(e, false));
+  panel.addEventListener('pointercancel', e => release(e, true));
+})();
+
+// Escape closes the menus
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  closeNavMore();
+  if (document.getElementById('mobileNavPanel')?.classList.contains('open')) closeMobileNav();
+});
+
+// ── Keyboard access for the division cards ──
+document.querySelectorAll('.div-card-header').forEach(h => {
+  h.setAttribute('role', 'button');
+  h.setAttribute('tabindex', '0');
+  h.setAttribute('aria-expanded', 'false');
+  h.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleDiv(h.closest('.div-card'));
+    }
+  });
+});
+
+// ── Scroll reveal + stat count-up ──
+(function () {
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !('IntersectionObserver' in window)) return;
+
+  const targets = document.querySelectorAll(
+    '.section-title, .club-card, .stat-item, .div-card, .ref-card, .shirt-card, .rulebook-card, .info-box, .sponsors-row');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (!en.isIntersecting) return;
+      en.target.classList.add('in');
+      io.unobserve(en.target);
+      const num = en.target.querySelector && en.target.querySelector('.stat-num');
+      if (num) countUp(num);
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+
+  targets.forEach(el => {
+    const sibs = el.parentElement ? Array.from(el.parentElement.children) : [el];
+    el.style.setProperty('--d', Math.min(sibs.indexOf(el), 6) * 70 + 'ms');
+    el.classList.add('reveal');
+    io.observe(el);
+  });
+
+  function countUp(el) {
+    const raw = el.textContent.trim();
+    const end = parseInt(raw, 10);
+    if (!/^\d+$/.test(raw) || end >= 1000) return;       // years etc. stay as written
+    const t0 = performance.now(), dur = 1100;
+    el.textContent = '0';
+    (function tick(t) {
+      const p = Math.min(1, (t - t0) / dur);
+      el.textContent = String(Math.round(end * (1 - Math.pow(1 - p, 4))));
+      if (p < 1) requestAnimationFrame(tick); else el.textContent = raw;
+    })(t0);
+  }
+})();
 
 function applySelectOptionsLang(lang) {
   // <option> elements can't use nested .en/.bg spans (browsers render an
