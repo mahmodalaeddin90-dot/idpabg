@@ -986,6 +986,8 @@ section:nth-child(even) .news-card { background: var(--bg4); }
 }
 .gallery-item img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
 .gallery-item:hover { transform: scale(1.03); border-color: var(--primary); }
+.gallery-item.wide { grid-column: span 2; aspect-ratio: 8/3; }
+@media(max-width: 520px) { .gallery-item.wide { grid-column: span 1; aspect-ratio: 4/3; } }
 .gallery-overlay {
   position: fixed;
   inset: 0;
@@ -1884,6 +1886,7 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
 @media (max-width: 1024px) { .footer-inner { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 768px)  { .footer-inner { grid-template-columns: 1fr; } }
 </style>
+<link rel="preload" as="image" href="photos/hero-behind.jpg">
 </head>
 <body lang="en">
 
@@ -1927,16 +1930,13 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
 <div data-page="home" class="page-view" style="display:none">
 <!-- HERO -->
 <section id="hero">
-  <!-- Bulgarian monument slideshow background -->
+  <!-- IDPA Bulgaria match photo slideshow background -->
   <div class="hero-slides" id="heroSlides">
-    <div class="hero-slide active" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Alexander Nevsky Cathedral, Sofia Bulgaria 7.JPG?width=1600')" data-caption="Alexander Nevsky Cathedral, Sofia"></div>
-    <div class="hero-slide" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/The_ancient_Roman_Theatre_in_Plovdiv,_Bulgaria.jpg?width=1600')" data-caption="Ancient Roman Theatre, Plovdiv"></div>
-    <div class="hero-slide" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Tsarevets-Panorama.jpg?width=1600')" data-caption="Tsarevets Fortress, Veliko Tarnovo"></div>
-    <div class="hero-slide" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Rila Monastery (Рилски манастир) - by Pudelek.JPG?width=1600')" data-caption="Rila Monastery"></div>
-    <div class="hero-slide" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Nessebar banner.jpg?width=1600')" data-caption="Old Town of Nessebar, Black Sea Coast"></div>
-    <div class="hero-slide" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Belogradchik Rocks (Белоградчишки скали) - by Pudelek.JPG?width=1600')" data-caption="Belogradchik Rocks"></div>
-    <div class="hero-slide" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Rila 7 lakes circus panorama edit1.jpg?width=1600')" data-caption="Seven Rila Lakes"></div>
-    <div class="hero-slide" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Melnik panorama.jpg?width=1600')" data-caption="Melnik Sand Pyramids"></div>
+    <div class="hero-slide active" role="img" aria-label="Safety officer and competitor at a stage" style="background-image:url('photos/hero-behind.jpg');background-position:50% 50%" data-caption="Safety officer and competitor at a stage"></div>
+    <div class="hero-slide" role="img" aria-label="Competitor on the line" style="background-image:url('photos/hero-profile.jpg');background-position:42% 50%" data-caption="Competitor on the line"></div>
+    <div class="hero-slide" role="img" aria-label="Moving through the stage" style="background-image:url('photos/hero-run.jpg');background-position:50% 50%" data-caption="Moving through the stage"></div>
+    <div class="hero-slide" role="img" aria-label="Shooting from the ground" style="background-image:url('photos/hero-prone.jpg');background-position:45% 50%" data-caption="Shooting from the ground"></div>
+    <div class="hero-slide" role="img" aria-label="Safety officers at work" style="background-image:url('photos/hero-so.jpg');background-position:45% 50%" data-caption="Safety officers at work"></div>
   </div>
   <div class="hero-dots" id="heroDots"></div>
   <div class="hero-caption" id="heroCaption"></div>
@@ -2711,16 +2711,27 @@ section:nth-child(even) .ref-card { background: var(--bg4); }
 
 <div data-page="home-bottom" class="page-view" style="display:none">
 <!-- GALLERY -->
-<section id="gallery" hidden>
+<section id="gallery">
   <div class="section-inner">
     <div class="section-head">
       <span class="section-tag"><span class="en">Media</span><span class="bg">Медия</span></span>
       <h2 class="section-title"><span class="en">Photo Gallery</span><span class="bg">Фото галерия</span></h2>
       <div class="divider"></div>
     </div>
-    <div class="empty-state">
-      <span class="empty-icon">📷</span>
-      <p><span class="en">No photos yet — check back soon.</span><span class="bg">Все още няма снимки — очаквайте скоро.</span></p>
+    <div class="gallery-grid">
+      <div class="gallery-item" onclick="openLightbox(this)"><img src="photos/g-group-range.jpg" alt="Competitors and match staff posing together after the match" loading="lazy"></div>
+      <div class="gallery-item" onclick="openLightbox(this)"><img src="photos/g-podium.jpg" alt="Two women on the podium with their medals" loading="lazy"></div>
+      <div class="gallery-item" onclick="openLightbox(this)"><img src="photos/g-handshake.jpg" alt="A safety officer presenting a medal to the winner" loading="lazy"></div>
+      <div class="gallery-item" onclick="openLightbox(this)"><img src="photos/g-trophies.jpg" alt="Safety officers handing out IDPA Bulgaria trophies" loading="lazy"></div>
+      <div class="gallery-item" onclick="openLightbox(this)"><img src="photos/g-yellow.jpg" alt="A competitor firing while a safety officer runs the timer" loading="lazy"></div>
+      <div class="gallery-item" onclick="openLightbox(this)"><img src="photos/g-rifle.jpg" alt="A pistol-caliber carbine shooter seated at the line" loading="lazy"></div>
+      <div class="gallery-item" onclick="openLightbox(this)"><img src="photos/g-portrait-so.jpg" alt="A competitor shooting with a safety officer alongside" loading="lazy" style="object-position:50% 30%"></div>
+      <div class="gallery-item" onclick="openLightbox(this)"><img src="photos/g-so-laugh.jpg" alt="Safety officers laughing with cardboard IDPA targets" loading="lazy"></div>
+      <div class="gallery-item" onclick="openLightbox(this)"><img src="photos/g-shooter-car.jpg" alt="A competitor shooting from behind a car prop" loading="lazy"></div>
+      <div class="gallery-item" onclick="openLightbox(this)"><img src="photos/g-woman.jpg" alt="A competitor shooting beside a wire barricade" loading="lazy" style="object-position:50% 25%"></div>
+      <div class="gallery-item" onclick="openLightbox(this)"><img src="photos/g-so-kneel.jpg" alt="A safety officer standing over a kneeling shooter" loading="lazy"></div>
+      <div class="gallery-item" onclick="openLightbox(this)"><img src="photos/g-indoor.jpg" alt="Group photo after an indoor match" loading="lazy"></div>
+      <div class="gallery-item wide" onclick="openLightbox(this)"><img src="photos/g-group-large.jpg" alt="Large group photo of competitors and safety officers" loading="lazy"></div>
     </div>
   </div>
 </section>
