@@ -2202,12 +2202,13 @@ nav a, .mobile-nav-panel a, .hero-dot, .accordion-trigger, .div-card-header, .ga
   box-shadow: 0 1px 2px oklch(0.2 0.03 242 / 0.06), 0 8px 24px oklch(0.2 0.03 242 / 0.06); overflow: hidden;
 }
 .tgt-svg { display: block; width: 100%; height: auto; }
-.tgt-card  { fill: oklch(0.83 0.065 82); stroke: oklch(0.28 0.03 242); stroke-width: 0.16; stroke-linejoin: round; }
-.tgt-z     { fill: oklch(0.2 0.03 242 / 0.07); stroke: oklch(0.28 0.03 242 / 0.8); stroke-width: 0.12; stroke-dasharray: 0.5 0.35; }
-.tgt-z0    { fill: oklch(0.2 0.03 242 / 0.14); stroke: oklch(0.28 0.03 242); stroke-width: 0.14; }
-.tgt-dim   { stroke: var(--ink3); stroke-width: 0.1; fill: none; }
-.tgt-dimtx { fill: var(--ink2); font: 700 0.95px var(--font-display); letter-spacing: 0.04em; }
-.tgt-hole  { fill: oklch(0.12 0.02 242); stroke: oklch(1 0 0 / 0.9); stroke-width: 0.12; transform-box: fill-box; transform-origin: center; animation: tgtPop 0.32s cubic-bezier(0.23, 1, 0.32, 1); }
+.tgt-sheet { fill: oklch(0.2 0.012 95); }
+.tgt-card  { fill: oklch(0.95 0.045 95); }
+.tgt-z     { fill: oklch(0 0 0 / 0.001); stroke: oklch(0.55 0.03 110); stroke-width: 1.3; stroke-linejoin: round; }
+.tgt-nums text { fill: oklch(0.5 0.03 110); font: 400 25px system-ui, sans-serif; text-anchor: middle; }
+.tgt-dim   { stroke: var(--ink3); stroke-width: 2.2; fill: none; }
+.tgt-dimtx { fill: var(--ink2); font: 700 21px var(--font-display); letter-spacing: 0.04em; }
+.tgt-hole  { fill: oklch(0.12 0.02 242); stroke: oklch(1 0 0 / 0.9); stroke-width: 2.4; transform-box: fill-box; transform-origin: center; animation: tgtPop 0.32s cubic-bezier(0.23, 1, 0.32, 1); }
 @keyframes tgtPop { from { transform: scale(2.2); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 .tgt-dot {
   position: absolute; left: 0; top: 0; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 50%;
@@ -2524,15 +2525,20 @@ nav a, .mobile-nav-panel a, .hero-dot, .accordion-trigger, .div-card-header, .ga
     <div class="tgt-grid">
       <div>
         <div class="tgt-stage" id="tgtStage">
-          <svg class="tgt-svg" id="tgtSvg" viewBox="-4.5 -1 27 35" role="img" aria-label="IDPA target, 18 by 30 inches">
-            <path id="tgtOuter" class="tgt-card" d="M6 0H12V6.5H15L18 9.5V22L14.5 30H3.5L0 22V9.5L3 6.5H6Z"/>
-            <path id="tgtInner" class="tgt-z" d="M3.2 10.4L5 8.2H13L14.8 10.4V21.2L12.6 27.2H5.4L3.2 21.2Z"/>
-            <rect id="tgtHeadBox" class="tgt-z" x="6.6" y="0.6" width="4.8" height="4.8" rx="0"/>
-            <circle id="tgtHead0" class="tgt-z0" cx="9" cy="3" r="2"/>
-            <circle id="tgtBody0" class="tgt-z0" cx="9" cy="13.2" r="4"/>
-            <g class="tgt-dim"><path d="M0 32H18M0 31.4V32.6M18 31.4V32.6M-2.2 0V30M-2.8 0H-1.6M-2.8 30H-1.6"/></g>
-            <text class="tgt-dimtx" x="9" y="33.6" text-anchor="middle">18 in · 46 cm</text>
-            <text class="tgt-dimtx" x="-3.1" y="15" text-anchor="middle" transform="rotate(-90 -3.1 15)">30 in · 76 cm</text>
+          <svg class="tgt-svg" id="tgtSvg" viewBox="-70 -24 675 905" role="img" aria-label="IDPA target on its 22.5 by 34.5 inch sheet">
+            <rect class="tgt-sheet" x="0" y="0" width="535" height="813"/>
+            <path id="tgtOuter" class="tgt-card" d="M189 50H345V190H425L468 252V655L405 773H129L66 655V252L109 190H189Z"/>
+            <path id="tgtInner" class="tgt-z" d="M198 58H336V198L406 266V502L337 613H197L128 502V266L198 198Z"/>
+            <circle id="tgtHead0" class="tgt-z" cx="267" cy="132" r="47"/>
+            <circle id="tgtBody0" class="tgt-z" cx="267" cy="360" r="93"/>
+            <g class="tgt-nums">
+              <text x="318" y="82">−1</text><text x="267" y="140">−0</text><text x="267" y="212">−1</text>
+              <text x="267" y="368">−0</text><text x="96" y="368">−3</text><text x="438" y="368">−3</text>
+              <text x="267" y="531">−1</text><text x="267" y="650">−3</text>
+            </g>
+            <g class="tgt-dim"><path d="M0 846H535M0 836V856M535 836V856M-30 0V813M-40 0H-20M-40 813H-20"/></g>
+            <text class="tgt-dimtx" x="267" y="878" text-anchor="middle">22.5 in · 57 cm</text>
+            <text class="tgt-dimtx" x="-48" y="406" text-anchor="middle" transform="rotate(-90 -48 406)">34.5 in · 88 cm</text>
             <g id="tgtHoles"></g>
           </svg>
           <div class="tgt-dot" id="tgtDot" aria-hidden="true"></div>
@@ -2541,8 +2547,8 @@ nav a, .mobile-nav-panel a, .hero-dot, .accordion-trigger, .div-card-header, .ga
       </div>
       <div class="tgt-side">
         <p class="tgt-intro">
-          <span class="en">This is the official IDPA silhouette drawn in true proportion. The red dot is your sight. Shoot the target and see what each hit costs: every point down adds one second to your stage time.</span>
-          <span class="bg">Това е официалният силует на IDPA в точни пропорции. Червената точка е вашият мерник. Стреляйте по мишената и вижте колко струва всяко попадение: всяка точка надолу добавя една секунда към времето за сцената.</span>
+          <span class="en">This is the IDPA target drawn in true proportion on its cardboard sheet. The red dot is your sight. Shoot the target and see what each hit costs: every point down adds one second to your stage time.</span>
+          <span class="bg">Това е мишената на IDPA в точни пропорции върху картонения ѝ лист. Червената точка е вашият мерник. Стреляйте по мишената и вижте колко струва всяко попадение: всяка точка надолу добавя една секунда към времето за сцената.</span>
         </p>
         <div class="tgt-score" aria-live="polite">
           <div class="tgt-stat"><b id="tgtShots">0</b><span><span class="en">Shots</span><span class="bg">Изстрели</span></span></div>
@@ -2552,14 +2558,14 @@ nav a, .mobile-nav-panel a, .hero-dot, .accordion-trigger, .div-card-header, .ga
         <div class="tgt-last" id="tgtLast">&nbsp;</div>
         <ul class="tgt-legend">
           <li><b>−0</b><span class="en">Body: 8 in (20 cm) circle high in the chest. Head: 4 in (10 cm) circle.</span><span class="bg">Тяло: кръг 8 инча (20 см) високо в гърдите. Глава: кръг 4 инча (10 см).</span></li>
-          <li><b>−1</b><span class="en">Inner torso and the head box around the head circle.</span><span class="bg">Вътрешната част на торса и квадратът около кръга на главата.</span></li>
+          <li><b>−1</b><span class="en">The inner zone of the torso and the box around the head circle.</span><span class="bg">Вътрешната зона на торса и квадратът около кръга на главата.</span></li>
           <li><b>−3</b><span class="en">Outer edge of the target.</span><span class="bg">Външният ръб на мишената.</span></li>
           <li><b>−5</b><span class="en">Miss.</span><span class="bg">Пропуск.</span></li>
         </ul>
         <button class="tgt-reset" id="tgtReset" type="button"><span class="en">Reset target</span><span class="bg">Нулирай мишената</span></button>
         <p class="tgt-note">
-          <span class="en">Overall size and zone sizes are taken from retailer and training sources and are drawn to those proportions, not at life size on your screen. Check them against the current IDPA rulebook before relying on them for a match.</span>
-          <span class="bg">Общият размер и размерите на зоните са взети от търговски и обучителни източници и са нарисувани в тези пропорции, не в реален размер на екрана. Сверете ги с актуалния правилник на IDPA, преди да разчитате на тях за състезание.</span>
+          <span class="en">Drawn from a photo of the printed target. Sheet size (22.5 × 34.5 in) is from a retailer's listing and the zone sizes were measured from the photo, so they are close but not exact, and the drawing is not life size on your screen. Check the current IDPA rulebook for official dimensions.</span>
+          <span class="bg">Нарисувана по снимка на отпечатаната мишена. Размерът на листа (22,5 × 34,5 инча) е от обява на търговец, а размерите на зоните са измерени по снимката, затова са близки, но не точни, и рисунката не е в реален размер на екрана. За официалните размери вижте актуалния правилник на IDPA.</span>
         </p>
       </div>
     </div>
@@ -4497,7 +4503,7 @@ function switchTab(section, tab) {
   const $ = id => document.getElementById(id);
   const zones = [
     [$('tgtHead0'), 0, 'Head, centre', 'Глава, център'], [$('tgtBody0'), 0, 'Body, centre', 'Тяло, център'],
-    [$('tgtHeadBox'), 1, 'Head box', 'Квадрат на главата'], [$('tgtInner'), 1, 'Inner torso', 'Вътрешен торс'], [$('tgtOuter'), 3, 'Outer edge', 'Външен ръб']
+    [$('tgtInner'), 1, 'Inner zone', 'Вътрешна зона'], [$('tgtOuter'), 3, 'Outer zone', 'Външна зона']
   ];
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   let tx = 0, ty = 0, cx = 0, cy = 0, hovering = false, holdUntil = 0, visible = false, shots = 0, pd = 0, t0 = performance.now();
@@ -4528,7 +4534,7 @@ function switchTab(section, tab) {
     let val = 5, en = 'Miss', bg = 'Пропуск';
     for (const [el, v, a, b] of zones) { if (el.isPointInFill(p)) { val = v; en = a; bg = b; break; } }
     const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    c.setAttribute('class', 'tgt-hole'); c.setAttribute('cx', p.x.toFixed(2)); c.setAttribute('cy', p.y.toFixed(2)); c.setAttribute('r', '0.3');
+    c.setAttribute('class', 'tgt-hole'); c.setAttribute('cx', p.x.toFixed(1)); c.setAttribute('cy', p.y.toFixed(1)); c.setAttribute('r', '7');
     holes.appendChild(c); if (holes.childNodes.length > 12) holes.removeChild(holes.firstChild);
     shots++; pd += val;
     $('tgtShots').textContent = shots; $('tgtPD').textContent = pd; $('tgtTime').textContent = pd.toFixed(1) + ' s';
