@@ -2304,6 +2304,22 @@ nav a { color: oklch(1 0 0 / 0.78); font-size: 0.9rem; padding: 8px 14px; letter
 .lang-btn { background: oklch(1 0 0 / 0.08); color: oklch(1 0 0 / 0.85); border-color: oklch(1 0 0 / 0.22); }
 @media (hover: hover) and (pointer: fine) { .lang-btn:hover { background: oklch(1 0 0 / 0.16); color: #fff; border-color: oklch(1 0 0 / 0.5); } }
 .nav-hamburger span { background: #fff; }
+
+/* ─── BIGGER NAV + COLOUR BALANCE (2026-10) ─── */
+.nav-inner { height: 78px; padding: 0 32px; }
+.logo-wrap img { height: 58px; }
+nav { gap: 8px; }
+nav a { font-size: 1.08rem; padding: 10px 20px; letter-spacing: 0.07em; }
+.nav-page-link.nav-active::after { left: 20px; right: 20px; bottom: 2px; }
+.join-btn { font-size: 0.95rem; padding: 11px 24px; }
+.lang-btn { font-size: 0.86rem; padding: 8px 18px; }
+.stats-bar { background: oklch(0.21 0.04 255); border-bottom: 3px solid var(--red); }
+.stat-item { border-right-color: oklch(1 0 0 / 0.12); }
+.stat-num { color: oklch(0.82 0.14 82); }
+.stat-label { color: oklch(1 0 0 / 0.72); }
+section.cta-section { background: oklch(0.17 0.035 255) !important; }
+.cta-section h2 > span { color: #fff; }
+.cta-section h2 > span > span { color: oklch(0.82 0.14 82); }
 </style>
 <link rel="preload" as="image" href="photos/hero-behind.jpg">
 </head>
