@@ -28,21 +28,21 @@
 :root {
   /* OKLCH palette — Light / white with black elements */
   --bg:         oklch(1 0 0);            /* pure white */
-  --bg2:        oklch(0.97 0.005 242);   /* very light grey-blue */
-  --bg3:        oklch(0.94 0.008 242);   /* light surface / card */
-  --bg4:        oklch(0.90 0.010 242);   /* slightly darker surface */
-  --primary:    oklch(0.38 0.165 242);   /* deep cobalt — strong on white */
-  --primary-hi: oklch(0.30 0.165 242);   /* hover/focus state */
-  --accent:     oklch(0.52 0.130 72);    /* deep brass */
-  --accent-hi:  oklch(0.43 0.130 72);    /* accent hover */
+  --bg2:        oklch(0.975 0.004 80);   /* warm off-white */
+  --bg3:        oklch(0.945 0.005 80);   /* light surface / card */
+  --bg4:        oklch(0.91 0.006 80);    /* slightly darker surface */
+  --primary:    oklch(0.24 0.012 260);   /* charcoal, matches the logo */
+  --primary-hi: oklch(0.16 0.012 260);   /* hover/focus state */
+  --accent:     oklch(0.52 0.200 25);    /* Bulgarian red */
+  --accent-hi:  oklch(0.44 0.195 25);    /* accent hover */
   --red:        oklch(0.52 0.200 25);    /* Bulgarian flag red / CTA */
   --red-hi:     oklch(0.44 0.195 25);    /* red hover */
   --green:      oklch(0.48 0.148 155);   /* flag green */
-  --ink:        oklch(0.12 0.020 242);   /* near-black — main text */
-  --ink2:       oklch(0.35 0.020 242);   /* dark grey — secondary text */
-  --ink3:       oklch(0.55 0.015 242);   /* mid grey — muted / placeholder */
-  --border:     oklch(0.85 0.010 242);   /* light border */
-  --border2:    oklch(0.75 0.012 242);   /* medium border */
+  --ink:        oklch(0.14 0.010 260);   /* near-black — main text */
+  --ink2:       oklch(0.36 0.010 260);   /* dark grey — secondary text */
+  --ink3:       oklch(0.55 0.008 260);   /* mid grey — muted / placeholder */
+  --border:     oklch(0.87 0.006 80);   /* light border */
+  --border2:    oklch(0.78 0.008 80);   /* medium border */
 
   /* Typography */
   --font-display: 'Barlow Condensed', 'Fira Sans Condensed', system-ui, sans-serif;
@@ -524,7 +524,7 @@ nav a {
   margin-bottom: 18px;
   text-wrap: balance;
 }
-.hero-title span { color: var(--accent); }
+.hero-title span { color: oklch(1 0 0); }
 .hero-sub {
   font-size: clamp(1rem, 2vw, 1.18rem);
   color: oklch(1 0 0 / 0.72);
@@ -884,7 +884,7 @@ section:nth-child(even) .accordion-trigger { background: var(--bg4); }
   text-transform: uppercase;
   flex-shrink: 0;
 }
-.acc-badge-cso { background: var(--accent); color: oklch(0.15 0.04 72); }
+.acc-badge-cso { background: var(--accent); color: oklch(1 0 0); }
 .acc-badge-so { background: var(--bg4); color: var(--ink2); border: 1px solid var(--border2); }
 .accordion-item.open .acc-badge-so { background: oklch(1 0 0 / 0.15); color: oklch(1 0 0); border-color: transparent; }
 .acc-chevron {
@@ -1257,7 +1257,7 @@ section.cta-section {
   letter-spacing: -0.01em;
   text-wrap: balance;
 }
-.cta-section h2 span { color: var(--accent); }
+.cta-section h2 span { color: oklch(1 0 0); }
 .cta-section p {
   color: oklch(1 0 0 / 0.80);
   font-size: 1.05rem;
@@ -2292,6 +2292,38 @@ nav a, .mobile-nav-panel a, .hero-dot, .accordion-trigger, .div-card-header, .ga
   .match-row, section:nth-child(even) .match-row { grid-template-columns: auto 1fr; gap: 12px 14px; }
   .match-cta { grid-column: 1 / -1; }
 }
+
+/* ─── CLASSES PANEL ─── */
+.cls-ladder { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 40px; }
+.cls-card { position: relative; background: var(--bg3); border: 1px solid var(--border); border-top: 4px solid var(--border2); border-radius: var(--r2); padding: 22px 16px 18px; text-align: center; display: flex; flex-direction: column; gap: 4px; }
+.cls-card.cls-high { border-top-color: var(--accent); }
+.cls-card.cls-top { background: var(--primary); border-color: var(--primary); border-top-color: var(--accent); color: #fff; }
+.cls-step { position: absolute; top: 8px; left: 12px; font-family: var(--font-display); font-weight: 800; font-size: .78rem; color: var(--ink3); }
+.cls-card.cls-top .cls-step { color: oklch(1 0 0 / .6); }
+.cls-abbr { font-family: var(--font-display); font-size: 2.6rem; font-weight: 900; line-height: 1; color: var(--primary); }
+.cls-card.cls-top .cls-abbr { color: #fff; }
+.cls-name { font-family: var(--font-display); font-weight: 800; letter-spacing: .04em; text-transform: uppercase; font-size: .9rem; }
+.cls-note { font-size: .78rem; color: var(--ink3); margin-top: 4px; }
+.cls-card.cls-top .cls-note { color: oklch(1 0 0 / .75); }
+.cls-h { font-family: var(--font-display); font-size: 1.3rem; font-weight: 800; margin-bottom: 14px; }
+.cls-steps { max-width: 760px; padding-left: 22px; display: flex; flex-direction: column; gap: 14px; margin-bottom: 28px; color: var(--ink2); }
+.cls-steps li::marker { font-weight: 800; color: var(--accent); }
+.cls-notes { max-width: 760px; background: var(--bg3); border: 1px solid var(--border); border-radius: var(--r2); padding: 18px 22px; display: flex; flex-direction: column; gap: 10px; color: var(--ink2); font-size: .94rem; }
+.cls-notes a { color: var(--primary); font-weight: 700; }
+
+/* ─── REFINED NAV BAR (2026-10) ─── */
+header { border-bottom: 1px solid var(--border); box-shadow: 0 2px 18px oklch(0 0 0 / 0.06); }
+.nav-inner { height: 80px; padding: 0 32px; }
+.logo-wrap img { height: 60px; }
+nav { gap: 8px; }
+nav a { font-size: 1.1rem; padding: 10px 20px; letter-spacing: 0.06em; }
+.nav-page-link.nav-active::after { left: 20px; right: 20px; bottom: 2px; }
+.join-btn { font-size: 0.98rem; padding: 12px 24px; }
+.lang-btn { font-size: 0.86rem; padding: 8px 16px; min-height: 0; }
+body[lang="bg"] nav a { font-size: 1rem; padding: 10px 13px; letter-spacing: 0.04em; }
+body[lang="bg"] .join-btn { font-size: 0.82rem; padding: 12px 16px; letter-spacing: 0.02em; }
+body[lang="bg"] .nav-inner { padding: 0 24px; gap: 12px; }
+@media (max-width: 1180px) { nav a { padding: 10px 12px; font-size: 1rem; } .nav-inner { padding: 0 20px; } .join-btn { padding: 11px 16px; font-size: .88rem; } body[lang="bg"] nav a { font-size: .92rem; padding: 10px 10px; } body[lang="bg"] .join-btn { font-size: .76rem; padding: 11px 12px; } }
 </style>
 <link rel="preload" as="image" href="photos/hero-behind.jpg">
 </head>
@@ -2512,6 +2544,10 @@ nav a, .mobile-nav-panel a, .hero-dot, .accordion-trigger, .div-card-header, .ga
     <button class="learn-tab" id="learn-tab-divisions" onclick="learnTab('divisions',this)">
       <span class="tab-icon"><svg class="ic" aria-hidden="true"><use href="#i-trophy"/></svg></span>
       <span><span class="en">Divisions</span><span class="bg">Дивизии</span></span>
+    </button>
+    <button class="learn-tab" id="learn-tab-classes" onclick="learnTab('classes',this)">
+      <span class="tab-icon"><svg class="ic" aria-hidden="true"><use href="#i-trophy"/></svg></span>
+      <span><span class="en">Classes</span><span class="bg">Класове</span></span>
     </button>
     <button class="learn-tab" id="learn-tab-officers" onclick="learnTab('officers',this)">
       <span class="tab-icon"><svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg></span>
@@ -3017,6 +3053,62 @@ nav a, .mobile-nav-panel a, .hero-dot, .accordion-trigger, .div-card-header, .ga
 
 
 </div>
+<div class="learn-panel" id="learn-panel-classes">
+<section id="classes">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="section-tag"><span class="en">Skill levels</span><span class="bg">Нива на умения</span></span>
+      <h2 class="section-title"><span class="en">IDPA Classes</span><span class="bg">Класове в IDPA</span></h2>
+      <div class="divider"></div>
+      <p style="margin-top:14px;color:var(--ink2);max-width:680px">
+        <span class="en">IDPA groups shooters by skill, so you compete against people at a similar level. There are six classes. Five are earned by shooting a classifier. The sixth, Distinguished Master, is awarded for top results.</span>
+        <span class="bg">IDPA разделя стрелците по ниво на умения, така че да се състезавате с хора на подобно ниво. Има шест класа. Пет от тях се получават чрез класификатор, а шестият, Distinguished Master, се присъжда за най-високи резултати.</span>
+      </p>
+    </div>
+
+    <div class="cls-ladder">
+      <div class="cls-card"><span class="cls-step">1</span><span class="cls-abbr">NV</span><span class="cls-name">Novice</span><span class="cls-note"><span class="en">Lowest class</span><span class="bg">Най-ниският клас</span></span></div>
+      <div class="cls-card"><span class="cls-step">2</span><span class="cls-abbr">MM</span><span class="cls-name">Marksman</span></div>
+      <div class="cls-card"><span class="cls-step">3</span><span class="cls-abbr">SS</span><span class="cls-name">Sharpshooter</span></div>
+      <div class="cls-card"><span class="cls-step">4</span><span class="cls-abbr">EX</span><span class="cls-name">Expert</span></div>
+      <div class="cls-card cls-high"><span class="cls-step">5</span><span class="cls-abbr">MA</span><span class="cls-name">Master</span><span class="cls-note"><span class="en">Top class from a classifier</span><span class="bg">Най-високият клас от класификатор</span></span></div>
+      <div class="cls-card cls-top"><span class="cls-step">6</span><span class="cls-abbr">DM</span><span class="cls-name">Distinguished Master</span><span class="cls-note"><span class="en">Awarded for top results</span><span class="bg">Присъжда се за най-високи резултати</span></span></div>
+    </div>
+
+    <h3 class="cls-h"><span class="en">How you get a class</span><span class="bg">Как получавате клас</span></h3>
+    <ol class="cls-steps">
+      <li>
+        <span class="en">Join IDPA and get your member number.</span>
+        <span class="bg">Станете член на IDPA и вземете членски номер.</span>
+      </li>
+      <li>
+        <span class="en">Shoot a classifier at a club or a match. The 5x5 classifier is 25 rounds at 10 yards (about 9 metres), fired in four strings: 5 rounds with two hands, 5 with the strong hand only, 5 then a reload then 5 more, and 4 to the body and 1 to the head.</span>
+        <span class="bg">Стреляйте класификатор в клуб или на състезание. Класификаторът 5x5 е 25 патрона от 10 ярда (около 9 метра) в четири серии: 5 с две ръце, 5 само със силната ръка, 5 + смяна на пълнителя + още 5, и 4 в тялото и 1 в главата.</span>
+      </li>
+      <li>
+        <span class="en">Your time, plus any penalty seconds, is compared with the table for your division. That sets your class.</span>
+        <span class="bg">Времето ви, плюс наказателните секунди, се сравнява с таблицата за вашата дивизия. Така се определя класът ви.</span>
+      </li>
+    </ol>
+
+    <div class="cls-notes">
+      <p>
+        <span class="en">Classes are set per division. Until you shoot a classifier you are Unclassified (UN).</span>
+        <span class="bg">Класът се определя за всяка дивизия поотделно. Докато не стреляте класификатор, сте Unclassified (UN).</span>
+      </p>
+      <p>
+        <span class="en">It is your own responsibility to check your class in the IDPA online database. Ask your club when the next classifier is.</span>
+        <span class="bg">Ваша отговорност е да проверявате класа си в онлайн базата данни на IDPA. Попитайте клуба си кога е следващият класификатор.</span>
+      </p>
+      <p>
+        <span class="en">The official time tables for each division are on <a href="https://www.idpa.com" target="_blank" rel="noopener">idpa.com</a>.</span>
+        <span class="bg">Официалните таблици с времена за всяка дивизия са на <a href="https://www.idpa.com" target="_blank" rel="noopener">idpa.com</a>.</span>
+      </p>
+    </div>
+  </div>
+</section>
+</div>
+
 <div class="learn-panel" id="learn-panel-officers">
 <!-- SO ORGANISATION -->
 <section id="officers">
@@ -3352,7 +3444,7 @@ nav a, .mobile-nav-panel a, .hero-dot, .accordion-trigger, .div-card-header, .ga
           </div>
         </div>
       </div>
-      <div id="rulebook-answer" style="display:none;padding:12px 20px;background:oklch(0.96 0.015 242);border-bottom:1px solid var(--border);font-size:0.84rem;color:var(--ink2);line-height:1.6"></div>
+      <div id="rulebook-answer" style="display:none;padding:12px 20px;background:oklch(0.96 0.005 80);border-bottom:1px solid var(--border);font-size:0.84rem;color:var(--ink2);line-height:1.6"></div>
       <div class="rulebook-content-area" id="rulebook-content"></div>
     </div>
 
@@ -4007,7 +4099,7 @@ function checkConflict() {
         ${rows.map(r => {
           const isTarget = r.offset === 0;
           const count    = r.matches.length;
-          const bg       = isTarget ? 'background:oklch(0.96 0.015 242)' : '';
+          const bg       = isTarget ? 'background:oklch(0.96 0.005 80)' : '';
           const countCol = count === 0
             ? `<span style="color:var(--green);font-weight:700"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg> 0</span>`
             : count <= 2
