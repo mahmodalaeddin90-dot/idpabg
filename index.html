@@ -1263,6 +1263,49 @@ section.cta-section {
   font-size: 1.05rem;
   margin-bottom: 36px;
 }
+/* Join button: pill collapses to a circle, ring runs, pill grows back.
+   The link opens on click as normal; the motion only plays on top. */
+.morph-slot { display: inline-flex; justify-content: center; }
+.morph-btn {
+  --mb: 1;
+  position: relative;
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 52px; padding: 0 32px;
+  background: var(--red); color: oklch(1 0 0);
+  border-radius: var(--r);
+  font-family: var(--font-display); font-weight: 800; font-size: 1rem;
+  letter-spacing: 0.04em; text-transform: uppercase; text-decoration: none;
+  cursor: pointer; white-space: nowrap;
+  transition: width 0.42s cubic-bezier(.7,0,.2,1), padding 0.42s cubic-bezier(.7,0,.2,1),
+              border-radius 0.42s cubic-bezier(.7,0,.2,1), background var(--t);
+}
+@media (hover: hover) and (pointer: fine) { .morph-btn:not(.is-busy):hover { background: var(--red-hi); } }
+.morph-btn:focus-visible { outline: 2px solid oklch(1 0 0); outline-offset: 4px; }
+.morph-btn:active:not(.is-busy) { transform: scale(0.97); }
+.mb-icon { position: relative; flex: none; width: 20px; height: 20px; }
+.mb-icon svg { display: block; width: 20px; height: 20px; overflow: visible; }
+.mb-label {
+  display: block; overflow: hidden; margin-left: 10px; opacity: 1;
+  transition: max-width 0.42s cubic-bezier(.7,0,.2,1), margin 0.42s cubic-bezier(.7,0,.2,1), opacity 0.2s ease;
+}
+.morph-btn.is-collapsed { padding: 0; border-radius: 50%; }
+.morph-btn.is-collapsed .mb-label { max-width: 0 !important; margin-left: 0; opacity: 0; }
+.mb-ring { position: absolute; left: 50%; top: 50%; width: 68px; height: 68px; margin: -34px 0 0 -34px; pointer-events: none; opacity: 0; transition: opacity 0.2s ease; }
+.mb-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); overflow: visible; }
+.mb-ring circle { fill: none; stroke: var(--red); stroke-width: 3; stroke-linecap: round; }
+.mb-ring .mb-track { opacity: 0.25; }
+.mb-ring .mb-bar { stroke-dasharray: 201; stroke-dashoffset: 201; }
+.morph-btn.is-collapsed .mb-ring { opacity: 1; }
+.morph-btn.is-running .mb-bar { stroke-dashoffset: 0; transition: stroke-dashoffset 1.35s cubic-bezier(.45,.05,.3,1); }
+.morph-btn.is-reset .mb-ring { opacity: 0; }
+.morph-btn.is-reset .mb-bar { transition: none; stroke-dashoffset: 201; }
+.mb-plus, .mb-check { transform-box: fill-box; transform-origin: center; transition: opacity 0.2s ease, transform 0.3s ease; }
+.mb-check { opacity: 0; transform: scale(0.6); stroke-dasharray: 22; stroke-dashoffset: 22; }
+.morph-btn.is-done .mb-plus { opacity: 0; transform: rotate(90deg) scale(0.5); }
+.morph-btn.is-done .mb-check { opacity: 1; transform: none; stroke-dashoffset: 0; transition: stroke-dashoffset 0.38s ease 0.05s, opacity 0.1s ease, transform 0.3s ease; }
+@media (prefers-reduced-motion: reduce) {
+  .morph-btn, .mb-label, .mb-ring, .mb-plus, .mb-check { transition: none !important; }
+}
 .cta-flag {
   display: flex;
   height: 5px;
@@ -3374,7 +3417,12 @@ body[lang="bg"] .nav-inner { padding: 0 24px; gap: 12px; }
       <span class="bg">Независимо дали сте начинаещ стрелец, или опитен състезател, IDPA България ви посреща с отворени обятия. Намерете клуб близо до вас, посетете състезание и започнете своето IDPA приключение още днес.</span>
     </p>
     <div class="hero-ctas">
-      <a href="javascript:void(0)" onclick="goToSection('clubs','clubs')" class="btn-primary"><span class="en">Find a Club</span><span class="bg">Намерете клуб</span></a>
+      <span class="morph-slot"><a href="https://www.idpa.com/membership/" target="_blank" rel="noopener" class="morph-btn" id="joinMorph">
+        <span class="mb-ring" aria-hidden="true"><svg viewBox="0 0 68 68"><circle class="mb-track" cx="34" cy="34" r="32"/><circle class="mb-bar" cx="34" cy="34" r="32"/></svg></span>
+        <span class="mb-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><g class="mb-plus"><path d="M12 5v14M5 12h14"/></g><path class="mb-check" d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+        <span class="mb-label"><span class="en">Join IDPA</span><span class="bg">Присъединете се към IDPA</span></span>
+      </a></span>
+      <a href="javascript:void(0)" onclick="goToSection('clubs','clubs')" class="btn-outline"><span class="en">Find a Club</span><span class="bg">Намерете клуб</span></a>
       <a href="mailto:info@idpabulgaria.bg" class="btn-outline"><svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg> info@idpabulgaria.bg</a>
     </div>
   </div>
@@ -4692,6 +4740,49 @@ function switchTab(section, tab) {
   new IntersectionObserver(es => { visible = es[0].isIntersecting; if (visible && !reduced) dot.classList.add('on'); }, { threshold: 0.15 }).observe(stage);
   if (reduced) { tx = rect().width / 2; ty = rect().height * 0.4; }
   requestAnimationFrame(loop);
+})();
+
+// Join button morph. The link opens natively on click (no preventDefault);
+// this only plays the collapse, ring and check on top of it.
+(function () {
+  const btn = document.getElementById('joinMorph');
+  if (!btn) return;
+  const slot = btn.parentElement;
+  const label = btn.querySelector('.mb-label');
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const PAD = 32, ICON = 20, GAP = 10;   // keep in sync with .morph-btn CSS
+  let busy = false;
+  const at = (fn, ms) => setTimeout(fn, ms);
+  btn.addEventListener('click', () => {
+    if (busy) return;
+    busy = true;
+    if (reduce) {
+      btn.classList.add('is-done');
+      at(() => { btn.classList.remove('is-done'); busy = false; }, 1800);
+      return;
+    }
+    const w = btn.offsetWidth, h = btn.offsetHeight;
+    slot.style.minWidth = w + 'px';                 // neighbours stay put while the button shrinks
+    label.style.maxWidth = label.scrollWidth + 'px';
+    btn.style.width = w + 'px';
+    btn.classList.add('is-busy');
+    void btn.offsetWidth;
+    btn.classList.add('is-collapsed');
+    btn.style.width = h + 'px';
+    at(() => btn.classList.add('is-running'), 400);
+    at(() => btn.classList.add('is-done'), 1800);
+    at(() => {
+      btn.classList.remove('is-collapsed');
+      label.style.maxWidth = label.scrollWidth + 'px';
+      btn.style.width = (label.scrollWidth + ICON + GAP + PAD * 2) + 'px';
+    }, 2300);
+    at(() => { btn.classList.add('is-reset'); btn.classList.remove('is-running'); void btn.offsetWidth; btn.classList.remove('is-reset'); }, 2800);
+    at(() => btn.classList.remove('is-done'), 4300);
+    at(() => {
+      btn.style.width = ''; label.style.maxWidth = ''; slot.style.minWidth = '';
+      btn.classList.remove('is-busy'); busy = false;
+    }, 4900);
+  });
 })();
 </script>
 
