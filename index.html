@@ -28,21 +28,21 @@
 :root {
   /* OKLCH palette — Light / white with black elements */
   --bg:         oklch(1 0 0);            /* pure white */
-  --bg2:        oklch(0.97 0.005 242);   /* very light grey-blue */
-  --bg3:        oklch(0.94 0.008 242);   /* light surface / card */
-  --bg4:        oklch(0.90 0.010 242);   /* slightly darker surface */
-  --primary:    oklch(0.38 0.165 242);   /* deep cobalt — strong on white */
-  --primary-hi: oklch(0.30 0.165 242);   /* hover/focus state */
-  --accent:     oklch(0.52 0.130 72);    /* deep brass */
-  --accent-hi:  oklch(0.43 0.130 72);    /* accent hover */
+  --bg2:        oklch(0.975 0.004 80);   /* warm off-white */
+  --bg3:        oklch(0.945 0.005 80);   /* light surface / card */
+  --bg4:        oklch(0.91 0.006 80);    /* slightly darker surface */
+  --primary:    oklch(0.24 0.012 260);   /* charcoal, matches the logo */
+  --primary-hi: oklch(0.16 0.012 260);   /* hover/focus state */
+  --accent:     oklch(0.52 0.200 25);    /* Bulgarian red */
+  --accent-hi:  oklch(0.44 0.195 25);    /* accent hover */
   --red:        oklch(0.52 0.200 25);    /* Bulgarian flag red / CTA */
   --red-hi:     oklch(0.44 0.195 25);    /* red hover */
   --green:      oklch(0.48 0.148 155);   /* flag green */
-  --ink:        oklch(0.12 0.020 242);   /* near-black — main text */
-  --ink2:       oklch(0.35 0.020 242);   /* dark grey — secondary text */
-  --ink3:       oklch(0.55 0.015 242);   /* mid grey — muted / placeholder */
-  --border:     oklch(0.85 0.010 242);   /* light border */
-  --border2:    oklch(0.75 0.012 242);   /* medium border */
+  --ink:        oklch(0.14 0.010 260);   /* near-black — main text */
+  --ink2:       oklch(0.36 0.010 260);   /* dark grey — secondary text */
+  --ink3:       oklch(0.55 0.008 260);   /* mid grey — muted / placeholder */
+  --border:     oklch(0.87 0.006 80);   /* light border */
+  --border2:    oklch(0.78 0.008 80);   /* medium border */
 
   /* Typography */
   --font-display: 'Barlow Condensed', 'Fira Sans Condensed', system-ui, sans-serif;
@@ -524,7 +524,7 @@ nav a {
   margin-bottom: 18px;
   text-wrap: balance;
 }
-.hero-title span { color: var(--accent); }
+.hero-title span { color: oklch(1 0 0); }
 .hero-sub {
   font-size: clamp(1rem, 2vw, 1.18rem);
   color: oklch(1 0 0 / 0.72);
@@ -884,7 +884,7 @@ section:nth-child(even) .accordion-trigger { background: var(--bg4); }
   text-transform: uppercase;
   flex-shrink: 0;
 }
-.acc-badge-cso { background: var(--accent); color: oklch(0.15 0.04 72); }
+.acc-badge-cso { background: var(--accent); color: oklch(1 0 0); }
 .acc-badge-so { background: var(--bg4); color: var(--ink2); border: 1px solid var(--border2); }
 .accordion-item.open .acc-badge-so { background: oklch(1 0 0 / 0.15); color: oklch(1 0 0); border-color: transparent; }
 .acc-chevron {
@@ -1257,7 +1257,7 @@ section.cta-section {
   letter-spacing: -0.01em;
   text-wrap: balance;
 }
-.cta-section h2 span { color: var(--accent); }
+.cta-section h2 span { color: oklch(1 0 0); }
 .cta-section p {
   color: oklch(1 0 0 / 0.80);
   font-size: 1.05rem;
@@ -3352,7 +3352,7 @@ nav a, .mobile-nav-panel a, .hero-dot, .accordion-trigger, .div-card-header, .ga
           </div>
         </div>
       </div>
-      <div id="rulebook-answer" style="display:none;padding:12px 20px;background:oklch(0.96 0.015 242);border-bottom:1px solid var(--border);font-size:0.84rem;color:var(--ink2);line-height:1.6"></div>
+      <div id="rulebook-answer" style="display:none;padding:12px 20px;background:oklch(0.96 0.005 80);border-bottom:1px solid var(--border);font-size:0.84rem;color:var(--ink2);line-height:1.6"></div>
       <div class="rulebook-content-area" id="rulebook-content"></div>
     </div>
 
@@ -4007,7 +4007,7 @@ function checkConflict() {
         ${rows.map(r => {
           const isTarget = r.offset === 0;
           const count    = r.matches.length;
-          const bg       = isTarget ? 'background:oklch(0.96 0.015 242)' : '';
+          const bg       = isTarget ? 'background:oklch(0.96 0.005 80)' : '';
           const countCol = count === 0
             ? `<span style="color:var(--green);font-weight:700"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg> 0</span>`
             : count <= 2
