@@ -12,7 +12,7 @@
 <meta property="og:url" content="https://idpabulgaria.bg/">
 <meta property="og:image" content="https://idpabulgaria.bg/idpa-logo.png">
 <meta name="twitter:card" content="summary">
-<meta name="theme-color" content="#1d3f8f">
+<meta name="theme-color" content="#ffffff">
 <link rel="icon" type="image/png" href="idpa-logo.png">
 <link rel="apple-touch-icon" href="idpa-logo.png">
 <style>
@@ -22,7 +22,7 @@
    =================================================== */
 
 /* ─── Google Fonts ─── */
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,900&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,900&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400&family=Fira+Sans+Condensed:wght@400;600;700;800;900&family=Fira+Sans:wght@400;500;600;700;900&display=swap');
 
 /* ─── Tokens ─── */
 :root {
@@ -45,8 +45,8 @@
   --border2:    oklch(0.75 0.012 242);   /* medium border */
 
   /* Typography */
-  --font-display: 'Barlow Condensed', system-ui, sans-serif;
-  --font-body:    'Barlow', system-ui, sans-serif;
+  --font-display: 'Barlow Condensed', 'Fira Sans Condensed', system-ui, sans-serif;
+  --font-body:    'Barlow', 'Fira Sans', system-ui, sans-serif;
 
   /* Layout */
   --max-w: 1280px;
@@ -116,7 +116,9 @@ body[lang="bg"] .en { display: none !important; }
   position: sticky;
   top: 68px;
   height: calc(100vh - 68px);
+  height: calc(100dvh - 68px);
   overflow-y: auto;
+  overscroll-behavior: contain;
 }
 .learn-sidebar-title {
   font-family: var(--font-display);
@@ -145,7 +147,7 @@ body[lang="bg"] .en { display: none !important; }
   border-left: 3px solid transparent;
   transition: background var(--t), color var(--t), border-color var(--t);
 }
-.learn-tab:hover { background: var(--bg3); color: var(--ink); }
+@media (hover: hover) and (pointer: fine) { .learn-tab:hover { background: var(--bg3); color: var(--ink); } }
 .learn-tab.active {
   background: var(--bg);
   color: var(--primary);
@@ -197,7 +199,7 @@ body[lang="bg"] .en { display: none !important; }
   transition: background var(--t), color var(--t);
   white-space: nowrap;
 }
-.nav-more-btn:hover { background: var(--bg3); color: var(--accent); }
+@media (hover: hover) and (pointer: fine) { .nav-more-btn:hover { background: var(--bg3); color: var(--accent); } }
 .nav-more-dropdown {
   display: flex;
   visibility: hidden;
@@ -237,7 +239,7 @@ body[lang="bg"] .en { display: none !important; }
   transition: background var(--t), color var(--t);
 }
 .nav-more-dropdown a:last-child { border-bottom: none; }
-.nav-more-dropdown a:hover { background: var(--bg3); color: var(--accent); }
+@media (hover: hover) and (pointer: fine) { .nav-more-dropdown a:hover { background: var(--bg3); color: var(--accent); } }
 
 /* ─── MOBILE NAV ─── */
 .nav-hamburger {
@@ -255,7 +257,7 @@ body[lang="bg"] .en { display: none !important; }
   height: 2px;
   background: var(--ink);
   border-radius: 2px;
-  transition: all 0.2s;
+  transition: transform 0.2s ease-out, opacity 0.2s ease-out, background-color 0.2s ease-out;
 }
 .mobile-nav-overlay {
   display: block;
@@ -321,7 +323,7 @@ body[lang="bg"] .en { display: none !important; }
   border-bottom: 1px solid var(--border);
   transition: background var(--t), color var(--t);
 }
-.mobile-nav-panel a:hover { background: var(--bg3); color: var(--accent); }
+@media (hover: hover) and (pointer: fine) { .mobile-nav-panel a:hover { background: var(--bg3); color: var(--accent); } }
 .mobile-nav-panel .join-btn { margin: 16px 24px 0; display: block; text-align: center; white-space: normal; line-height: 1.35; }
 body.nav-lock { position: fixed; left: 0; right: 0; width: 100%; overflow-y: scroll; }
 
@@ -394,7 +396,7 @@ nav a {
   text-transform: uppercase;
   transition: color var(--t);
 }
-nav a:hover { color: var(--red); }
+@media (hover: hover) and (pointer: fine) { nav a:hover { color: var(--red); } }
 .nav-controls { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
 .lang-btn {
   background: var(--bg3);
@@ -409,7 +411,7 @@ nav a:hover { color: var(--red); }
   cursor: pointer;
   transition: background var(--t), color var(--t), border-color var(--t);
 }
-.lang-btn:hover { background: var(--bg4); color: var(--ink); border-color: var(--primary); }
+@media (hover: hover) and (pointer: fine) { .lang-btn:hover { background: var(--bg4); color: var(--ink); border-color: var(--primary); } }
 .join-btn {
   background: var(--red);
   color: oklch(1 0 0);
@@ -426,7 +428,7 @@ nav a:hover { color: var(--red); }
   white-space: nowrap;
   transition: background var(--t), transform var(--t);
 }
-.join-btn:hover { background: var(--red-hi); transform: translateY(-1px); }
+@media (hover: hover) and (pointer: fine) { .join-btn:hover { background: var(--red-hi); transform: translateY(-1px); } }
 
 /* ─── HERO ─── */
 #hero {
@@ -545,7 +547,7 @@ nav a:hover { color: var(--red); }
   text-decoration: none;
   transition: background var(--t), transform var(--t);
 }
-.btn-primary:hover { background: var(--red-hi); transform: translateY(-2px); }
+@media (hover: hover) and (pointer: fine) { .btn-primary:hover { background: var(--red-hi); transform: translateY(-2px); } }
 .btn-outline {
   background: transparent;
   color: oklch(1 0 0);
@@ -561,7 +563,7 @@ nav a:hover { color: var(--red); }
   text-decoration: none;
   transition: border-color var(--t), color var(--t);
 }
-.btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+@media (hover: hover) and (pointer: fine) { .btn-outline:hover { border-color: var(--accent); color: var(--accent); } }
 .hero-scroll {
   position: absolute;
   bottom: 32px;
@@ -715,7 +717,7 @@ section:nth-child(even) { background: var(--bg2); }
   cursor: pointer;
   transition: border-color var(--t), box-shadow var(--t);
 }
-.div-card:hover { border-color: var(--primary); box-shadow: 0 0 0 1px var(--primary); }
+@media (hover: hover) and (pointer: fine) { .div-card:hover { border-color: var(--primary); box-shadow: 0 0 0 1px var(--primary); } }
 .div-card-header {
   padding: 18px 20px;
   display: flex;
@@ -750,14 +752,14 @@ section:nth-child(even) { background: var(--bg2); }
 .div-chevron {
   color: var(--ink3);
   font-size: 0.82rem;
-  transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1), color var(--t);
+  transition: transform 0.25s cubic-bezier(0.32, 0.72, 0, 1), color var(--t);
   flex-shrink: 0;
 }
 .div-card.open .div-chevron { transform: rotate(180deg); color: var(--accent); }
 .div-panel {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 0.45s cubic-bezier(0.32, 0.72, 0, 1);
+  transition: grid-template-rows 0.3s cubic-bezier(0.32, 0.72, 0, 1);
 }
 .div-card.open .div-panel { grid-template-rows: 1fr; }
 .div-panel-inner {
@@ -766,13 +768,13 @@ section:nth-child(even) { background: var(--bg2); }
   padding: 0 20px 20px;
   border-top: 1px solid var(--border);
   opacity: 1;
-  transition: padding-bottom 0.45s cubic-bezier(0.32, 0.72, 0, 1), border-top-width 0.45s step-end, opacity 0.3s ease 0.08s;
+  transition: padding-bottom 0.3s cubic-bezier(0.32, 0.72, 0, 1), border-top-width 0.3s step-end, opacity 0.2s ease 0.06s;
 }
 .div-card:not(.open) .div-panel-inner {
   padding-bottom: 0;
   border-top-width: 0;
   opacity: 0;
-  transition: padding-bottom 0.45s cubic-bezier(0.32, 0.72, 0, 1), border-top-width 0.45s step-start, opacity 0.2s ease;
+  transition: padding-bottom 0.3s cubic-bezier(0.32, 0.72, 0, 1), border-top-width 0.3s step-start, opacity 0.15s ease;
 }
 .div-card { transition: border-color var(--t), box-shadow var(--t), transform 0.2s cubic-bezier(0.32, 0.72, 0, 1); }
 .div-card:active { transform: scale(0.985); }
@@ -850,8 +852,8 @@ section:nth-child(even) { background: var(--bg2); }
   transition: background var(--t);
 }
 section:nth-child(even) .accordion-trigger { background: var(--bg4); }
-.accordion-trigger:hover,
 .accordion-item.open .accordion-trigger { background: var(--primary); }
+@media (hover: hover) and (pointer: fine) { .accordion-trigger:hover { background: var(--primary); } }
 .accordion-item.open .accordion-trigger .acc-name { color: oklch(1 0 0); }
 .accordion-item.open .accordion-trigger .acc-meta { color: oklch(1 0 0 / 0.6); }
 .acc-avatar {
@@ -928,7 +930,7 @@ section:nth-child(even) .accordion-panel { background: var(--bg); }
   transition: border-color var(--t), transform var(--t2);
 }
 section:nth-child(even) .club-card { background: var(--bg4); }
-.club-card:hover { border-color: var(--primary); transform: translateY(-2px); }
+@media (hover: hover) and (pointer: fine) { .club-card:hover { border-color: var(--primary); transform: translateY(-2px); } }
 .club-icon {
   width: 46px;
   height: 46px;
@@ -951,7 +953,7 @@ section:nth-child(even) .club-card { background: var(--bg4); }
   font-weight: 700;
   transition: color var(--t);
 }
-.club-info a:hover { color: var(--accent); }
+@media (hover: hover) and (pointer: fine) { .club-info a:hover { color: var(--accent); } }
 
 /* ─── NEWS ─── */
 .news-grid {
@@ -969,7 +971,7 @@ section:nth-child(even) .club-card { background: var(--bg4); }
   transition: border-color var(--t), transform var(--t2);
 }
 section:nth-child(even) .news-card { background: var(--bg4); }
-.news-card:hover { border-color: var(--primary); transform: translateY(-2px); }
+@media (hover: hover) and (pointer: fine) { .news-card:hover { border-color: var(--primary); transform: translateY(-2px); } }
 .news-img {
   height: 170px;
   background: linear-gradient(135deg, var(--bg2), var(--bg3));
@@ -1023,16 +1025,27 @@ section:nth-child(even) .news-card { background: var(--bg4); }
   font-family: var(--font-body);
   transition: color var(--t);
 }
-.news-more:hover { color: var(--accent); }
+@media (hover: hover) and (pointer: fine) { .news-more:hover { color: var(--accent); } }
 .news-full { display: none; font-size: 0.86rem; color: var(--ink2); margin-top: 10px; line-height: 1.7; }
 .news-full.open { display: block; }
 
 /* ─── GALLERY ─── */
+.gallery-wrap { position: relative; }
 .gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  display: flex;
   gap: 8px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 8px;
+  scrollbar-width: thin;
 }
+.gallery-grid .gallery-item { flex: 0 0 auto; width: 210px; scroll-snap-align: start; }
+.gallery-grid .gallery-item.wide { width: 420px; grid-column: auto; aspect-ratio: 4/3; }
+@media(max-width: 520px) { .gallery-grid .gallery-item, .gallery-grid .gallery-item.wide { width: 62vw; } }
+.gallery-arrow { position: absolute; top: calc(50% - 22px); z-index: 2; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border2); background: var(--bg); color: var(--ink); font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,.2); }
+.gallery-arrow.prev { left: 6px; } .gallery-arrow.next { right: 6px; }
+@media (hover: none) { .gallery-arrow { display: none; } }
 .gallery-item {
   aspect-ratio: 4/3;
   background: var(--bg3);
@@ -1048,7 +1061,7 @@ section:nth-child(even) .news-card { background: var(--bg4); }
   transition: transform var(--t2), border-color var(--t);
 }
 .gallery-item img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
-.gallery-item:hover { transform: scale(1.03); border-color: var(--primary); }
+@media (hover: hover) and (pointer: fine) { .gallery-item:hover { transform: scale(1.03); border-color: var(--primary); } }
 .gallery-item.wide { grid-column: span 2; aspect-ratio: 8/3; }
 @media(max-width: 520px) { .gallery-item.wide { grid-column: span 1; aspect-ratio: 4/3; } }
 .gallery-overlay {
@@ -1126,7 +1139,7 @@ section:nth-child(even) .news-card { background: var(--bg4); }
   color: inherit;
   cursor: pointer;
 }
-.match-row:hover { border-color: var(--primary); transform: none; }
+@media (hover: hover) and (pointer: fine) { .match-row:hover { border-color: var(--primary); transform: none; } }
 section:nth-child(even) .match-row { background: var(--bg4); }
 .match-date-box {
   background: var(--primary);
@@ -1206,7 +1219,7 @@ section:nth-child(even) .match-row { background: var(--bg4); }
   font-family: var(--font-display);
   transition: border-color var(--t), color var(--t);
 }
-.sponsor-item:hover { border-color: var(--primary); color: var(--ink2); }
+@media (hover: hover) and (pointer: fine) { .sponsor-item:hover { border-color: var(--primary); color: var(--ink2); } }
 .sponsor-logo {
   display: flex;
   align-items: center;
@@ -1217,7 +1230,7 @@ section:nth-child(even) .match-row { background: var(--bg4); }
   border: 1px solid var(--border);
   transition: border-color var(--t), transform var(--t);
 }
-.sponsor-logo:hover { border-color: var(--primary); transform: translateY(-1px); }
+@media (hover: hover) and (pointer: fine) { .sponsor-logo:hover { border-color: var(--primary); transform: translateY(-1px); } }
 .sponsor-logo img { height: 48px; width: auto; display: block; }
 
 /* ─── JOIN CTA SECTION ─── */
@@ -1309,7 +1322,7 @@ footer {
   transition: color var(--t);
   white-space: nowrap;
 }
-.footer-contact-item:hover { color: var(--primary); }
+@media (hover: hover) and (pointer: fine) { .footer-contact-item:hover { color: var(--primary); } }
 .footer-contact-sep { color: var(--border2); }
 .footer-col h4 {
   font-family: var(--font-display);
@@ -1332,7 +1345,7 @@ footer {
   display: block;
   transition: color var(--t);
 }
-.footer-col a:hover { color: var(--primary); }
+@media (hover: hover) and (pointer: fine) { .footer-col a:hover { color: var(--primary); } }
 .footer-bottom {
   border-top: 1px solid var(--border);
   padding: 20px 0;
@@ -1420,7 +1433,7 @@ footer {
   font-size: 0.8rem;
   transition: background var(--t);
 }
-.rulebook-search-nav button:hover { background: oklch(1 0 0 / 0.3); }
+@media (hover: hover) and (pointer: fine) { .rulebook-search-nav button:hover { background: oklch(1 0 0 / 0.3); } }
 .rulebook-content-area {
   height: 560px;
   overflow-y: auto;
@@ -1474,9 +1487,9 @@ footer {
   transition: border-color var(--t), transform var(--t2);
 }
 section:nth-child(even) .rulebook-card { background: var(--bg4); }
-.rulebook-card:hover { border-color: var(--primary); transform: translateY(-2px); }
+@media (hover: hover) and (pointer: fine) { .rulebook-card:hover { border-color: var(--primary); transform: translateY(-2px); } }
 .rulebook-primary { border-color: var(--accent); }
-.rulebook-primary:hover { border-color: var(--accent-hi); }
+@media (hover: hover) and (pointer: fine) { .rulebook-primary:hover { border-color: var(--accent-hi); } }
 .rulebook-card-icon { font-size: 2rem; }
 .rulebook-card-body { flex: 1; }
 .rulebook-badge {
@@ -1519,19 +1532,19 @@ section:nth-child(even) .rulebook-card { background: var(--bg4); }
   transition: background var(--t), transform var(--t);
   align-self: flex-start;
 }
-.rulebook-dl-btn:hover { background: var(--primary-hi); transform: translateY(-1px); }
+@media (hover: hover) and (pointer: fine) { .rulebook-dl-btn:hover { background: var(--primary-hi); transform: translateY(-1px); } }
 .rulebook-dl-btn-secondary {
   background: transparent;
   color: var(--ink2);
   border: 1.5px solid var(--border2);
 }
-.rulebook-dl-btn-secondary:hover { background: var(--bg4); color: var(--ink); border-color: var(--primary); }
+@media (hover: hover) and (pointer: fine) { .rulebook-dl-btn-secondary:hover { background: var(--bg4); color: var(--ink); border-color: var(--primary); } }
 .rulebook-dl-btn-disabled {
   cursor: not-allowed;
   opacity: 0.55;
   pointer-events: none;
 }
-.rulebook-dl-btn-disabled:hover { background: transparent; color: var(--ink2); border-color: var(--border2); }
+@media (hover: hover) and (pointer: fine) { .rulebook-dl-btn-disabled:hover { background: transparent; color: var(--ink2); border-color: var(--border2); } }
 
 /* ─── PRACTISCORE LINK CARDS ─── */
 .ps-link-card {
@@ -1546,17 +1559,17 @@ section:nth-child(even) .rulebook-card { background: var(--bg4); }
   color: var(--ink);
   transition: border-color var(--t), box-shadow var(--t), transform var(--t);
 }
-.ps-link-card:hover {
+@media (hover: hover) and (pointer: fine) { .ps-link-card:hover {
   border-color: var(--primary);
   box-shadow: 0 0 0 1px var(--primary);
   transform: translateY(-2px);
-}
+} }
 .ps-card-flag { font-size: 2rem; flex-shrink: 0; line-height: 1; }
 .ps-card-body { flex: 1; display: flex; flex-direction: column; gap: 3px; }
 .ps-card-body strong { font-family: var(--font-display); font-size: 1rem; font-weight: 800; color: var(--ink); }
 .ps-card-body span { font-size: 0.8rem; color: var(--ink3); }
 .ps-card-arrow { font-size: 1.2rem; color: var(--primary); flex-shrink: 0; transition: transform var(--t); }
-.ps-link-card:hover .ps-card-arrow { transform: translateX(4px); color: var(--accent); }
+@media (hover: hover) and (pointer: fine) { .ps-link-card:hover .ps-card-arrow { transform: translateX(4px); color: var(--accent); } }
 
 /* ─── PRACTISCORE EMBED ─── */
 .practiscore-wrap {
@@ -1577,10 +1590,11 @@ section:nth-child(even) .rulebook-card { background: var(--bg4); }
   color: var(--ink3);
 }
 .practiscore-fallback a { color: var(--primary); font-weight: 600; text-decoration: none; }
-.practiscore-fallback a:hover { color: var(--accent); }
+@media (hover: hover) and (pointer: fine) { .practiscore-fallback a:hover { color: var(--accent); } }
 .btn-ps {
   display: inline-flex;
   align-items: center;
+  gap: 8px;
   padding: 9px 18px;
   border-radius: var(--r);
   background: var(--primary);
@@ -1591,13 +1605,13 @@ section:nth-child(even) .rulebook-card { background: var(--bg4); }
   font-weight: 700;
   transition: background var(--t);
 }
-.btn-ps:hover { background: var(--primary-hi); }
+@media (hover: hover) and (pointer: fine) { .btn-ps:hover { background: var(--primary-hi); } }
 .btn-ps-outline {
   background: transparent;
   color: var(--ink2);
   border: 1.5px solid var(--border2);
 }
-.btn-ps-outline:hover { background: var(--bg4); color: var(--ink); }
+@media (hover: hover) and (pointer: fine) { .btn-ps-outline:hover { background: var(--bg4); color: var(--ink); } }
 @media(max-width: 768px) { .practiscore-wrap iframe { height: 480px; } }
 
 @keyframes spin { to { transform: rotate(360deg); } }
@@ -1619,7 +1633,7 @@ section:nth-child(even) .rulebook-card { background: var(--bg4); }
   transition: border-color var(--t), transform var(--t2);
 }
 section:nth-child(even) .shirt-card { background: var(--bg4); }
-.shirt-card:hover { border-color: var(--primary); transform: translateY(-2px); }
+@media (hover: hover) and (pointer: fine) { .shirt-card:hover { border-color: var(--primary); transform: translateY(-2px); } }
 .shirt-img {
   height: 190px;
   background: var(--bg4);
@@ -1662,7 +1676,7 @@ section:nth-child(even) .shirt-card { background: var(--bg4); }
   transition: background var(--t);
   align-self: flex-start;
 }
-.shirt-contact:hover { background: var(--red-hi); }
+@media (hover: hover) and (pointer: fine) { .shirt-contact:hover { background: var(--red-hi); } }
 .shirt-soon-badge {
   display: inline-block;
   margin-top: 12px;
@@ -1712,7 +1726,7 @@ section:nth-child(even) .empty-state { background: var(--bg4); }
 }
 .empty-state p { font-size: 0.93rem; line-height: 1.7; max-width: 480px; margin: 0 auto; color: var(--ink2); }
 .empty-state a { color: var(--primary); font-weight: 600; text-decoration: none; }
-.empty-state a:hover { color: var(--accent); }
+@media (hover: hover) and (pointer: fine) { .empty-state a:hover { color: var(--accent); } }
 
 /* ─── GUN CHECKER ─── */
 .checker-disclaimer {
@@ -2062,7 +2076,7 @@ a, button, label, select, summary, [onclick] { touch-action: manipulation; }
 .reveal {
   opacity: 0;
   translate: 0 16px;
-  transition: opacity 0.7s ease, translate 0.8s cubic-bezier(0.32, 0.72, 0, 1);
+  transition: opacity 0.5s ease-out, translate 0.55s cubic-bezier(0.32, 0.72, 0, 1);
   transition-delay: var(--d, 0ms);
 }
 .reveal.in { opacity: 1; translate: 0 0; }
@@ -2106,11 +2120,11 @@ a, button, label, select, summary, [onclick] { touch-action: manipulation; }
   border-bottom: 2px solid transparent;
   transition: color var(--t), border-color var(--t);
 }
-.step-link:hover { color: var(--primary); border-bottom-color: var(--primary); }
+@media (hover: hover) and (pointer: fine) { .step-link:hover { color: var(--primary); border-bottom-color: var(--primary); } }
 .start-steps p { margin-top: 2px; font-size: 0.92rem; color: var(--ink2); line-height: 1.5; }
 .start-actions { display: flex; flex-wrap: wrap; gap: 20px; align-items: center; }
 .start-ask { font-weight: 600; color: var(--primary); text-decoration: none; border-bottom: 1.5px solid currentColor; }
-.start-ask:hover { color: var(--primary-hi); }
+@media (hover: hover) and (pointer: fine) { .start-ask:hover { color: var(--primary-hi); } }
 .start-video-wrap { margin: 0; }
 .start-video {
   width: 100%;
@@ -2148,7 +2162,7 @@ a, button, label, select, summary, [onclick] { touch-action: manipulation; }
   transition: transform 0.2s cubic-bezier(0.32, 0.72, 0, 1), background-color 0.2s ease;
 }
 .next-match.show { display: inline-flex; }
-.next-match:hover { background: oklch(0.12 0.02 242 / 0.62); }
+@media (hover: hover) and (pointer: fine) { .next-match:hover { background: oklch(0.12 0.02 242 / 0.62); } }
 .next-match:active { transform: scale(0.98); }
 .nm-date {
   flex: none;
@@ -2169,6 +2183,114 @@ a, button, label, select, summary, [onclick] { touch-action: manipulation; }
 @media (prefers-reduced-motion: reduce) { .next-match { animation: none; } }
 @media (prefers-reduced-transparency: reduce) {
   .next-match { background: oklch(0.12 0.02 242 / 0.9); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+/* ─── Bulgarian typography ─── */
+body[lang="bg"] .hero-title { letter-spacing: 0; line-height: 1.1; }
+body[lang="bg"] .section-title,
+body[lang="bg"] .ref-card-header,
+body[lang="bg"] .stat-num { letter-spacing: 0; line-height: 1.15; }
+body[lang="bg"] .btn-primary,
+body[lang="bg"] .btn-outline,
+body[lang="bg"] .join-btn { letter-spacing: 0.02em; }
+
+/* ── Mobile-native pass ── */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+/* iOS zooms the page when a field under 16px is focused; fix the size, never disable zoom */
+@media (pointer: coarse) {
+  input, select, textarea { font-size: 16px !important; }
+}
+/* Controls are not content: no text selection / callout on long-press */
+button, [role="button"], .btn-primary, .btn-outline, .join-btn, .lang-btn, .learn-tab, .match-tab,
+nav a, .mobile-nav-panel a, .hero-dot, .accordion-trigger, .div-card-header, .gallery-item, .step-link {
+  -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
+}
+
+/* ── Interactive IDPA target ── */
+.tgt-grid { display: grid; grid-template-columns: minmax(0, 420px) 1fr; gap: 40px; align-items: start; }
+.tgt-stage {
+  position: relative; background: var(--bg); border: 1px solid var(--border); border-radius: var(--r2);
+  padding: 16px 12px 8px; cursor: none; touch-action: manipulation; user-select: none; -webkit-user-select: none;
+  box-shadow: 0 1px 2px oklch(0.2 0.03 242 / 0.06), 0 8px 24px oklch(0.2 0.03 242 / 0.06); overflow: hidden;
+}
+.tgt-svg { display: block; width: 100%; height: auto; }
+.tgt-card  { fill: oklch(0.83 0.065 82); stroke: oklch(0.28 0.03 242); stroke-width: 0.16; stroke-linejoin: round; }
+.tgt-z     { fill: oklch(0.2 0.03 242 / 0.07); stroke: oklch(0.28 0.03 242 / 0.8); stroke-width: 0.12; stroke-dasharray: 0.5 0.35; }
+.tgt-z0    { fill: oklch(0.2 0.03 242 / 0.14); stroke: oklch(0.28 0.03 242); stroke-width: 0.14; }
+.tgt-dim   { stroke: var(--ink3); stroke-width: 0.1; fill: none; }
+.tgt-dimtx { fill: var(--ink2); font: 700 0.95px var(--font-display); letter-spacing: 0.04em; }
+.tgt-hole  { fill: oklch(0.12 0.02 242); stroke: oklch(1 0 0 / 0.9); stroke-width: 0.12; transform-box: fill-box; transform-origin: center; animation: tgtPop 0.32s cubic-bezier(0.23, 1, 0.32, 1); }
+@keyframes tgtPop { from { transform: scale(2.2); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.tgt-dot {
+  position: absolute; left: 0; top: 0; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 50%;
+  background: radial-gradient(circle, var(--red) 0 28%, oklch(0.52 0.2 25 / 0.35) 30% 55%, transparent 58%);
+  box-shadow: 0 0 14px 2px oklch(0.52 0.2 25 / 0.45); pointer-events: none; opacity: 0; will-change: transform;
+  transition: opacity 0.2s ease;
+}
+.tgt-dot.on { opacity: 1; }
+.tgt-hint { text-align: center; font-size: 0.78rem; color: var(--ink3); padding: 6px 0 4px; }
+.tgt-side { display: flex; flex-direction: column; gap: 22px; }
+.tgt-intro { color: var(--ink2); font-size: 0.97rem; line-height: 1.7; max-width: 52ch; }
+.tgt-score { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.tgt-stat { background: var(--bg); border: 1px solid var(--border); border-radius: var(--r2); padding: 14px 16px; }
+.tgt-stat b { display: block; font: 900 2rem/1 var(--font-display); color: var(--primary); font-variant-numeric: tabular-nums; }
+.tgt-stat span { font: 700 0.7rem var(--font-display); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink3); }
+.tgt-last { min-height: 1.5em; font-weight: 700; color: var(--ink); }
+.tgt-legend { list-style: none; display: grid; gap: 8px; font-size: 0.9rem; color: var(--ink2); }
+.tgt-legend li { display: flex; gap: 10px; align-items: baseline; }
+.tgt-legend b { flex: none; min-width: 3.2em; font-family: var(--font-display); color: var(--ink); }
+.tgt-note { font-size: 0.78rem; color: var(--ink3); line-height: 1.6; max-width: 56ch; }
+.tgt-reset {
+  align-self: flex-start; background: var(--primary); color: #fff; border: 0; border-radius: var(--r); padding: 11px 24px;
+  font: 800 0.9rem var(--font-display); letter-spacing: 0.05em; text-transform: uppercase; cursor: pointer;
+  transition: background var(--t), transform 0.16s ease-out;
+}
+.tgt-reset:active { transform: scale(0.97); }
+@media (hover: hover) and (pointer: fine) { .tgt-reset:hover { background: var(--primary-hi); } }
+@media (pointer: coarse) { .tgt-stage { cursor: auto; } }
+@media (max-width: 860px) { .tgt-grid { grid-template-columns: 1fr; gap: 28px; } .tgt-stage { max-width: 420px; margin: 0 auto; width: 100%; } }
+@media (prefers-reduced-motion: reduce) { .tgt-hole { animation: none; } }
+
+/* ─── CLUBS + MATCHES REDESIGN (2026-10) ─── */
+.clubs-grid { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; }
+.club-card, section:nth-child(even) .club-card {
+  flex-direction: column; align-items: center; text-align: center;
+  gap: 14px; padding: 26px 18px 20px; background: var(--bg);
+  box-shadow: 0 1px 3px rgba(0,0,0,.07);
+}
+.club-card .club-icon {
+  width: 104px; height: 104px; border-radius: 18px; background: #fff;
+  border: 1px solid var(--border); padding: 10px;
+  display: flex; align-items: center; justify-content: center;
+}
+.club-card .club-icon img { width: 100%; height: 100%; object-fit: contain; }
+.club-card .club-info { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.club-card .club-info h3 { font-size: 1.05rem; }
+.club-card .club-info p { color: var(--ink3); font-size: .84rem; }
+.club-card .club-info a {
+  display: block; width: 100%; margin-top: 12px; padding: 9px 12px;
+  border: 1.5px solid var(--primary); border-radius: var(--r);
+  color: var(--primary); font-weight: 700; font-size: .84rem; text-decoration: none;
+}
+@media (hover: hover) and (pointer: fine) { .club-card .club-info a:hover { background: var(--primary); color: #fff; } }
+
+.match-row, section:nth-child(even) .match-row {
+  background: var(--bg); padding: 16px 18px; gap: 18px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.07);
+}
+.match-date-box { min-width: 62px; padding: 10px 12px; }
+.match-info h3 { font-size: 1.04rem; }
+.match-info p { font-size: .84rem; margin-top: 4px; }
+.match-cta {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 10px 20px; border-radius: var(--r); white-space: nowrap;
+  font-family: var(--font-display); font-weight: 700; font-size: .8rem;
+  letter-spacing: .06em; text-transform: uppercase;
+}
+.match-cta.reg { background: var(--primary); color: #fff; }
+.match-cta.soon { border: 1.5px solid var(--border2); color: var(--ink2); }
+@media(max-width: 768px) {
+  .match-row, section:nth-child(even) .match-row { grid-template-columns: auto 1fr; gap: 12px 14px; }
+  .match-cta { grid-column: 1 / -1; }
 }
 </style>
 <link rel="preload" as="image" href="photos/hero-behind.jpg">
@@ -2232,10 +2354,10 @@ a, button, label, select, summary, [onclick] { touch-action: manipulation; }
   </h1>
   <p class="hero-sub">
     <span class="en">The Bulgarian community of the International Defensive Pistol Association. Real scenarios. Real skills. Real sport.</span>
-    <span class="bg">Българската общност на International Defensive Pistol Association. Истински сценарии. Истински умения. Истински спорт.</span>
+    <span class="bg">Всяка сцена е нова задача. Българската общност на IDPA – практическа стрелба, реални сценарии и безопасно боравене с оръжие.</span>
   </p>
   <div class="hero-ctas">
-    <a href="javascript:void(0)" class="btn-primary" onclick="goToSection('home','first-match')"><span class="en">New here? Start here</span><span class="bg">Нов си тук? Започни оттук</span></a>
+    <a href="javascript:void(0)" class="btn-primary" onclick="goToSection('home','first-match')"><span class="en">New here? Start here</span><span class="bg">Нови ли сте? Започнете оттук</span></a>
     <a href="#clubs" class="btn-outline" onclick="event.preventDefault();goPage('clubs')"><span class="en">Find a Club</span><span class="bg">Намерете клуб</span></a>
   </div>
   <a id="nextMatch" class="next-match" href="#" target="_blank" rel="noopener"></a>
@@ -2273,48 +2395,48 @@ a, button, label, select, summary, [onclick] { touch-action: manipulation; }
       <div class="start-text">
         <div class="section-head">
           <span class="section-tag"><span class="en">Getting started</span><span class="bg">Първи стъпки</span></span>
-          <h2 class="section-title"><span class="en">New here? Start here</span><span class="bg">Нов си тук? Започни оттук</span></h2>
+          <h2 class="section-title"><span class="en">New here? Start here</span><span class="bg">Нови ли сте? Започнете оттук</span></h2>
           <div class="divider"></div>
         </div>
         <p class="start-intro">
           <span class="en">IDPA is a practical pistol sport built on realistic defensive scenarios, with safety at the centre of every stage. If this is your first look at the sport, here is the shortest path to your first match.</span>
-          <span class="bg">IDPA е практически пистолетен спорт, изграден върху реалистични сценарии за самозащита, при който безопасността е на първо място във всяка сцена. Ако това е първото ти докосване до спорта, ето най-краткия път до първото ти състезание.</span>
+          <span class="bg">IDPA е практическа пистолетна стрелба и състезателен спорт, в който безопасността е на първо място във всяка сцена. Ето най-краткия път до първото ви състезание.</span>
         </p>
         <ol class="start-steps">
           <li>
             <div>
-              <a class="step-link" href="javascript:void(0)" onclick="goToSection('learn', null, 'idpa-info')"><span class="en">Learn the basics</span><span class="bg">Научи основите</span></a>
-              <p><span class="en">Read what IDPA is and how a match works.</span><span class="bg">Прочети какво е IDPA и как протича едно състезание.</span></p>
+              <a class="step-link" href="javascript:void(0)" onclick="goToSection('learn', null, 'idpa-info')"><span class="en">Learn the basics</span><span class="bg">Научете основите</span></a>
+              <p><span class="en">Read what IDPA is and how a match works.</span><span class="bg">Прочетете какво е IDPA и как протича едно състезание.</span></p>
             </div>
           </li>
           <li>
             <div>
-              <a class="step-link" href="javascript:void(0)" onclick="goToSection('learn', null, 'gun-checker')"><span class="en">Check your pistol</span><span class="bg">Провери пистолета си</span></a>
-              <p><span class="en">The gun checker shows which divisions your pistol can be used in.</span><span class="bg">Проверката на оръжие показва в кои дивизии може да се използва твоят пистолет.</span></p>
+              <a class="step-link" href="javascript:void(0)" onclick="goToSection('learn', null, 'gun-checker')"><span class="en">Check your pistol</span><span class="bg">Проверете пистолета си</span></a>
+              <p><span class="en">The gun checker shows which divisions your pistol can be used in.</span><span class="bg">Проверката на оръжие показва в кои дивизии може да се използва вашият пистолет.</span></p>
             </div>
           </li>
           <li>
             <div>
-              <a class="step-link" href="javascript:void(0)" onclick="goPage('clubs')"><span class="en">Find a club</span><span class="bg">Намери клуб</span></a>
-              <p><span class="en">Message a club near you and tell them you are new.</span><span class="bg">Свържи се с клуб близо до теб и им кажи, че си нов.</span></p>
+              <a class="step-link" href="javascript:void(0)" onclick="goPage('clubs')"><span class="en">Find a club</span><span class="bg">Намерете клуб</span></a>
+              <p><span class="en">Message a club near you and tell them you are new.</span><span class="bg">Свържете се с клуб близо до вас и кажете, че сте нови.</span></p>
             </div>
           </li>
           <li>
             <div>
-              <a class="step-link" href="javascript:void(0)" onclick="goPage('matches')"><span class="en">Pick a match</span><span class="bg">Избери състезание</span></a>
-              <p><span class="en">Browse upcoming matches. Registration is on PractiScore.</span><span class="bg">Разгледай предстоящите състезания. Регистрацията е през PractiScore.</span></p>
+              <a class="step-link" href="javascript:void(0)" onclick="goPage('matches')"><span class="en">Pick a match</span><span class="bg">Изберете състезание</span></a>
+              <p><span class="en">Browse upcoming matches. Registration is on PractiScore.</span><span class="bg">Разгледайте предстоящите състезания. Регистрацията е през PractiScore.</span></p>
             </div>
           </li>
           <li>
             <div>
-              <a class="step-link" href="javascript:void(0)" onclick="goToSection('learn', null, 'officers')"><span class="en">Show up and ask</span><span class="bg">Ела и питай</span></a>
-              <p><span class="en">On match day, listen to the briefing, ask questions, and run each stage with a Safety Officer beside you.</span><span class="bg">В деня на състезанието изслушай инструктажа, задавай въпроси и изпълнявай всяка сцена със съдия по безопасност (SO) до теб.</span></p>
+              <a class="step-link" href="javascript:void(0)" onclick="goToSection('learn', null, 'officers')"><span class="en">Show up and ask</span><span class="bg">Елате и питайте</span></a>
+              <p><span class="en">On match day, listen to the briefing, ask questions, and run each stage with a Safety Officer beside you.</span><span class="bg">В деня на състезанието изслушайте инструктажа, задавайте въпроси и изпълнявайте всяка сцена със съдия по безопасност (SO) до вас.</span></p>
             </div>
           </li>
         </ol>
         <div class="start-actions">
           <a href="javascript:void(0)" class="btn-primary" onclick="goPage('clubs')"><span class="en">Find a Club</span><span class="bg">Намерете клуб</span></a>
-          <a class="start-ask" href="mailto:info@idpabulgaria.bg"><span class="en">Have a question? Email us</span><span class="bg">Имаш въпрос? Пиши ни</span></a>
+          <a class="start-ask" href="mailto:info@idpabulgaria.bg"><span class="en">Have a question? Email us</span><span class="bg">Имате въпрос? Пишете ни</span></a>
         </div>
       </div>
       <figure class="start-video-wrap">
@@ -2344,23 +2466,23 @@ a, button, label, select, summary, [onclick] { touch-action: manipulation; }
         </div>
         <p>
           <span class="en">IDPA Bulgaria is a group of passionate competitive shooters working together to promote IDPA in Bulgaria. We are not a formal association or official body — just people who love the sport and want to grow it in our country.</span>
-          <span class="bg">IDPA България е група от запалени състезателни стрелци, които работят заедно за популяризирането на IDPA в България. Не сме официална асоциация или орган — просто хора, които обичат спорта и искат да го развият в нашата страна.</span>
+          <span class="bg">IDPA България е общност от запалени спортни стрелци, които работят заедно за популяризирането на IDPA у нас. Обичаме този спорт и искаме да го развиваме в България.</span>
         </p>
         <p>
           <span class="en">We unite competitive shooters from across the country under a structured, scenario-based ruleset that emphasizes safe gun handling, accuracy, speed, and fair competition. We support certified Safety Officers, help organise local matches, and maintain a network of member clubs — all running to full IDPA International standards.</span>
-          <span class="bg">Обединяваме състезателни стрелци от цялата страна около структуриран набор от правила, базирани на сценарии, който набляга на безопасното боравене с оръжие, точност, скорост и честно състезание. Подкрепяме сертифицираните съдии по безопасност, помагаме за организирането на местни състезания и поддържаме мрежа от клубове членове — всички работещи по пълните международни стандарти на IDPA.</span>
+          <span class="bg">Обединяваме стрелци от цялата страна около правила, изградени върху реалистични сценарии, с акцент върху безопасността, точността, скоростта и честното състезание. Подкрепяме сертифицираните Safety Officers, помагаме за организирането на местни състезания и поддържаме мрежа от клубове, които работят по пълните международни стандарти на IDPA.</span>
         </p>
         <div class="flag-accent"><div class="f1"></div><div class="f2"></div><div class="f3"></div></div>
       </div>
       <div class="info-box">
-        <h3><span class="en">Why shoot IDPA?</span><span class="bg">Защо да стреляте в IDPA?</span></h3>
+        <h3><span class="en">Why shoot IDPA?</span><span class="bg">Защо IDPA?</span></h3>
         <ul>
-          <li><span class="en">Scenario-based stages that test accuracy, speed, and safe gun handling</span><span class="bg">Сцени, базирани на сценарии, които изпитват точност, скорост и безопасно боравене с оръжие</span></li>
-          <li><span class="en">Practical, carry-style equipment — no race guns, compensators or race holsters</span><span class="bg">Практична екипировка за носене — без състезателни оръжия, компенсатори и състезателни кобури</span></li>
-          <li><span class="en">Divisions based on gun type and holster position</span><span class="bg">Дивизии според типа оръжие и позицията на кобура</span></li>
-          <li><span class="en">Welcoming to beginners and experienced shooters alike</span><span class="bg">Подходящо както за начинаещи, така и за опитни стрелци</span></li>
-          <li><span class="en">Internationally recognized certification system for Safety Officers</span><span class="bg">Международно призната система за сертификация на съдии по безопасност</span></li>
-          <li><span class="en">Compete nationally and represent Bulgaria internationally</span><span class="bg">Състезавайте се на национално ниво и представяйте България на международно ниво</span></li>
+          <li><span class="en">Scenario-based stages that test accuracy, speed, and safe gun handling</span><span class="bg">Реалистични сцени, които изпитват точност, скорост и безопасно боравене с оръжие</span></li>
+          <li><span class="en">Practical, carry-style equipment — no race guns, compensators or race holsters</span><span class="bg">Екипировка, подходяща за носене в реалния живот – без специални състезателни пистолети и кобури</span></li>
+          <li><span class="en">Divisions based on gun type and holster position</span><span class="bg">Дивизии според вида на оръжието</span></li>
+          <li><span class="en">Welcoming to beginners and experienced shooters alike</span><span class="bg">Подходящо за начинаещи и опитни стрелци</span></li>
+          <li><span class="en">Internationally recognized certification system for Safety Officers</span><span class="bg">Международно призната система за сертификация на Safety Officers</span></li>
+          <li><span class="en">Compete nationally and represent Bulgaria internationally</span><span class="bg">Състезавайте се у нас и представяйте България на международни състезания</span></li>
         </ul>
       </div>
     </div>
@@ -2444,6 +2566,59 @@ a, button, label, select, summary, [onclick] { touch-action: manipulation; }
 </section>
 
 
+
+<!-- INTERACTIVE TARGET -->
+<section id="target-lab">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="section-tag"><span class="en">Try it</span><span class="bg">Опитайте</span></span>
+      <h2 class="section-title"><span class="en">The IDPA target, to scale</span><span class="bg">Мишената на IDPA в мащаб</span></h2>
+      <div class="divider"></div>
+    </div>
+    <div class="tgt-grid">
+      <div>
+        <div class="tgt-stage" id="tgtStage">
+          <svg class="tgt-svg" id="tgtSvg" viewBox="-4.5 -1 27 35" role="img" aria-label="IDPA target, 18 by 30 inches">
+            <path id="tgtOuter" class="tgt-card" d="M6 0H12V6.5H15L18 9.5V22L14.5 30H3.5L0 22V9.5L3 6.5H6Z"/>
+            <path id="tgtInner" class="tgt-z" d="M3.2 10.4L5 8.2H13L14.8 10.4V21.2L12.6 27.2H5.4L3.2 21.2Z"/>
+            <rect id="tgtHeadBox" class="tgt-z" x="6.6" y="0.6" width="4.8" height="4.8" rx="0"/>
+            <circle id="tgtHead0" class="tgt-z0" cx="9" cy="3" r="2"/>
+            <circle id="tgtBody0" class="tgt-z0" cx="9" cy="13.2" r="4"/>
+            <g class="tgt-dim"><path d="M0 32H18M0 31.4V32.6M18 31.4V32.6M-2.2 0V30M-2.8 0H-1.6M-2.8 30H-1.6"/></g>
+            <text class="tgt-dimtx" x="9" y="33.6" text-anchor="middle">18 in · 46 cm</text>
+            <text class="tgt-dimtx" x="-3.1" y="15" text-anchor="middle" transform="rotate(-90 -3.1 15)">30 in · 76 cm</text>
+            <g id="tgtHoles"></g>
+          </svg>
+          <div class="tgt-dot" id="tgtDot" aria-hidden="true"></div>
+          <div class="tgt-hint"><span class="en">Move the red dot, click to shoot</span><span class="bg">Движете червената точка, кликнете за изстрел</span></div>
+        </div>
+      </div>
+      <div class="tgt-side">
+        <p class="tgt-intro">
+          <span class="en">This is the official IDPA silhouette drawn in true proportion. The red dot is your sight. Shoot the target and see what each hit costs: every point down adds one second to your stage time.</span>
+          <span class="bg">Това е официалният силует на IDPA в точни пропорции. Червената точка е вашият мерник. Стреляйте по мишената и вижте колко струва всяко попадение: всяка точка надолу добавя една секунда към времето за сцената.</span>
+        </p>
+        <div class="tgt-score" aria-live="polite">
+          <div class="tgt-stat"><b id="tgtShots">0</b><span><span class="en">Shots</span><span class="bg">Изстрели</span></span></div>
+          <div class="tgt-stat"><b id="tgtPD">0</b><span><span class="en">Points down</span><span class="bg">Точки надолу</span></span></div>
+          <div class="tgt-stat"><b id="tgtTime">0.0 s</b><span><span class="en">Time added</span><span class="bg">Добавено време</span></span></div>
+        </div>
+        <div class="tgt-last" id="tgtLast">&nbsp;</div>
+        <ul class="tgt-legend">
+          <li><b>−0</b><span class="en">Body: 8 in (20 cm) circle high in the chest. Head: 4 in (10 cm) circle.</span><span class="bg">Тяло: кръг 8 инча (20 см) високо в гърдите. Глава: кръг 4 инча (10 см).</span></li>
+          <li><b>−1</b><span class="en">Inner torso and the head box around the head circle.</span><span class="bg">Вътрешната част на торса и квадратът около кръга на главата.</span></li>
+          <li><b>−3</b><span class="en">Outer edge of the target.</span><span class="bg">Външният ръб на мишената.</span></li>
+          <li><b>−5</b><span class="en">Miss.</span><span class="bg">Пропуск.</span></li>
+        </ul>
+        <button class="tgt-reset" id="tgtReset" type="button"><span class="en">Reset target</span><span class="bg">Нулирай мишената</span></button>
+        <p class="tgt-note">
+          <span class="en">Overall size and zone sizes are taken from retailer and training sources and are drawn to those proportions, not at life size on your screen. Check them against the current IDPA rulebook before relying on them for a match.</span>
+          <span class="bg">Общият размер и размерите на зоните са взети от търговски и обучителни източници и са нарисувани в тези пропорции, не в реален размер на екрана. Сверете ги с актуалния правилник на IDPA, преди да разчитате на тях за състезание.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
 </div>
 <div class="learn-panel" id="learn-panel-gun-checker">
 <!-- GUN CHECKER -->
@@ -3071,6 +3246,9 @@ a, button, label, select, summary, [onclick] { touch-action: manipulation; }
       <h2 class="section-title"><span class="en">Photo Gallery</span><span class="bg">Фото галерия</span></h2>
       <div class="divider"></div>
     </div>
+    <div class="gallery-wrap">
+    <button class="gallery-arrow prev" onclick="scrollGallery(-1)" aria-label="Previous">‹</button>
+    <button class="gallery-arrow next" onclick="scrollGallery(1)" aria-label="Next">›</button>
     <div class="gallery-grid">
       <div class="gallery-item" onclick="openLightbox(this)"><img src="photos/g-group-range.jpg" alt="Competitors and match staff posing together after the match" loading="lazy"></div>
       <div class="gallery-item" onclick="openLightbox(this)"><img src="photos/g-podium.jpg" alt="Two women on the podium with their medals" loading="lazy"></div>
@@ -3085,6 +3263,7 @@ a, button, label, select, summary, [onclick] { touch-action: manipulation; }
       <div class="gallery-item" onclick="openLightbox(this)"><img src="photos/g-so-kneel.jpg" alt="A safety officer standing over a kneeling shooter" loading="lazy"></div>
       <div class="gallery-item" onclick="openLightbox(this)"><img src="photos/g-indoor.jpg" alt="Group photo after an indoor match" loading="lazy"></div>
       <div class="gallery-item wide" onclick="openLightbox(this)"><img src="photos/g-group-large.jpg" alt="Large group photo of competitors and safety officers" loading="lazy"></div>
+    </div>
     </div>
   </div>
 </section>
@@ -3515,7 +3694,6 @@ const MATCHES_BULGARIA = [
   { name: "IDPA MINI 200926", slug: "idpa-mini-200926", date: "2026-09-20", city: "Sapareva Banya", country: "Bulgaria", level: "I", status: "upcoming", verified: true },
   { name: "IDPA MINI 111026", slug: "idpa-mini-111026", date: "2026-10-11", city: "Sapareva Banya", country: "Bulgaria", level: "I", status: "upcoming" },
   { name: "Knights IDPA tier 1", slug: "knights-idpa-tier-1", date: "2026-10-18", city: "община Марица", country: "Bulgaria", level: "I", status: "upcoming", verified: true },
-  { name: "PIRIN LAST LIGHT – IDPA Defensive", slug: "pirin-last-light-idpa-defensive", date: "2026-10-31", city: "Shooting Range Blagoevgrad", country: "Bulgaria", level: "I", status: "upcoming", verified: true },
 ];
 
 const MATCHES_EUROPE = [
@@ -3774,7 +3952,7 @@ function matchRow(m, grouped) {
   return `<a class="match-row" href="${href}" target="_blank" rel="noopener">
     <div class="match-date-box"><div class="day">${day}</div><div class="mon">${mon}</div></div>
     <div class="match-info"><h3>${grouped ? '' : flag + ' '}${m.name}</h3><p>${m.city}, ${m.country}${lvl}</p></div>
-    <span class="match-status ${cls}">${badge}</span>
+    <span class="match-cta ${cls==='status-reg'?'reg':'soon'}">${badge}</span>
   </a>`;
 }
 
@@ -4350,6 +4528,7 @@ function openLightbox(el) {
   document.getElementById('lightbox').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
+function scrollGallery(d) { const g = document.querySelector('.gallery-grid'); g.scrollBy({ left: d * g.clientWidth * 0.8, behavior: 'smooth' }); }
 function closeLightbox() {
   document.getElementById('lightbox').classList.remove('open');
   document.body.style.overflow = '';
@@ -4368,6 +4547,60 @@ function switchTab(section, tab) {
     tabs[0].classList.remove('active'); tabs[1].classList.add('active');
   }
 }
+
+/* ── Interactive IDPA target ── */
+(function () {
+  const stage = document.getElementById('tgtStage'); if (!stage) return;
+  const svg = document.getElementById('tgtSvg'), dot = document.getElementById('tgtDot'), holes = document.getElementById('tgtHoles');
+  const $ = id => document.getElementById(id);
+  const zones = [
+    [$('tgtHead0'), 0, 'Head, centre', 'Глава, център'], [$('tgtBody0'), 0, 'Body, centre', 'Тяло, център'],
+    [$('tgtHeadBox'), 1, 'Head box', 'Квадрат на главата'], [$('tgtInner'), 1, 'Inner torso', 'Вътрешен торс'], [$('tgtOuter'), 3, 'Outer edge', 'Външен ръб']
+  ];
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let tx = 0, ty = 0, cx = 0, cy = 0, hovering = false, holdUntil = 0, visible = false, shots = 0, pd = 0, t0 = performance.now();
+  const rect = () => stage.getBoundingClientRect();
+  function place(x, y) { dot.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px)'; }
+  function loop(now) {
+    requestAnimationFrame(loop);
+    if (!visible || !stage.offsetParent) return;
+    const r = rect();
+    if (!hovering && now > holdUntil && !reduced) {
+      const t = (now - t0) / 1000;
+      tx = r.width * (0.5 + 0.17 * Math.sin(t * 0.8) + 0.04 * Math.sin(t * 2.3));
+      ty = r.height * (0.4 + 0.2 * Math.sin(t * 1.1 + 1) + 0.035 * Math.sin(t * 3.1));
+    }
+    const k = reduced ? 1 : (hovering ? 0.28 : 0.12);
+    cx += (tx - cx) * k; cy += (ty - cy) * k; place(cx, cy);
+  }
+  function local(e) { const r = rect(); return [e.clientX - r.left, e.clientY - r.top]; }
+  stage.addEventListener('pointermove', e => {
+    if (e.pointerType === 'touch') return;
+    hovering = true; [tx, ty] = local(e); dot.classList.add('on');
+  });
+  stage.addEventListener('pointerleave', e => { if (e.pointerType !== 'touch') { hovering = false; if (reduced) dot.classList.remove('on'); } });
+  stage.addEventListener('click', e => {
+    const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY;
+    const p = pt.matrixTransform(svg.getScreenCTM().inverse());
+    if (e.pointerType === 'touch' || !hovering) { [tx, ty] = local(e); holdUntil = performance.now() + 1500; dot.classList.add('on'); }
+    let val = 5, en = 'Miss', bg = 'Пропуск';
+    for (const [el, v, a, b] of zones) { if (el.isPointInFill(p)) { val = v; en = a; bg = b; break; } }
+    const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    c.setAttribute('class', 'tgt-hole'); c.setAttribute('cx', p.x.toFixed(2)); c.setAttribute('cy', p.y.toFixed(2)); c.setAttribute('r', '0.3');
+    holes.appendChild(c); if (holes.childNodes.length > 12) holes.removeChild(holes.firstChild);
+    shots++; pd += val;
+    $('tgtShots').textContent = shots; $('tgtPD').textContent = pd; $('tgtTime').textContent = pd.toFixed(1) + ' s';
+    const bgOn = document.body.getAttribute('lang') === 'bg';
+    $('tgtLast').textContent = '−' + val + ' · ' + (bgOn ? bg : en);
+  });
+  $('tgtReset').addEventListener('click', () => {
+    holes.textContent = ''; shots = 0; pd = 0;
+    $('tgtShots').textContent = '0'; $('tgtPD').textContent = '0'; $('tgtTime').textContent = '0.0 s'; $('tgtLast').innerHTML = '&nbsp;';
+  });
+  new IntersectionObserver(es => { visible = es[0].isIntersecting; if (visible && !reduced) dot.classList.add('on'); }, { threshold: 0.15 }).observe(stage);
+  if (reduced) { tx = rect().width / 2; ty = rect().height * 0.4; }
+  requestAnimationFrame(loop);
+})();
 </script>
 
 </div><!-- /page-home -->
